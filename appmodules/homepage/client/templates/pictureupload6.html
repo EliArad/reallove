@@ -1,0 +1,28 @@
+<form id="uploadForm6"
+      enctype="multipart/form-data"
+      action="/api/photo"
+      method="post">
+
+
+              <span class="btn btn-primary btn-file">
+
+
+ בחר תמונה
+              <input id="fileInputElement6"
+                     data-classIcon="icon-plus"
+                     data-buttonText="בחר תמונה"
+                     type="file"
+                     multiple="true"
+                     accept="image/jpeg"
+                     data-ng-model="theFile6"
+                     onchange="angular.element(this).scope().fileNameChanged6()"
+                      />
+                  </span>
+
+    <button type="button" ng-click="enablePictureDisplay(6,false)"  ng-show="showPicture6" class="btn btn-primary">מחק</button>
+
+    <div class="hearts" >
+        <img src="{{imageSrc6}}"  ng-show="showPicture6" ng-style="{'width': pictureWidth , 'height': pictureHeight }" class="pictures"/>
+    </div>
+
+</form>

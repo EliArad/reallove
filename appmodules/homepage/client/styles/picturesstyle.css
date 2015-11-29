@@ -1,0 +1,18 @@
+.pictures
+{
+    width: 550px;
+    height: 550px;
+}
+
+.cdbl-slider {
+  width: 200px;
+  margin: 10px;
+}
+
+
+@font-face {
+  font-family: 'Glyphicons Halflings';
+  src: url('/bower_components/bootstrap/fonts/glyphicons-halflings-regular.eot');
+  src: url('/bower_components/bootstrap/fonts/glyphicons-halflings-regular.eot?') format('embedded-opentype'), url('/bower_components/bootstrap/fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('/bower_components/bootstrap/fonts/glyphicons-halflings-regular.woff') format('woff'), url('/bower_components/bootstrap/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('/bower_components/bootstrap/fonts/glyphicons-halflings-regular.svg') format('svg');
+}
+

@@ -1,0 +1,52 @@
+<style>
+  .sss{
+     width:20%;
+  }
+</style>
+<div class="container" >
+  <p dir="rtl"><span style="font-family:arial,helvetica,sans-serif;">החלטתם <u>למחוק </u>את הכרטיס.</span></p>
+
+  <p dir="rtl"><span style="font-family:arial,helvetica,sans-serif;">ניתן <u>להשעות </u>את הכרטיס מבלי למחוק אותו לתקופה בלתי מוגבלת.הכרטיס עם התמונות והנתונים אכן ישארו במאגר אבל לא יוצגו ולא יהיו פעילם כלל</span>
+  </p>
+
+  <p dir="rtl"><span style="font-family:arial,helvetica,sans-serif;">שוב, אם תבחרו <u>למחוק</u> את הכרטיס כל הנתונים כולל התמונות ימחקו ותצטרכו לפתוח כרטיס חדש.</span>
+  </p>
+
+  <p dir="rtl"><span style="font-family:arial,helvetica,sans-serif;">בחר את הפעולה שתרצה לבצע:</span></p>
+
+  <p dir="rtl">&nbsp;</p>
+
+
+  <form name="captchaForm" novalidate ng-submit="submit(captchaForm.$valid)">
+    <div class="form-group sss">
+    <select class="form-control" required ng-model="capdata.userselect" id="sel1">
+      <option>השעו את הכרטיס שלי</option>
+      <option>מחק לגמרי את הכרטיס שלי</option>
+    </select>
+  </div>
+    <div ng-messages="captchaForm.userselect.$error">
+      <div ng-messages-include="/appmodules/homepage/client/templates/messages.html"></div>
+    </div>
+
+  <div class="form-group sss">
+    <input class="form-control text-center" ng-model="captchcode" style="background-color: white" readonly
+           id="focusedInput" type="text" value="">
+  </div>
+
+  <div class="form-group sss">
+    <input class="form-control text-center" name="usercode"  required ng-model="capdata.usercode" style="background-color: white"
+           type="text" placeholder="ההכנס בדיוק את הקוד שמופיע למעלה"  value="">
+  </div>
+    <div ng-messages="captchaForm.usercode.$error">
+      <div ng-messages-include="/appmodules/homepage/client/templates/messages.html"></div>
+    </div>
+
+  <button type="submit"  ng-disabled="captchaForm.$invalid" class="btn btn-primary sss">שלח</button>
+</form>
+</div>
+
+
+
+
+
+

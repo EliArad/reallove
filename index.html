@@ -1,0 +1,190 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <!-- build:css(.) styles/vendor.css -->
+  <!-- bower:css -->
+  <!-- endbower -->
+  <!-- endbuild -->
+  <!-- build:css(.tmp) styles/main.css -->
+  <link rel="stylesheet" href="appmodules/homepage/client/styles/loginscreen.css" />
+  <link rel="stylesheet" href="appmodules/homepage/client/styles/main.css">
+  <link rel="stylesheet" href="appmodules/homepage/client/styles/styles.css">
+  <link rel="stylesheet" href="appmodules/homepage/client/styles/animation.css">
+  <link rel="stylesheet" href="appmodules/homepage/client/styles/viewanimation.css">
+  <link rel="stylesheet" href="appmodules/homepage/client/styles/detailsandmypic.css">
+
+  <!--<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />-->
+  <link rel="stylesheet" href="//cdn.rawgit.com/morteza/bootstrap-rtl/master/dist/css/bootstrap-rtl.min.css"/>
+  <link rel="stylesheet" href="appmodules/homepage/client/styles/bootstrap-hero.min.css" />
+  <link rel="stylesheet" href="appmodules/homepage/client/styles/animate.css" />
+  <link rel="stylesheet" href="bower_components/angular-motion/dist/angular-motion.min.css"/>
+  <link rel="stylesheet" href="appmodules/homepage/client/styles/picturesstyle.css">
+  <link rel="stylesheet" href="bower_components/jquery-ui/themes/base/jquery-ui.min.css"/>
+  <link rel="stylesheet" href="appmodules/homepage/client/styles/bootstrapautogrid.css"/>
+  <link rel="stylesheet" href="bower_components/angular-pretty-checkable/dist/pretty-checkable.css"/>
+  <link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
+  <link rel="stylesheet" href="examples/bootstrap-image-gallery-3.1.3/css/bootstrap-image-gallery.min.css">
+  <link rel="stylesheet" href="examples/bootstrap-image-gallery-3.1.3/css/demo.css">
+
+  <link rel="stylesheet" type="text/css" href="bower_components/ngGallery/src/css/ngGallery.css">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="bower_components/angular-carousel/dist/angular-carousel.min.css"/>
+  <link rel="stylesheet" href="bower_components/bootstrap-vertical-tabs/bootstrap.vertical-tabs.min.css">
+  <link rel="stylesheet" href="bower_components/ui-select/dist/select.min.css">
+
+  <!-- endbuild -->
+</head>
+<body ng-app="app">
+<!--[if lt IE 7]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<!-- Add your site or application content here -->
+
+<div ng-include="'appmodules/homepage/client/views/header.html'"></div>
+<!--<div class="{{ pageClass }}"  ui-view=""></div>-->
+<div ui-view=""></div>
+
+
+<div class="footer">
+  <div class="container">
+    <p><span class="glyphicon glyphicon-heart"></span> Real love</p>
+  </div>
+</div>
+
+
+<!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+<script>
+  !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
+      (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
+    r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
+  }(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-XXXXX-X');
+  ga('send', 'pageview');
+</script>
+
+
+
+<!-- build:js(.) scripts/vendor.js -->
+<!-- bower:js -->
+<!-- <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script> -->
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+<script src="bower_components/angular-animate/angular-animate.js"></script>
+<script src="bower_components/angular-aria/angular-aria.js"></script>
+<script src="bower_components/angular-cookies/angular-cookies.js"></script>
+<script src="bower_components/angular-messages/angular-messages.js"></script>
+<script src="bower_components/angular-resource/angular-resource.js"></script>
+<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+<script src="bower_components/angular-touch/angular-touch.min.js"></script>
+<script src="bower_components/angular-carousel/dist/angular-carousel.min.js"></script>
+<script src="bower_components/angular-swipe/dist/angular-swipe.min.js"></script>
+<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="bower_components/ui-select/dist/select.min.js"></script>
+<script src="bower_components/angular-bootstrap-checkbox/angular-bootstrap-checkbox.js"></script>
+
+
+
+<script src="bower_components/ng-password-strength/dist/scripts/ng-password-strength.min.js"></script>
+<script src="bower_components/angular-pretty-checkable/dist/angular-pretty-checkable.min.js"></script>
+<script src="bower_components/lodash/lodash.min.js"></script>
+<script type="text/javascript" src="bower_components/ng-file-upload/ng-file-upload.min.js"></script>
+<script type="text/javascript" src="bower_components/ng-file-upload/ng-file-upload-shim.min.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+<script src="//blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
+<script src="examples/bootstrap-image-gallery-3.1.3/js/bootstrap-image-gallery.js"></script>
+<script src="examples/bootstrap-image-gallery-3.1.3/js/demo.js"></script>
+<script type="text/javascript" src="bower_components/ngGallery/src/js/ngGallery.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.10.3/TweenMax.min.js"></script>
+
+
+<script src="bower_components/ngvideo/dist/ng-video.min.js"></script>
+
+<script src="bower_components/videogular/videogular.js"></script>
+<script src="bower_components/videogular-controls/vg-controls.js"></script>
+<script src="bower_components/videogular-overlay-play/vg-overlay-play.js"></script>
+<script src="bower_components/videogular-poster/vg-poster.js"></script>
+<script src="bower_components/videogular-buffering/vg-buffering.js"></script>
+
+<!--
+<script src="bower_components/video.js/dist/video-js.min.css"></script>
+<script src="bower_components/video.js/dist/video.min.js"></script>
+-->
+
+
+
+
+<!-- endbower -->
+<!-- endbuild -->
+
+<!-- build:js({.tmp,app}) scripts/scripts.js -->
+<script src="appmodules/homepage/client/app.js"></script>
+<script src="appmodules/homepage/client/routing.js"></script>
+<script src="appmodules/homepage/client/controllers/continueregistrationController.js"></script>
+<script src="appmodules/homepage/client/controllers/TestApiController.js"></script>
+<script src="appmodules/homepage/client/controllers/headerController.js"></script>
+<script src="appmodules/homepage/client/controllers/LogoutController.js"></script>
+<script src="appmodules/homepage/client/controllers/LoginController.js"></script>
+<script src="appmodules/homepage/client/controllers/HelpController.js"></script>
+<script src="appmodules/homepage/client/controllers/deletecardController.js"></script>
+<script src="appmodules/homepage/client/controllers/AboutController.js"></script>
+<script src="appmodules/homepage/client/controllers/mypicturesController.js"></script>
+<script src="appmodules/homepage/client/controllers/memberdetailsController.js"></script>
+<script src="appmodules/homepage/client/controllers/coredetailsController.js"></script>
+<script src="appmodules/homepage/client/controllers/YouGotAMailController.js"></script>
+<script src="appmodules/homepage/client/controllers/ContactController.js"></script>
+<script src="appmodules/homepage/client/controllers/myvideoController.js"></script>
+<script src="appmodules/homepage/client/controllers/RegistrationController.js"></script>
+<script src="appmodules/homepage/client/controllers/allmembersgalleryController.js"></script>
+<script src="appmodules/homepage/client/controllers/preferencessearchController.js"></script>
+<script src="appmodules/homepage/client/controllers/coresearchController.js"></script>
+<script src="appmodules/homepage/client/controllers/extrasearchController.js"></script>
+
+
+
+<script src="appmodules/homepage/client/controllers/MainController.js"></script>
+<script src="appmodules/homepage/client/controllers/picturecrousleController.js"></script>
+<script src="appmodules/homepage/client/controllers/imgresizergalleryController.js"></script>
+<script src="appmodules/homepage/client/controllers/ngGalleryController.js"></script>
+<script src="appmodules/homepage/client/services/Registration.js"></script>
+<script src="appmodules/homepage/client/directives/bootstrapmodal.js"></script>
+<script src="appmodules/homepage/client/directives/appdirectives.js "></script>
+<script src="appmodules/homepage/client/directives/fileuploader.js"></script>
+<script src="appmodules/homepage/client/directives/checklistModel.js"></script>
+<script src="appmodules/homepage/client/directives/fileModel.js"></script>
+<script src="appmodules/homepage/client/directives/slider1.js"></script>
+<script src="appmodules/homepage/client/services/general.js"></script>
+<script src="appmodules/homepage/client/services/members.js"></script>
+<script src="appmodules/homepage/client/services/authIntercepter.js"></script>
+<script src="appmodules/homepage/client/services/authtoken.js"></script>
+<script src="appmodules/homepage/client/services/myhttphelper.js"></script>
+<script src="appmodules/homepage/client/services/appcache.js"></script>
+<script src="appmodules/homepage/client/services/appCookieStore.js"></script>
+<script src="appmodules/homepage/client/services/apiservice.js"></script>
+<script src="appmodules/homepage/client/services/fileReader.js"></script>
+<script src="appmodules/homepage/client/services/fileUpload.js"></script>
+
+<script src="appmodules/homepage/client/js/zodiaccalc.js"></script>
+
+
+<script src="require.js" data-main="appmodules/homepage/client/utils/cityloader.js"></script>
+
+
+
+
+
+
+<!--  JQuery plugins-->
+<!-- endbuild -->
+
+
+</body>
+</html>

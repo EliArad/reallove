@@ -1,0 +1,279 @@
+
+<div class="container" ng-controller="extratsearchController as vm">
+  <form name="registrationForm" novalidate
+        ng-submit="submit(registrationForm.$valid)">
+
+
+    <div class="row">
+      <div class="col-sm-6">
+
+        <div class="row">
+          <div class="col-sm-4">
+
+            <div class="form-group" ng-class="{ 'has-error': registrationForm.gym.$error.required }">
+              <label for="gym">חדר כושר</label>
+              <select class="form-control" id="gym" name="gym" required ng-model="searchmember.gym">
+                <option>פעם בשבוע</option>
+                <option>פעמיים בשבוע</option>
+                <option>שלוש פעמים בשבוע</option>
+                <option>כל יום</option>
+                <option>כלל לא</option>
+                <option>לא משנה לי</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-sm-4">
+
+            <div class="form-group" ng-class="{ 'has-error': registrationForm.everydayathom.$error.required }">
+              <label for="everydayathom">כל יום בבית</label>
+              <select class="form-control" id="everydayathom" name="everydayathom" ng-model="searchmember.everydayathom" required >
+                <option>לא</option>
+                <option>כן</option>
+                <option>לא משנה לי</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-sm-4" >
+
+            <div class="form-group" ng-class="{ 'has-error': registrationForm.walking.$error.required }">
+              <label for="walking">הליכה</label>
+              <select class="form-control" id="walking" name="walking" ng-model="searchmember.walking"  required>
+                <option>בעניין </option>
+                <option> לא בעניין</option>
+                <option>לא משנה לי</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="form-group" ng-class="{ 'has-error': registrationForm.running.$error.required }">
+              <label for="running">ריצה</label>
+              <select class="form-control" name="running" id="running" ng-model="searchmember.running" required>
+                <option>בעניין </option>
+                <option> לא בעניין</option>
+                <option>לא משנה לי</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group" ng-class="{ 'has-error': registrationForm.bmi.$error.required }">
+              <label for="bmi">BMI </label>
+              <select class="form-control"   name="bmi" id="bmi" ng-model="searchmember.bmi" required>
+                <option>באזור טוב </option>
+                <option> גבוה</option>
+                <option>לא משנה לי</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-sm-4" >
+            <div class="form-group-4" ng-class="{ 'has-error': registrationForm.cosher.$error.required }">
+              <label for="cosher">כשרות </label>
+              <select class="form-control" id="cosher" name="cosher"   ng-model="searchmember.cosher" required>
+                <option>שומר  </option>
+                <option> לא שומר</option>
+                <option>לא משנה לי</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="form-group" ng-class="{ 'has-error': registrationForm.jobtype.$error.required }">
+              <label for="jobtype">שכיר \עצמאי</label>
+              <select class="form-control" id="jobtype"  name="jobtype"  ng-model="searchmember.jobtype" required>
+                <option>שכיר</option>
+                <option>  עצמאי</option>
+                <option>לא משנה לי</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group" ng-class="{ 'has-error': registrationForm.hilonipower.$error.required }">
+              <label for="hilonipower">עוצמת החילוניות</label>
+              <input type= "number" name="hilonipower"  placeholder="מאפס ל 100" class="form-control" ng-model="searchmember.hilonipower" required/>
+            </div>
+          </div>
+          <div class="col-sm-4" >
+            <div class="form-group" ng-class="{ 'has-error': registrationForm.livewith.$error.required }">
+              <label for="livewith"> מגורים</label>
+              <select class="form-control" id="livewith" ng-model="searchmember.livewith" name="livewith"   required>
+                <option> בדירה לבד</option>
+                <option>  עם ההורים</option>
+                <option>  עם שותפים</option>
+                <option>לא משנה לי</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="form-group" ng-class="{ 'has-error': registrationForm.cooking.$error.required }">
+              <label for="cooking"> בישול</label>
+              <select class="form-control" id="cooking"   name="cooking"    ng-model="searchmember.cooking" required>
+                <option>כלל לא</option>
+                <option>  ברמה סבירה</option>
+                <option> ברמה גבוהה </option>
+                <option>לא משנה לי</option>
+              </select>
+            </div>
+
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group" ng-class="{ 'has-error': registrationForm.eatmeat.$error.required }">
+              <label for="eatmeat">צמחוני</label>
+              <select class="form-control" id="eatmeat" name="eatmeat" ng-model="member.eatmeat" required>
+                <option>לא</option>
+                <option>כן</option>
+                <option>לא משנה לי</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-sm-4" >
+            <div class="form-group" ng-class="{ 'has-error': registrationForm.moutainbikes.$error.required }">
+              <label for="moutainbikes">  אופני הרים</label>
+              <select class="form-control" id="moutainbikes" name="moutainbikes"   ng-model="searchmember.moutainbikes" required>
+                <option> רוכב  </option>
+                <option>  לא רוכב  </option>
+                <option>לא משנה לי</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="passtime"> &nbsp</label>
+              <a href="#" class="btn btn-success form-control" id="passtime" data-toggle="modal" data-target="#passtimeModal">בילויים</a>
+            </div>
+          </div>
+          <div class="col-sm-6" >
+            <div class="form-group">
+              <label for="foodlike"> &nbsp</label>
+              <a href="#" class="btn btn-success form-control" id="foodlike" data-toggle="modal" data-target="#foodlikeModal">אוכל</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6">
+
+        <modal title="Registration form" ng-show="showModal">
+          <h3>{{ message }}</h3>
+        </modal>
+
+          <div class="raw">
+            <div class="col-sm-6">
+              <div class="form-group" ng-class="{ 'has-error': (registrationForm.toage.$error.required || registrationForm.toage.$error.min || registrationForm.toage.$error.max)}">
+                <label for="toage">עד גיל</label>
+                <input min="21" max="120"  class="form-control" id="toage" name="toage" ng-model="searchmember.toage"   type="number" required  placeholder="עד גיל"   >
+                </div>
+              </div>
+            <div class="col-sm-6">
+              <div class="form-group" ng-class="{ 'has-error': (registrationForm.fromage.$error.required  || registrationForm.fromage.$error.min || registrationForm.fromage.$error.max )}">
+                <label for="fromage">מגיל</label>
+                <input   min="21" max="120"  class="form-control" id="fromage" ng-model="searchmember.fromage"    name="fromage" type="number" required  placeholder="מגיל"   >
+              </div>
+            </div>
+          </div>
+          <div class="raw">
+           <div class="col-sm-6">
+
+             <label>גובה בסנטימטרים</label>
+             <div class="form-group" ng-class="{ 'has-error': registrationForm.height.$error.required }">
+               <input type= "number" name="height"  class="form-control" ng-model="member.height" required/>
+             </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group" ng-class="{ 'has-error': registrationForm.searchlocation.$error.required }">
+                <label for="searchlocation">אזור חיפוש</label>
+                <select class="form-control" id="searchlocation" ng-model="searchmember.searchlocation" required name="searchlocation">
+                  <option>באזור שלי</option>
+                  <option>בעיר שלי</option>
+                  <option>אזור המרכז</option>
+                  <option>אזור הצפון</option>
+                  <option>אזור השרון</option>
+                  <option>אזור הדרום </option>
+                  <option>בכל המדינה</option>
+                  <option></option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+      </div>
+
+        <div class="form-group" style="white-space:nowrap;">
+
+          <table>
+            <tr>
+              <td>
+                <button type="submit"  ng-disabled="registrationForm.$invalid" class="btn btn-primary">שמור שינויים</button>
+              </td>
+              <td style="padding:0 15px 0 15px;">
+
+              </td>
+              <td>
+                <h1  ng-show="changesuccess" ng-class="{ 'animated bounce': changesuccess}">השינויים עודכנו</h1></h1>
+              </td>
+            </tr>
+
+          </table>
+        </div>
+
+    </div>
+
+  </form>
+</div>
+
+<div class="modal fade" id="passtimeModal" tabindex="-1" role="dialog" aria-labelledby="passtimeModal" aria-hidden="true" ng-controller="ContinueRegistrationController as vm">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">בחר את הבילויים המועדפים שלך</h4>
+      </div>
+      <div class="modal-body">
+        <div class="checkbox" ng-repeat="item in vm.passtime">
+          <label><input type="checkbox" value="">{{item }}</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="foodlikeModal" tabindex="-1" role="dialog" aria-labelledby="foodlikeModal" aria-hidden="true" ng-controller="ContinueRegistrationController as vm">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel1">בחר את האוכל האהוב עליך</h4>
+      </div>
+      <div class="modal-body">
+        <div class="checkbox" ng-repeat="item in vm.passtime">
+          <label><input type="checkbox" value="">{{item }}</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+      </div>
+    </div>
+  </div>
+</div>
+

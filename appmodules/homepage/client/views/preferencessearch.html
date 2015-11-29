@@ -1,0 +1,32 @@
+<style>
+
+
+  .exttab
+  {
+      margin-top: 45px;
+  }
+
+
+</style>
+
+
+<div class="container">
+
+  <div id="exTab1" class="container">
+    <ul class="nav nav-pills navbar-right">
+      <li><a data-target="#2a" data-toggle="tab">פרטים נוספים</a>
+      </li>
+      <li class="active"><a data-target="#1a" data-toggle="tab">פרטי בסיס</a>
+      </li>
+    </ul>
+
+    <div class="tab-content clearfix">
+      <div class="tab-pane" id="2a">
+        <div class="exttab" ng-include="'appmodules/homepage/client/views/extrasearch.html'"></div>
+      </div>
+      <div class="tab-pane active" id="1a">
+        <div class="exttab" ng-include="'appmodules/homepage/client/views/coresearch.html'"></div>
+      </div>
+    </div>
+  </div>
+</div>

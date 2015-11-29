@@ -1,0 +1,347 @@
+<style>
+  .red {
+    border: solid 1px red;
+  }
+
+
+   .nopadding {
+     padding: 4px !important;
+
+   }
+
+  .nopaddingatall {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+
+</style>
+
+<div class="container" ng-controller="ContinueRegistrationController as vm">
+  <form name="registrationForm" novalidate ng-show="showRegistration"
+        ng-submit="submit(registrationForm.$valid)">
+
+    <h1>{{ formmsgheader }}</h1>
+  <div class="row">
+    <div class="col-sm-6">
+
+
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="form-group" ng-class="{ 'has-error': registrationForm.gym.$error.required }">
+            <label for="gym">חדר כושר</label>
+            <select class="form-control" id="gym" name="gym"  ng-model="member.gym" required>
+              <option>פעם בשבוע</option>
+              <option>פעמיים בשבוע</option>
+              <option>שלוש פעמים בשבוע</option>
+              <option>כל יום</option>
+              <option>כלל לא</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group" ng-class="{ 'has-error': registrationForm.walking.$error.required }">
+            <label for="walking">הליכה</label>
+            <select class="form-control" id="walking" name="walking"  ng-model="member.walking" required>
+              <option>בעניין </option>
+              <option> לא בעניין</option>
+            </select>
+          </div>
+          </div>
+          <div class="col-sm-4" >
+
+            <div class="form-group" ng-class="{ 'has-error': registrationForm.everydayathom.$error.required }">
+              <label for="everydayathom">כל יום בבית</label>
+              <select class="form-control" id="everydayathom" name="everydayathom" ng-model="member.everydayathom" required >
+                <option>לא</option>
+                <option>כן</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+
+
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="form-group" ng-class="{ 'has-error': registrationForm.cosher.$error.required }">
+            <label for="cosher">כשרות </label>
+            <select class="form-control" id="cosher" name="cosher"  ng-model="member.cosher" required>
+              <option>שומר  </option>
+              <option> לא שומר</option>
+            </select>
+          </div>
+
+        </div>
+        <div class="col-sm-4">
+
+          <div class="form-group" ng-class="{ 'has-error': registrationForm.bmi.$error.required }">
+            <label for="bmi">BMI </label>
+            <select class="form-control" id="bmi"  name="bmi"  ng-model="member.bmi" required>
+              <option>באזור טוב </option>
+              <option> גבוה</option>
+            </select>
+          </div>
+
+          </div>
+          <div class="col-sm-4" >
+            <div class="form-group" ng-class="{ 'has-error': registrationForm.running.$error.required }">
+              <label for="running">ריצה</label>
+              <select class="form-control" id="running"  name="running" ng-model="member.running" required>
+                <option>בעניין </option>
+                <option> לא בעניין</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+
+
+
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="form-group" ng-class="{ 'has-error': registrationForm.jobtype.$error.required }">
+            <label for="jobtype">שכיר \עצמאי</label>
+            <select class="form-control" id="jobtype" name="jobtype" ng-model="member.jobtype" required>
+              <option>שכיר</option>
+              <option>  עצמאי</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group" ng-class="{ 'has-error': registrationForm.languges.$error.required }">
+              <label for="languges">שפות</label>
+              <a href="#" class="btn btn-success form-control" name="languges" id="languges" data-toggle="modal" data-target="#langugesModal">שפות</a>
+          </div>
+        </div>
+        <div class="col-sm-4" >
+
+          <div class="form-group" ng-class="{ 'has-error': registrationForm.livingwith.$error.required }">
+            <label for="livingwith"> מגורים</label>
+            <select class="form-control" id="livingwith" name="livingwith" ng-model="member.livingwith" required>
+              <option> בדירה לבד</option>
+              <option>  עם ההורים</option>
+              <option>  עם שותפים</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="form-group" ng-class="{ 'has-error': registrationForm.eatmeat.$error.required }">
+            <label for="eatmeat">צמחוני</label>
+            <select class="form-control" id="eatmeat" name="eatmeat" ng-model="member.eatmeat" required>
+              <option>לא</option>
+              <option>כן</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group" ng-class="{ 'has-error': registrationForm.moutainbikes.$error.required }">
+            <label for="moutainbikes">  אופני הרים</label>
+            <select class="form-control" id="moutainbikes" name="moutainbikes" ng-model="member.moutainbikes" required>
+              <option> רוכב  </option>
+              <option>  לא רוכב  </option>
+            </select>
+          </div>
+
+        </div>
+        <div class="col-sm-4" >
+          <div class="form-group" ng-class="{ 'has-error': registrationForm.cooking.$error.required }">
+            <label for="cooking"> בישול</label>
+            <select class="form-control" id="cooking" name="cooking" ng-model="member.cooking" required>
+              <option>כלל לא</option>
+              <option>  ברמה סבירה</option>
+              <option> ברמה גבוהה </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group" ng-class="{ 'has-error': registrationForm.passtime.$error.required }">
+            <label for="passtime"> &nbsp</label>
+            <a href="#" class="btn btn-success form-control" name="passtime"  id="passtime" data-toggle="modal" data-target="#passtimeModal">בילויים</a>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group" ng-class="{ 'has-error': registrationForm.foodlike.$error.required }">
+            <label for="foodlike"> &nbsp</label>
+            <a href="#" class="btn btn-success form-control" name="foodlike" id="foodlike" data-toggle="modal" data-target="#foodlikeModal">אוכל</a>
+          </div>
+        </div>
+      </div>
+
+
+
+
+    </div>
+
+    <div class="col-sm-3">
+
+      <modal title="Registration form" ng-show="showModal">
+        <h3>{{ message }}</h3>
+      </modal>
+
+      <div class="form-group">
+        <label>{{ dateofbirthmsgheader }}</label>
+
+
+        <div class="row">
+
+          <div class="col-sm-4 nopadding" ng-class="{ 'has-error': registrationForm.bornday.$error.required }" >
+
+            <select  class="form-control" id="bornday"  ng-change="calczodiacsign()" name="bornday" ng-model="member.bornday" required>
+              <option value="" disabled selected hidden>יום</option>
+              <option ng-repeat="item in vm.daygenerator" value="{{item}}">{{item}}</option>
+            </select>
+          </div>
+
+          <div class="col-sm-4 nopadding" ng-class="{ 'has-error': registrationForm.bornmonth.$error.required }" >
+            <select    class="form-control"  ng-change="calczodiacsign()" id="bornmonth" name="bornmonth" ng-model="member.bornmonth" required>
+              <option value="" disabled selected hidden>חודש</option>
+              <option ng-repeat="item in vm.monthgenerator" value="{{item}}">{{item}}</option>
+            </select>
+          </div>
+          <div class="col-sm-4 nopadding"  ng-class="{ 'has-error': registrationForm.bornyear.$error.required }">
+
+            <select class="form-control" id="bornyear" name="bornyear" ng-model="member.bornyear" required ng-change="calcage()">
+              <option value="" disabled selected hidden>שנה</option>
+              <option ng-repeat="item in vm.yeargenerator" value="{{item}}">{{item}}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="raw">
+
+            <div class="col-sm-6 nopadding">
+              <label for="education"> המזל שלך:</label>
+              <input type= "text" name="education"  class="form-control" ng-model="member.zodiacsign" readonly/>
+            </div>
+            <div class="col-sm-6 nopadding"  ng-class="{ 'has-error': registrationForm.education.$error.required }">
+                <label for="education"> השכלה</label>
+                <select class="form-control" id="education" name="education" ng-model="member.education" required>
+                  <option>יסודי</option>
+                  <option>תיכון</option>
+                  <option>עורך דין</option>
+                  <option>טכנאי</option>
+                  <option>הנדסאי</option>
+                  <option>תואר ראשון</option>
+                  <option>תואר שני</option>
+                  <option>דוקטור</option>
+                  <option>פרופסור</option>
+                </select>
+
+
+            </div>
+        </div>
+      </div>
+
+      <div class="form-group" ng-class="{ 'has-error': registrationForm.whoami.$error.required }">
+        <label>ספר על עצמך</label>
+        <textarea class="form-control" rows="3"    name="whoami"  ng-model="member.whoami" placeholder="ספר על עצמך"   ></textarea>
+      </div>
+
+      <label>גובה בסנטימטרים</label>
+      <div class="form-group" ng-class="{ 'has-error': registrationForm.height.$error.required }">
+        <input type= "number" name="height"  class="form-control" ng-model="member.height" required/>
+      </div>
+
+
+    </div>
+    <div class="col-sm-3">
+        <div class="form-group" ng-class="{ 'has-error': registrationForm.nickName.$error.required }">
+          <label>כינוי שיופיע בכרטיס</label>
+          <input type= "text" name="nickName"  class="form-control" ng-model="member.nickName" required/>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-error': registrationForm.whatdoisearch.$error.required }">
+          <label>מה אני מחפש</label>
+          <textarea class="form-control" rows="3"   name="whatdoisearch"  ng-model="member.whatdoisearch" placeholder="ספר מה אתה מחפש"   ></textarea>
+        </div>
+
+        <div class="form-group" style="white-space:nowrap;">
+            <table>
+              <tr>
+                  <td>
+                  <button type="submit" ng-disabled="registrationForm.$invalid" class="btn btn-primary">שמור נתונים</button>
+                  </td>
+                  <td style="padding:0 15px 0 15px;">
+                  </td>
+                  <td>
+                      <h1  ng-show="changesuccess" ng-class="{ 'animated bounce': changesuccess}">השינויים עודכנו</h1></h1>
+                  </td>
+                </tr>
+            </table>
+    </div>
+    </div>
+  </div>
+
+  </form>
+</div>
+
+<div class="modal fade" id="passtimeModal" tabindex="-1" role="dialog" aria-labelledby="passtimeModal" aria-hidden="true" ng-controller="ContinueRegistrationController as vm">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">בחר את הבילויים המועדפים שלך</h4>
+      </div>
+      <div class="modal-body">
+        <div class="checkbox" ng-model="member.selectedpasstime" ng-repeat="item in vm.passtime">
+          <label><input type="checkbox" value="">{{item }}</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="foodlikeModal" tabindex="-1" role="dialog" aria-labelledby="foodlikeModal" aria-hidden="true" ng-controller="ContinueRegistrationController as vm">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel1">בחר את האוכל האהוב עליך</h4>
+      </div>
+      <div class="modal-body">
+        <div class="checkbox" ng-repeat="item in vm.foodlist">
+          <label><input type="checkbox" ng-model="member.selectedfood" value="">{{item }}</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="langugesModal" tabindex="-1" role="dialog" aria-labelledby="foodlikeModal" aria-hidden="true" ng-controller="ContinueRegistrationController as vm">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel2">בחר את השפות שהנך דובר</h4>
+      </div>
+      <div class="modal-body">
+        <div class="checkbox" ng-repeat="item in vm.listoflanguges">
+          <label><input type="checkbox" ng-model="member.selectedlanguges" value="">{{item }}</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+node_modules
+dist
+.tmp
+.sass-cache
+bower_components
+examples
+jqueryplugins
+uploads
+uploadvideo
+.idea
+myBinaryFile
+test/.jshintrc

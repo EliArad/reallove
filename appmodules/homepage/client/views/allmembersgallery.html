@@ -1,0 +1,39 @@
+<style>
+
+  .floating-box {
+    float: left;
+
+    border: 1px solid gray;
+    padding: 5px;
+  }
+
+
+</style>
+<div class="container">
+
+
+  <!-- show and hide the lion picture -->
+  <div id="popupdiv"  ng-show="lions">
+    <div class="col-sm-4">
+
+      details here.
+
+      <a class="btn btn-primary" href="#" ng-click="ClosePopup()" ng-class="{ active: lions }">סגור</a>
+      </header>
+
+
+    </div>
+    <div ng-swipe-left="swipeleft($event)" class="col-sm-8" ng-swipe-right="swiperight($event)">
+      <img src="{{ currentMemberToShow.src }}" resize ng-click="next()" ng-style="myStyle"/>
+    </div>
+  </div>
+
+
+  <div ng-repeat="memberthumb in allmembersthumb" ng-show="allthumberspictures">
+  <img src="{{ memberthumb.src }}"  ng-click="ShowMember(memberthumb.id)" class=" floating-box" width ="220" height="250" >
+  </div>
+
+
+
+
+</div>

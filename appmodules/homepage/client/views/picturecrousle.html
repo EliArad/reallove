@@ -1,0 +1,23 @@
+<style>
+
+
+
+</style>
+<div class="container">
+
+  <div style="height: 305px">
+    <uib-carousel interval="myInterval" no-wrap="noWrapSlides">
+      <uib-slide ng-repeat="slide in slides" active="slide.active">
+        <img ng-src="{{slide.image}}" style="margin:auto;">
+
+      </uib-slide>
+    </uib-carousel>
+  </div>
+  <div class="row">
+
+    <div class="col-md-6" ng-show="false">
+      Interval, in milliseconds: <input type="number" class="form-control" ng-model="myInterval">
+      <br />Enter a negative number or 0 to stop the interval.
+    </div>
+  </div>
+</div>

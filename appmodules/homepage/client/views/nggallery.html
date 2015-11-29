@@ -1,0 +1,9 @@
+<div class="container slider">
+  <img ng-repeat="slide in slides" class="slide slide-animation nonDraggableImage"
+       ng-swipe-right="nextSlide()" ng-swipe-left="prevSlide()"
+       ng-hide="!isCurrentSlideIndex($index)" ng-src="{{slide.image}}">
+
+  <a class="arrow prev" href="#" ng-click="nextSlide()"></a>
+  <a class="arrow next" href="#" ng-click="prevSlide()"></a>
+
+</div>

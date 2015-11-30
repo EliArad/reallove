@@ -9,14 +9,15 @@
               <span class="btn btn-primary btn-file" ng-show="showPicture1" >
 
 
-     בחר תמונה
-              <input id="fileInputElement1"
+ תמונת פרופיל
+              <input id="fileInputElementfirst"
                      data-classIcon="icon-plus"
                      data-buttonText="בחר תמונה"
-                     accept="image/jpeg"
                      name="images",
+                     accept="image/jpeg"
                      type="file"
-                     multiple="true"
+                     multiple="false"
+                     data-ng-model="theFile1"
                      onchange="angular.element(this).scope().fileNameChanged1()"
                       />
                   </span>

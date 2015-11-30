@@ -13,6 +13,14 @@ var myhelper = require('../modules/myhelpers');
 
         // middleware for the members, find the id of the member using the token decoded.sub
          membersRouter.use('/members/:memberId', function (req , res , next) {
+
+           try {
+             console.log("req.body.member " + req.body.member.nickName);
+           }
+           catch (e)
+           {
+
+           }
          var d = new Date();
          console.log(d);
          try {
@@ -25,7 +33,7 @@ var myhelper = require('../modules/myhelpers');
                  }
                  else if (member) {
                      req.member = member;
-                     console.log("found member");
+                     console.log("found member " + req.member);
                      next();
                  } else {
                      res.redirect(500, '/#/login');

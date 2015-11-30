@@ -12,14 +12,14 @@
                      data-classIcon="icon-plus"
                      data-buttonText="בחר תמונה"
                      type="file"
-                     multiple="true"
+                     multiple="false"
                      accept="image/jpeg"
                      data-ng-model="theFile15"
                      onchange="angular.element(this).scope().fileNameChanged15()"
                       />
                   </span>
 
-    <button type="button" ng-click="enablePictureDisplay(15)"  ng-show="showPicture15" class="btn btn-primary">מחק</button>
+    <button type="button" ng-click="enablePictureDisplay(15,false)"  ng-show="showPicture15" class="btn btn-primary">מחק</button>
 
     <div class="hearts" >
         <img src="{{imageSrc15}}" ng-show="showPicture15" ng-style="{'width': pictureWidth , 'height': pictureHeight }" class="pictures"/>

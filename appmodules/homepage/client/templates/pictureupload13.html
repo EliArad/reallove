@@ -13,13 +13,13 @@
                      data-buttonText="בחר תמונה"
                      type="file"
                      accept="image/jpeg"
-                     multiple="true"
+                     multiple="false"
                      data-ng-model="theFile13"
                      onchange="angular.element(this).scope().fileNameChanged13()"
                       />
                   </span>
 
-    <button type="button" ng-click="enablePictureDisplay(13)"  ng-show="showPicture13" class="btn btn-primary">מחק</button>
+    <button type="button" ng-click="enablePictureDisplay(13,false)"  ng-show="showPicture13" class="btn btn-primary">מחק</button>
 
     <div class="hearts">
         <img src="{{imageSrc13}}" ng-show="showPicture13" ng-style="{'width': pictureWidth , 'height': pictureHeight }" class="pictures"/>

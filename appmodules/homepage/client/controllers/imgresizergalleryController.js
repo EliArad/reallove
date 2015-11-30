@@ -1,10 +1,56 @@
 'use strict';
 
   app.controller('imageresizergalleryController', ['$scope','$state', 'authToken','myConfig',
-                  '$window','$timeout','myhttphelper',
-      function($scope,$state, authToken,myConfig,$window,$timeout,myhttphelper)
+                  '$window','$timeout','myhttphelper','$http',
+      function($scope,$state, authToken,myConfig,$window,$timeout,myhttphelper,$http)
       {
 
+        var vm = this;
+        var i = 0;
+        var picName;
+        var picName1;
+        var picName2;
+        var picName3;
+        var pictures = [];
+        var mytimeout;
+        var startTimer = 0;
+        var totalPictures;
+
+
+        function authOk()
+        {
+          var token1 = authToken.getToken();
+          var membersAPI = myConfig.url + "/api/getuserid";
+          $http.get(membersAPI).success(function(result) {
+
+            vm.userid = result;
+            console.log(vm.userid);
+            var id = vm.userid;
+            pictures = [];
+
+            var membersAPI = myConfig.url + "/api/getimagelist";
+            $http.get(membersAPI).success(function(result) {
+              console.log(result);
+              vm.userImageList = result.list;
+
+              var j = 0;
+              for (i = 1; i < 16 ; i++)
+              {
+                if (vm.userImageList[j] == true) {
+                   pictures.push('/uploads/' + id.toString() + '/raw/' + i + '.jpg');
+                }
+                j++;
+              }
+              totalPictures = pictures.length;
+              console.log(pictures[0]);
+              $scope.imagesrc = pictures[0];
+            });
+
+          }).error(function(result) {
+            console.log(result);
+          });
+
+        }
 
         myhttphelper.doGet('/isauth').
           then(sendResponseData1).
@@ -16,26 +62,14 @@
           if (response != "OK")
           {
             $state.go('login', {}, {reload: true});
+          } else {
+            authOk();
           }
         }
         function sendResponseError1(response)
         {
           $state.go('login', {}, {reload: true});
         }
-
-
-        var id = '56478b1f459688e266c7a303';
-        var picName =  '/uploads/' + id.toString() + '/raw/' + 1 + '.jpg';
-        var picName1 = '/uploads/' + id.toString() + '/raw/' + 2 + '.jpg';
-        var picName2 = '/uploads/' + id.toString() + '/raw/' + 3 + '.jpg';
-        var picName3 = '/uploads/' + id.toString() + '/raw/' + 4 + '.jpg';
-
-        var i = 0;
-        var pictures = [picName,picName1,picName2,picName3];
-        var mytimeout;
-        var startTimer = 0;
-        var totalPictures = pictures.length;
-
 
         $scope.swiperight = function($event) {
           $scope.next();
@@ -64,8 +98,6 @@
           "max-height" : $window.innerHeight - 100
         };
 
-
-        $scope.imagesrc = pictures[0];
 
         $scope.next = function ()
         {

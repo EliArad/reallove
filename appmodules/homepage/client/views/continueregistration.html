@@ -5,7 +5,7 @@
 
 
    .nopadding {
-     padding: 4px !important;
+     padding: 1px !important;
 
    }
 
@@ -43,7 +43,7 @@
           <div class="form-group" ng-class="{ 'has-error': registrationForm.walking.$error.required }">
             <label for="walking">הליכה</label>
             <select class="form-control" id="walking" name="walking"  ng-model="member.walking" required>
-              <option>בעניין </option>
+              <option>בעניין</option>
               <option> לא בעניין</option>
             </select>
           </div>
@@ -67,7 +67,7 @@
           <div class="form-group" ng-class="{ 'has-error': registrationForm.cosher.$error.required }">
             <label for="cosher">כשרות </label>
             <select class="form-control" id="cosher" name="cosher"  ng-model="member.cosher" required>
-              <option>שומר  </option>
+              <option>שומר</option>
               <option> לא שומר</option>
             </select>
           </div>
@@ -78,7 +78,7 @@
           <div class="form-group" ng-class="{ 'has-error': registrationForm.bmi.$error.required }">
             <label for="bmi">BMI </label>
             <select class="form-control" id="bmi"  name="bmi"  ng-model="member.bmi" required>
-              <option>באזור טוב </option>
+              <option>באזור טוב<option>
               <option> גבוה</option>
             </select>
           </div>
@@ -88,7 +88,7 @@
             <div class="form-group" ng-class="{ 'has-error': registrationForm.running.$error.required }">
               <label for="running">ריצה</label>
               <select class="form-control" id="running"  name="running" ng-model="member.running" required>
-                <option>בעניין </option>
+                <option>בעניין</option>
                 <option> לא בעניין</option>
               </select>
             </div>
@@ -104,7 +104,7 @@
             <label for="jobtype">שכיר \עצמאי</label>
             <select class="form-control" id="jobtype" name="jobtype" ng-model="member.jobtype" required>
               <option>שכיר</option>
-              <option>  עצמאי</option>
+              <option>עצמאי</option>
             </select>
           </div>
         </div>
@@ -119,9 +119,9 @@
           <div class="form-group" ng-class="{ 'has-error': registrationForm.livingwith.$error.required }">
             <label for="livingwith"> מגורים</label>
             <select class="form-control" id="livingwith" name="livingwith" ng-model="member.livingwith" required>
-              <option> בדירה לבד</option>
-              <option>  עם ההורים</option>
-              <option>  עם שותפים</option>
+              <option>בדירה לבד</option>
+              <option>עם ההורים</option>
+              <option>עם שותפים</option>
             </select>
           </div>
         </div>
@@ -141,8 +141,8 @@
           <div class="form-group" ng-class="{ 'has-error': registrationForm.moutainbikes.$error.required }">
             <label for="moutainbikes">  אופני הרים</label>
             <select class="form-control" id="moutainbikes" name="moutainbikes" ng-model="member.moutainbikes" required>
-              <option> רוכב  </option>
-              <option>  לא רוכב  </option>
+              <option>רוכב</option>
+              <option>לא רוכב</option>
             </select>
           </div>
 
@@ -152,8 +152,8 @@
             <label for="cooking"> בישול</label>
             <select class="form-control" id="cooking" name="cooking" ng-model="member.cooking" required>
               <option>כלל לא</option>
-              <option>  ברמה סבירה</option>
-              <option> ברמה גבוהה </option>
+              <option>ברמה סבירה</option>
+              <option>ברמה גבוהה</option>
             </select>
           </div>
         </div>
@@ -291,9 +291,10 @@
         <h4 class="modal-title" id="myModalLabel">בחר את הבילויים המועדפים שלך</h4>
       </div>
       <div class="modal-body">
-        <div class="checkbox" ng-model="member.selectedpasstime" ng-repeat="item in vm.passtime">
-          <label><input type="checkbox" value="">{{item }}</label>
+        <div class="checkbox" ng-repeat="item in vm.passtime">
+          <input type="checkbox"  checklist-model="vm.selectedpasstime" checklist-value="item"> {{item}}
         </div>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -312,9 +313,11 @@
         <h4 class="modal-title" id="myModalLabel1">בחר את האוכל האהוב עליך</h4>
       </div>
       <div class="modal-body">
-        <div class="checkbox" ng-repeat="item in vm.foodlist">
-          <label><input type="checkbox" ng-model="member.selectedfood" value="">{{item }}</label>
+        <div class="checkbox" ng-repeat="item in foodlist">
+          <input type="checkbox"  checklist-model="vm.selectedfood" checklist-value="item"> {{item}}
         </div>
+
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -334,9 +337,13 @@
         <h4 class="modal-title" id="myModalLabel2">בחר את השפות שהנך דובר</h4>
       </div>
       <div class="modal-body">
+
+
         <div class="checkbox" ng-repeat="item in vm.listoflanguges">
-          <label><input type="checkbox" ng-model="member.selectedlanguges" value="">{{item }}</label>
+          <input type="checkbox"  checklist-model="vm.selectedlang" checklist-value="item"> {{item}}
         </div>
+
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

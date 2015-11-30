@@ -2,10 +2,11 @@
 
 
 
-  app.controller('coredetailsController', ['$scope','$state', 'authToken','myhttphelper','myConfig','$http',
-    function($scope,$state, authToken,myhttphelper,myConfig,$http)
+  app.controller('coredetailsController', ['$scope','$state', 'authToken','myhttphelper','myConfig','$http','$timeout',
+    function($scope,$state, authToken,myhttphelper,myConfig,$http,$timeout)
     {
       var vm = this;
+      $scope.member = {};
       $scope.pageClass = 'page-home';
       $scope.showerrormessage1 = false;
       $scope.messagetoshow1 = "";
@@ -15,16 +16,8 @@
       $scope.messagetoshow3 = "";
       vm.religionbelong = ['יהודי', 'בדרך לשם - מתגייר' , 'לא'];
 
-
+      var cssUpdateTimer = null;
       $scope.citygenerator = [1,2,3];
-
-      vm.user = {
-        gender: "",
-        status: "",
-        numberofkids: "",
-        smoking: "",
-        religionman : ''
-      };
 
 
 
@@ -67,13 +60,31 @@
 
       function sendResponseData1(response)
       {
+        console.log(response);
         if (response != "OK")
         {
           $state.go('login', {}, {reload: true});
+        } else {
+          var token = authToken.getToken();
+          myhttphelper.doGet('/api/Members/' + token).
+            then(successGetMember).
+            catch(errorGetMember);
         }
       }
       function sendResponseError1(response)
       {
+        $state.go('login', {}, {reload: true});
+      }
+
+      function successGetMember(result)
+      {
+        $scope.member = result.member;
+      }
+      function errorGetMember(result)
+      {
+        console.log("error #70: " + result);
+        authToken.RemoveToken();
+        $rootScope.$broadcast("updateHeader", authToken.getToken());
         $state.go('login', {}, {reload: true});
       }
 
@@ -105,47 +116,37 @@
         }
       }
 
-      vm.submit = function (isValid) {
+      $scope.submit = function (isValid) {
 
-        if ($scope.passStrength < 100)
+
+        if(typeof $scope.member.city === 'undefined')
         {
-          // vm.message = "password strength should be 100";
-          //return;
+          alert ("error");
+          return;
         }
 
-        var notcomplete = false;
+        if (cssUpdateTimer != null)
+          $timeout.cancel(cssUpdateTimer);
+        $scope.changesuccess = false;
 
 
-        if (vm.user.gender == '')
-        {
-          $scope.showerrormessage1 = true;
-          $scope.messagetoshow1 = "Select gender please";
-          notcomplete = true;
-        }
-        if (vm.user.smoking == '')
-        {
-          $scope.showerrormessage2 = true;
-          $scope.messagetoshow2 = "Select smoking or not please";
-          notcomplete = true;
-        }
-        if (vm.user.smokingpartner == '')
-        {
-          $scope.showerrormessage3 = true;
-          $scope.messagetoshow3 = "Select smoking partner";
-          notcomplete = true;
-        }
 
+        var token1 = authToken.getToken();
+        var membersAPI = myConfig.url + "/api/members/" + token1;
 
-        if (notcomplete == true)
-          return
+        console.log($scope.member.gender);
+        $scope.member.needInitiaDetailsBase = false;
+        $http.put(membersAPI, { 'member': $scope.member }).success(function(result) {
+          $scope.changesuccess = true;
 
+          cssUpdateTimer = $timeout(function() {
+            $scope.changesuccess = false;
+          }, 6000);
 
-        if (isValid) {
-          $scope.save(vm.user);
-        }
+        }).error(function() {
+          console.log("error");
+        });
       }
-
     }
-
   ]);
 

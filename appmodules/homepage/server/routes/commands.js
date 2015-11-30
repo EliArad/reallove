@@ -27,6 +27,21 @@ var routes = function (app) {
   var commandsRouter = express.Router();
 
 
+
+  app.get('/api/getimagelist', jwtauth, function (req, res, next) {
+      var id = req.idFromToken;
+      var a = myhelper.getImageList(id);
+      res.json({
+        id:id,
+        list: a
+      });
+  });
+
+
+  app.get('/api/getuserid', jwtauth, function (req, res, next) {
+      res.send(req.idFromToken);
+  });
+
   app.get('/api/getcities', jwtauth, function (req, res, next) {
 
     console.log('getcities');

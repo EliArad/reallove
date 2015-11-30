@@ -36,7 +36,7 @@
 
       <div class="col-sm-3">
         בחר עיר:
-        <ui-select id="city" ng-change="calczodiacsign()"   theme="bootstrap" ng-model="vm.user.city"
+        <ui-select id="city" ng-change="calczodiacsign()"   theme="bootstrap" ng-model="member.city"
                    required>
           <ui-select-match placeholder="select city">
             <span ng-bind="$select.selected[0]"></span>
@@ -47,9 +47,9 @@
         </ui-select>
       </div>
       <div class="col-sm-3">
-        <div>
+        <div class="form-group" ng-class="{ 'has-error': form.gender.$error.required }">
           <label for="gender">אני </label>
-          <select class="form-control" id="gender" ng-model="vm.user.gender" ng-change="updatestatus(1)">
+          <select class="form-control" id="gender" name="gender" ng-model="member.gender"  required>
             <option ng-repeat="item in vm.gendercollection" value="{{item}}">{{item}}</option>
           </select>
         </div>
@@ -63,7 +63,7 @@
       </div>
       <div class="col-md-4">
         <div class="form-group">
-          <label for="status"> הצג את הכרטיס שלי לחברים עם נתוני בסיס זהים (להוציא מספר ילדים במקרה שיש ילדים
+          <label for="status"> הצג את הכרטיס שלי רק לחברים עם נתוני בסיס זהים (להוציא מספר ילדים במקרה שיש ילדים
             ולהוציא עיר מגורים)
           </label>
           <checkbox ng-model="checkboxModel" name="presentthesame" ng-change="onChange()"></checkbox>
@@ -72,7 +72,7 @@
       <div class="col-md-3">
         <div class="form-group" ng-class="{ 'has-error': form.status.$error.required }">
           <label for="status">סטטוס</label>
-          <select id="status" class="form-control" name="status" ng-model="vm.user.status" required>
+          <select id="status" class="form-control" name="status" ng-model="member.status" required>
             <option ng-repeat="item in vm.status" value="{{item}}">{{item}}</option>
           </select>
         </div>
@@ -87,8 +87,7 @@
       <div class="col-sm-3">
         <div class="form-group" ng-class="{ 'has-error': form.religion.$error.required }">
           <label for="religion">דת</label>
-          <select id="religion" class="form-control" name="religion" ng-model="vm.user.religion"
-                  ng-change="updatestatus(1)" required>
+          <select id="religion" class="form-control" name="religion" ng-model="member.religion"  required>
             <option ng-repeat="item in vm.religionbelong" value="{{item}}">{{item}}</option>
           </select>
         </div>
@@ -97,8 +96,7 @@
 
         <div class="form-group" ng-class="{ 'has-error': form.religionbelong.$error.required }">
           <label for="religionbelong">שיוך דתי</label>
-          <select id="religionbelong" name="religionbelong" class="form-control" ng-model="vm.user.religionbelong"
-                  ng-change="updatestatus(1)" required>
+          <select id="religionbelong" name="religionbelong" class="form-control" ng-model="member.religionbelong" required>
             <option ng-repeat="item in vm.religion" value="{{item}}">{{item}}</option>
           </select>
         </div>
@@ -117,17 +115,18 @@
       </div>
       <div class="col-sm-3">
 
-
-        <label for="kids">מספר ילדים</label>
-        <select class="form-control" name="smoking" id="kids" ng-model="vm.user.numberofkids" required>
-          <option>ללא ילדים</option>
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-          <option>יותר מחמש</option>
-        </select>
+        <div class="form-group" ng-class="{ 'has-error': form.numberofkids.$error.required }">
+          <label for="kids">מספר ילדים</label>
+          <select class="form-control" name="numberofkids" id="kids" ng-model="member.numberofkids" required>
+            <option>ללא ילדים</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>יותר מחמש</option>
+          </select>
+        </div>
 
       </div>
     </div>
@@ -159,13 +158,13 @@
 
       </div>
       <div class="col-sm-3">
-
+        <div class="form-group" ng-class="{ 'has-error': form.smoking.$error.required }">
         <label for="smoking">{{vm.smokingLabel }} </label>
-        <select class="form-control" name="smoking" id="smoking" ng-model="vm.user.smoking" required ng-change="updatestatus(1)">
+        <select class="form-control" name="smoking" id="smoking" ng-model="member.smoking" required >
           <option>כן</option>
           <option>לא</option>
         </select>
-
+      </div>
       </div>
     </div>
   </form>

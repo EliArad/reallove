@@ -131,13 +131,12 @@ module.exports = function(membersModel) {
             return;
           }
 
-            console.log("update  " + req.body.member.firstName);
+            console.log("update  " + req.body.member.nickName);
 
             // take the mamber from the findById middleware
             var member = req.member;
-            //console.log("on update token:" + req.token);
-
             member = _.extend(member, req.body.member);
+            console.log(member.nickName);
 
             member.save(function(err) {
                 if (err) {

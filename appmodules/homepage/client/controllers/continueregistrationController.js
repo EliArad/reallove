@@ -2,23 +2,38 @@
 
 
 app.controller('ContinueRegistrationController', ['$scope', 'Members', 'general','appCookieStore','$window',
-               '$http','authToken','$timeout','myConfig','$state','myhttphelper','$rootScope',
+               '$http','authToken','$timeout','myConfig','$state','myhttphelper','$rootScope','API',
     function($scope, Members,general,appCookieStore,$window,
              $http,authToken,$timeout,myConfig,
-             $state,myhttphelper,$rootScope)
+             $state,myhttphelper,$rootScope, API)
     {
 
       var vm = this;
 
-      $scope.formmsgheader = 'המשך הרשמה';
-      /*
-      vm.clickme = function()
-      {
-        alert ("click me");
-      }
-      */
+      $scope.member = {};
 
-      vm.foodlist = ['איטלקי','דגים','על האש','שום','חריף','עמבה','סושי','חצילים','כוסברה','בצל','אוהב כל דבר'];
+      $scope.formmsgheader = 'המשך הרשמה';
+
+      vm.selectedfood = [];
+      vm.selectedlang = ['עברית'];
+      vm.selectedpasstime = [];
+
+      $scope.$watchCollection('vm.selectedfood', function(newNames, oldNames) {
+          API.saveSelectedfood(newNames);
+      });
+
+      $scope.$watchCollection('vm.selectedlang', function(newNames, oldNames) {
+        API.saveSelectedlang(newNames);
+      })
+
+      $scope.$watchCollection('vm.selectedpasstime', function(newNames, oldNames) {
+        API.saveSelectedpasstime(newNames);
+      })
+
+
+
+
+      $scope.foodlist = ['איטלקי','דגים','על האש','שום','חריף','עמבה','סושי','חצילים','כוסברה','בצל','אוהב כל דבר'];
       vm.listoflanguges = ['אנגלית', 'עברית', 'צרפתיתי', 'איטלקית', 'רוסית', 'עוד שפות שלא רשומות כאן']
 
       vm.yeargenerator = [];
@@ -70,15 +85,50 @@ app.controller('ContinueRegistrationController', ['$scope', 'Members', 'general'
       var token = authToken.getToken();
 
 
-      //console.log (token);
-      myhttphelper.doGet('/api/Members/' + token).
-        then(successGetMember).
-        catch(errorGetMember);
+
+      myhttphelper.doGet('/isauth').
+        then(sendResponseData1).
+        catch(sendResponseError1);
+
+
+      function sendResponseData1(response)
+      {
+        if (response != "OK")
+        {
+          $state.go('login', {}, {reload: true});
+        } else {
+          //console.log (token);
+          myhttphelper.doGet('/api/Members/' + token).
+            then(successGetMember).
+            catch(errorGetMember);
+        }
+      }
+      function sendResponseError1(response)
+      {
+         $state.go('login', {}, {reload: true});
+      }
+
 
       function successGetMember(result)
       {
-          console.log(result.member);
+          //console.log(result.member);
           $scope.member = result.member;
+          try {
+            $scope.member.bornyear = $scope.member.bornyear.toString();
+            $scope.member.bornmonth = $scope.member.bornmonth.toString();
+            $scope.member.bornday = $scope.member.bornday.toString();
+          }
+          catch (e)
+          {
+
+          }
+          vm.selectedfood = $scope.member.selectedfood;
+          vm.selectedlang = $scope.member.selectedlang;
+          if (vm.selectedlang.length == 0)
+          {
+             vm.selectedlang = ['עברית'];
+          }
+          vm.selectedpasstime = $scope.member.selectedpasstime;
       }
       function errorGetMember(result)
       {
@@ -185,6 +235,14 @@ app.controller('ContinueRegistrationController', ['$scope', 'Members', 'general'
 
           var token1 = authToken.getToken();
           var membersAPI = myConfig.url + "/api/members/" + token1;
+
+          $scope.member.selectedfood = API.getSelectedfood();
+          $scope.member.selectedpasstime = API.getSelectedpasstime();
+          $scope.member.selectedlang = API.getSelectedlang();
+          console.log($scope.member.selectedfood);
+          console.log($scope.member.selectedlang);
+          console.log($scope.member.selectedpasstime);
+          $scope.member.needInitiaDetailsAll = false;
 
           $http.put(membersAPI, { 'member': $scope.member }).success(function(result) {
              $scope.changesuccess = true;

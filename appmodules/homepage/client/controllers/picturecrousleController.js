@@ -1,9 +1,14 @@
 'use strict';
 
 
-  app.controller('picturecrousleController', ['$scope','$state', 'authToken', 'myhttphelper',
-      function($scope,$state, authToken,myhttphelper)
+  app.controller('picturecrousleController', ['$scope','$state', 'authToken', 'myhttphelper','API',
+      function($scope,$state, authToken,myhttphelper,API)
       {
+        var slides = $scope.slides = [];
+        $scope.myInterval = 5000;
+        $scope.noWrapSlides = false;
+
+
         myhttphelper.doGet('/isauth').
           then(sendResponseData1).
           catch(sendResponseError1);
@@ -14,6 +19,21 @@
           if (response != "OK")
           {
             $state.go('login', {}, {reload: true});
+          } else {
+
+            API.getImageList(function(err , data)
+            {
+                if (err == true)
+                {
+                  console.log(data);
+                  for (var i = 0; i < data.length ; i++)
+                  {
+                      var t = (i + 1) + '!';
+                      $scope.slides.push({text: t, image: data[i]});
+                  }
+                  var newWidth = 600 + $scope.slides.length + 1;
+               }
+            });
           }
         }
         function sendResponseError1(response)
@@ -22,19 +42,10 @@
         }
 
 
-        $scope.myInterval = 5000;
-        $scope.noWrapSlides = false;
-        var slides = $scope.slides = [];
         $scope.addSlide = function() {
-          var newWidth = 600 + slides.length + 1;
-          $scope.slides.push({text: '1!', image: '/uploads/56478b1f459688e266c7a303/raw/1.jpg'});
-          $scope.slides.push({text: '2!', image: '/uploads/56478b1f459688e266c7a303/raw/2.jpg'});
-          $scope.slides.push({text: '3!', image: '/uploads/56478b1f459688e266c7a303/raw/3.jpg'});
-          $scope.slides.push({text: '4!', image: '/uploads/56478b1f459688e266c7a303/raw/4.jpg'});
         };
 
-          $scope.addSlide();
-
+        $scope.addSlide();
 
       }
 

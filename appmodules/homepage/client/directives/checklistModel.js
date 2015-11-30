@@ -6,7 +6,7 @@
  */
 //https://vitalets.github.io/checklist-model/
 
-app.directive('checklistModel', ['$parse', '$compile', function($parse, $compile) {
+app.directive('checklistModelxxx', ['$parse', '$compile', function($parse, $compile) {
         // contains
         function contains(arr, item, comparator) {
             if (angular.isArray(arr)) {

@@ -4,9 +4,9 @@
 
 
 app.controller('mypicturesController', ['$scope', 'Registration', 'general','myConfig',
-               'fileUpload','myhttphelper','appCookieStore','fileReader','authToken',
+               'fileUpload','myhttphelper','appCookieStore','fileReader','authToken','$http',
     function($scope, Registration,general,myConfig,
-             fileUpload,myhttphelper,appCookieStore,fileReader,authToken) {
+             fileUpload,myhttphelper,appCookieStore,fileReader,authToken,$http) {
 
 
 
@@ -47,6 +47,7 @@ app.controller('mypicturesController', ['$scope', 'Registration', 'general','myC
 
       $scope.enablePictureDisplay = function(index , del)
       {
+
         if (del == false) {
           myhttphelper.doPost('/api/deletepicture', {filenum: index}).
             then(deletePictureSuccess).
@@ -178,16 +179,25 @@ app.controller('mypicturesController', ['$scope', 'Registration', 'general','myC
       }
 
 
-      for (var i = 1 ; i <= myConfig.MaxPicturesForMember ; i++)
-      {
-        var id = '56478b1f459688e266c7a303';
-        var picName = '/uploads/' + id.toString() + '/raw/' + i.toString() + '.jpg';
-        setImageSrc(i , picName);
-      }
+      var token1 = authToken.getToken();
+      var membersAPI = myConfig.url + "/api/getuserid";
+      $http.get(membersAPI).success(function(result) {
+
+        vm.userid = result;
+        for (var i = 1 ; i <= myConfig.MaxPicturesForMember ; i++)
+        {
+          var picName = '/uploads/' + vm.userid.toString() + '/raw/' + i.toString() + '.jpg';
+          setImageSrc(i , picName);
+        }
+      }).error(function(result) {
+        console.log(result);
+      });
+
+
 
       $scope.fileNameChanged1 = function() {
 
-        var fileInputElement = document.getElementById("fileInputElement1");
+        var fileInputElement = document.getElementById("fileInputElementfirst");
         $scope.uploadFile1(fileInputElement.files[0]);
 
       }
@@ -252,9 +262,14 @@ app.controller('mypicturesController', ['$scope', 'Registration', 'general','myC
         $scope.uploadFile14(fileInputElement.files[0]);
       }
 
+      $scope.fileNameChanged15 = function() {
+        var fileInputElement = document.getElementById("fileInputElement15");
+        $scope.uploadFile15(fileInputElement.files[0]);
+      }
+
       $scope.uploadFile1 = function (fileName, index) {
         $scope.progress = 0;
-
+        console.log(fileName);
         fileReader.readAsDataUrl(fileName, $scope)
           .then(function(result) {
             $scope.imageSrc1 = result;
@@ -386,6 +401,16 @@ app.controller('mypicturesController', ['$scope', 'Registration', 'general','myC
           .then(function(result) {
             $scope.imageSrc14 = result;
             ajaxUpload(result,14);
+          });
+      };
+
+      $scope.uploadFile15 = function (fileName, index) {
+        $scope.progress = 0;
+
+        fileReader.readAsDataUrl(fileName, $scope)
+          .then(function(result) {
+            $scope.imageSrc15 = result;
+            ajaxUpload(result,15);
           });
       };
 

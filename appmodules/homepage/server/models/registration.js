@@ -49,15 +49,6 @@ var RegistrationSchema = new Schema({
         required: true,
         trim: true
     },
-    group: {
-      type:Number
-    },
-    smoking: {
-      type:Boolean
-    },
-    gender: {
-      type:String
-    },
     role: {
         type: String,
         default: 'user'

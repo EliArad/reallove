@@ -14,6 +14,7 @@ var app = angular
     'ngFileUpload',
     'ui.bootstrap',
     'ui.checkbox',
+    'checklist-model',
     'angular-carousel',
     'swipe',
     'ui.router',

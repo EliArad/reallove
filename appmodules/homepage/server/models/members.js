@@ -15,52 +15,6 @@ var MembersSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    /*
-    dateofbirth: {
-        type: Date,
-        required: true
-    },
-    */
-    firstName: {
-        type: String,
-        trim: true
-    },
-    lastName: {
-        type: String,
-        trim: true
-    },
-    cityName: {
-        type: String,
-        trim: true
-    },
-    picture1: {
-        type: String,
-        trim: true
-    },
-    picture2: {
-        type: String,
-        trim: true
-    },
-    picture3: {
-        type: String,
-        trim: true
-    },
-    picture4: {
-        type: String,
-        trim: true
-    },
-    picture5: {
-        type: String,
-        trim: true
-    },
-    picture6: {
-        type: String,
-        trim: true
-    },
-    picture7: {
-        type: String,
-        trim: true
-    },
     whoami: {
         type: String,
         trim: true
@@ -69,12 +23,118 @@ var MembersSchema = new Schema({
         type: String,
         trim: true
     },
-    needInitiaDetails: {
+    needInitiaDetailsBase: {
       type: Boolean,
-      default: false
+      default: true
     },
+    needInitiaDetailsAll: {
+      type: Boolean,
+      default: true
+    },
+    nickName : {
+      type: String,
+      trim: true
+    },
+    gym : {
+      type: String,
+      trim: true
+    },
+    walking : {
+      type: String,
+      trim: true
+    },
+     everydayathom : {
+      type: String,
+      trim: true
+    },
+    cosher : {
+      type: String,
+      trim: true
+    },
+    bmi : {
+      type: String,
+      trim: true
+    },
+    running : {
+      type: String,
+      trim: true
+    },
+    jobtype : {
+      type: String,
+      trim: true
+    },
+    livingwith : {
+      type: String,
+      trim: true
+    },
+    eatmeat : {
+      type: String,
+      trim: true
+    },
+     moutainbikes : {
+        type: String,
+        trim: true
+    },
+    cooking : {
+      type: String,
+      trim: true
+    },
+    bornday : {
+      type: Number,
+      trim: true
+    },
+    bornmonth : {
+      type: Number,
+      trim: true
+    },
+    bornyear : {
+      type: Number,
+      trim: true
+    },
+    zodiacsign : {
+      type: String,
+      trim: true
+    },
+    education : {
+      type: String,
+      trim: true
+    },
+    height : {
+      type: Number
+    },
+    religion : {
+      type: String,
+      trim: true
+    },
+    status : {
+        type: String,
+        trim: true
+    },
+    numberofkids : {
+      type: String,
+      trim: true
+    },
+    smoking : {
+      type: String,
+      trim: true
+    },
+    city : {
+        type: String,
+        trim: true
+    },
+    religionbelong : {
+      type: String,
+      trim: true
+    },
+    gender : {
+        type: String,
+        trim: true
+    },
+
+    selectedpasstime :   [],
+    selectedfood : [],
+    selectedlang : [],
     restselection: [],
-    //music:      [],
     user: {
         type: Schema.ObjectId,
         ref: 'User'

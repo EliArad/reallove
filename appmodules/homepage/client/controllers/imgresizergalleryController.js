@@ -19,18 +19,17 @@
 
         function authOk()
         {
-          var token1 = authToken.getToken();
           var membersAPI = myConfig.url + "/api/getuserid";
           $http.get(membersAPI).success(function(result) {
 
             vm.userid = result;
-            console.log(vm.userid);
+            //console.log(vm.userid);
             var id = vm.userid;
             pictures = [];
 
             var membersAPI = myConfig.url + "/api/getimagelist";
             $http.get(membersAPI).success(function(result) {
-              console.log(result);
+              //console.log(result);
               vm.userImageList = result.list;
 
               var j = 0;
@@ -42,7 +41,7 @@
                 j++;
               }
               totalPictures = pictures.length;
-              console.log(pictures[0]);
+              //console.log(pictures[0]);
               $scope.imagesrc = pictures[0];
             });
 

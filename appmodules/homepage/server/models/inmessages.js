@@ -7,9 +7,12 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 
-var MessagesSchema = new Schema({
+var inMessagesSchema = new Schema({
 
-
+    dated: {
+      type: Date,
+      default: Date.now
+    },
     messagebody: {
         type: String
     },
@@ -22,6 +25,9 @@ var MessagesSchema = new Schema({
 });
 
 
-var messagesModel = mongoose.model('Messages', MessagesSchema);
+var inmessagesModel = mongoose.model('inMessages', inMessagesSchema);
 
-module.exports.messagesModel  = messagesModel;
+module.exports =
+{
+   inmessagesModel : inmessagesModel
+}

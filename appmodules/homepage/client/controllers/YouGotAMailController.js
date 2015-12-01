@@ -3,10 +3,11 @@
 //(function() {
 
 
-  app.controller('YouGotAMailController', ['$scope','$state', 'authToken','myhttphelper',
-    function($scope,$state, authToken,myhttphelper)
+  app.controller('YouGotAMailController', ['$scope','$state', 'authToken','myhttphelper','picturesManager',
+    function($scope,$state, authToken,myhttphelper,picturesManager)
     {
 
+      var vm = this;
 
       myhttphelper.doGet('/isauth').
         then(sendResponseData1).
@@ -18,6 +19,8 @@
         if (response != "OK")
         {
           $state.go('login', {}, {reload: true});
+        } else {
+          start();
         }
       }
       function sendResponseError1(response)
@@ -37,6 +40,15 @@
       function sendResponseError(response)
       {
         $scope.data = response;
+      }
+
+      function start()
+      {
+         picturesManager.getProfilePictureSourcePath(function (pic)
+         {
+             vm.myProfilePicture = pic;
+         });
+
       }
 
     }

@@ -1,5 +1,14 @@
-app.factory("myhttphelper", function($http, $q){
+app.factory("myhttphelper", function($http, $q,myConfig){
 
+
+    var doApiPost = function(command, params)
+    {
+      var url = myConfig.url + "/api/" + command;
+      return $http.post(url,params).
+                        then(sendResponseData).
+                        catch(sendResponseError)
+
+    }
     var doPost = function(command, params)
     {
 
@@ -30,8 +39,8 @@ app.factory("myhttphelper", function($http, $q){
         //console.log("error from send " + response);
         return $q.reject("error from send " + response.status);
     }
-
     return{
+        doApiPost:doApiPost,
         doPost: doPost,
         doGet: doGet
     };

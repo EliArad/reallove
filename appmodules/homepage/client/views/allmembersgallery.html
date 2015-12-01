@@ -76,7 +76,7 @@
               </div>
 
                 <h6  id="cLeft" class="pull-right">500 אותיות נשארו</h6>
-                <button class="btn btn-info pull-left"  ng-disabled="form.$invalid" type="submit">
+                <button id="sendButton" ng-class="{ 'animated tada': showMessageSendOk  , 'animated rubberBand': showMessageSendFailure}"    class="btn btn-info pull-left"  ng-disabled="form.$invalid" type="submit">
                   שלח הודעה
                 </button>
             </form>

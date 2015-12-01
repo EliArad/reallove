@@ -1,10 +1,14 @@
 'use strict';
 
-app.controller('allmembersgalleryController', ['$scope','$state', 'authToken','$window','myhttphelper','dbsearch','myConfig','$http',
-  function($scope,$state, authToken,$window,myhttphelper,dbsearch,myConfig,$http)
+app.controller('allmembersgalleryController', ['$scope','$state', 'authToken','$window',
+               'myhttphelper','dbsearch','myConfig','$http','$timeout',
+  function($scope,$state, authToken,$window,myhttphelper,dbsearch,myConfig,$http,$timeout)
   {
 
     var vm = this;
+    vm.currentSentMessage = {};
+    var cssUpdateTimer;
+    var cssUpdateTimer1;
     $scope.allmembersthumb = [];
     vm.currentUserTotalPictures = 0;
     vm.currentUserAllPictures = [];
@@ -158,8 +162,54 @@ app.controller('allmembersgalleryController', ['$scope','$state', 'authToken','$
        {
           console.log("not valid");
        } else {
-          console.log($scope.messagebody +  " to send to: " + $scope.currentMemberToShow.id);
+         if (vm.currentSentMessage.id == $scope.currentMemberToShow.id &&
+             vm.currentSentMessage.messagebody == $scope.messagebody)
+         {
 
+
+            if (cssUpdateTimer1 != null)
+               $timeout.cancel(cssUpdateTimer1);
+
+              $scope.showMessageSendFailure = true;
+              document.getElementById('sendButton').innerHTML = 'לא נשלח';
+              document.getElementById('sendButton').style.color = 'red';
+             cssUpdateTimer1 = $timeout(function() {
+               $scope.showMessageSendFailure = false;
+               document.getElementById('sendButton').style.color = 'white';
+               document.getElementById('sendButton').innerHTML = 'שלח הודעה';
+             }, 1000)
+             return;
+         }
+
+          //console.log($scope.messagebody +  " to send to: " + $scope.currentMemberToShow.id);
+          var data = {
+            mb : $scope.messagebody,
+            toid: $scope.currentMemberToShow.rid
+          }
+          myhttphelper.doApiPost('sendMessageToMember', data).then(function(response)
+          {
+
+            if (cssUpdateTimer != null)
+              $timeout.cancel(cssUpdateTimer);
+
+            $scope.showMessageSendOk = true;
+            vm.currentSentMessage.id = $scope.currentMemberToShow.id;
+            vm.currentSentMessage.messagebody = $scope.messagebody;
+
+            document.getElementById('sendButton').style.color = 'lightgreen';
+            document.getElementById('sendButton').innerHTML = 'הודעה נשלחה';
+
+            cssUpdateTimer = $timeout(function() {
+              $scope.showMessageSendOk = false;
+              document.getElementById('sendButton').innerHTML = 'שלח הודעה';
+              document.getElementById('sendButton').style.color = 'white';
+            }, 1000);
+
+          }).catch(function(response) {
+            $scope.showMessageSendFailure = true;
+            document.getElementById('sendButton').style.color = 'lightred';
+            document.getElementById('sendButton').innerHTML = 'לא נשלח';
+          });
        }
     }
 

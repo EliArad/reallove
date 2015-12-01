@@ -14,6 +14,9 @@ var regModel = registrationModule.regModel;
 var cityLoaderobject = require('../../../../classhelpers').siteHelper;
 var cityLoader = new cityLoaderobject();
 
+var inmessagesModel = require("../models/inmessages").inmessagesModel;
+
+
 var mails = [
   'mail from eli',
   'mail from nataly',
@@ -28,6 +31,24 @@ var routes = function (app) {
 
   var commandsRouter = express.Router();
 
+  app.post('/api/sendMessageToMember' , jwtauth, function (req, res, next) {
+
+      var id = req.idFromToken;
+      // i could do the schema at the client and contruct new here
+      var m = new inmessagesModel();
+      m.messagebody = req.body.mb;
+      m.fromRegistrationId = id;
+      m.toRegistrationId = req.body.toid;
+
+      m.save(function(err) {
+        if (err) {
+          return res.status(500).json({
+            error: 'Cannot send message to this member'
+          });
+        }
+        res.send("ok");
+      });
+  });
 
   app.get('/api/getFirstNUserIds', jwtauth, function (req, res, next) {
       var id = req.idFromToken;

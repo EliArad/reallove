@@ -102,6 +102,21 @@ var routes = function (app) {
   });
 
 
+  app.get('/api/getuserinfo', jwtauth, function (req, res, next) {
+     var id = req.idFromToken;
+     var a = myhelper.getImageList(id);
+     membersModel.findOne({'registrationObjectId': req.idFromToken}, function (err, member) {
+       if (err) {
+          res.sendStatus(500);
+       } else {
+         res.json({
+           id:id,
+           member:member,
+           list: a
+         });
+       }
+     });
+  });
 
 
   app.get('/api/getimagelist', jwtauth, function (req, res, next) {

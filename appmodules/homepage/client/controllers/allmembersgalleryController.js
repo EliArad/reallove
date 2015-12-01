@@ -60,6 +60,15 @@ app.controller('allmembersgalleryController', ['$scope','$state', 'authToken','$
     $scope.allthumberspictures = true;
     $scope.currentMemberToShow = {};
 
+    $(function(j) {
+      j("#cLeft").text("אותיות נשארו: 320");
+      j(document).on('keypress', '#new_message', function() {
+        if (this.value.length > 500) {
+          return false;
+        }
+        j("#cLeft").text("אותיות נשארו: " + (320 - this.value.length));
+      });
+    });
 
     $scope.ClosePopup = function()
     {
@@ -67,15 +76,19 @@ app.controller('allmembersgalleryController', ['$scope','$state', 'authToken','$
       $scope.allthumberspictures = true;
     }
 
+    function getAge(member)
+    {
+        return 25;
+    }
     $scope.ShowMember = function(id,rid)
     {
-      console.log("Show member: " + id + " " + rid);
+      //console.log("Show member: " + id + " " + rid);
 
 
-      var membersAPI = myConfig.url + "/api/getimagelist";
+      var membersAPI = myConfig.url + "/api/getuserinfo";
       $http.get(membersAPI).success(function(result) {
         vm.userImageList = result.list;
-        //console.log(vm.userImageList);
+        //console.log(vm.member);
         vm.currentUserAllPictures = [];
         var j = 0;
         for (i = 1; i < 16 ; i++)
@@ -87,7 +100,16 @@ app.controller('allmembersgalleryController', ['$scope','$state', 'authToken','$
         }
         vm.currentUserTotalPictures = vm.currentUserAllPictures.length;
         $scope.currentMemberToShow.src = vm.currentUserAllPictures[0];
+        if (vm.userImageList[1] == true)
+        {
+          $scope.currentMemberToShow.src1 = vm.currentUserAllPictures[1];
+        } else {
+          $scope.currentMemberToShow.src1 = vm.currentUserAllPictures[0];
+        }
         $scope.currentMemberToShow.id = id;
+        $scope.currentMemberToShow.rid = rid;
+        $scope.currentMemberToShow.member = result.member;
+        $scope.currentMemberToShow.member.age = getAge($scope.currentMemberToShow.member);
         $scope.allthumberspictures = false;
         $scope.lions = true;
 
@@ -97,6 +119,7 @@ app.controller('allmembersgalleryController', ['$scope','$state', 'authToken','$
     }
 
     $scope.swiperight = function($event) {
+      console.log("swiperight");
       $scope.next();
     };
     $scope.swipeleft = function($event) {
@@ -112,7 +135,7 @@ app.controller('allmembersgalleryController', ['$scope','$state', 'authToken','$
       if (i > 0)
         i = i - 1;
       else {
-        i = vm.currentUserTotalPictures;
+        i = vm.currentUserTotalPictures -1;
       }
       $scope.currentMemberToShow.src = vm.currentUserAllPictures[i];
     }
@@ -127,6 +150,17 @@ app.controller('allmembersgalleryController', ['$scope','$state', 'authToken','$
     {
       i = (i + 1) % vm.currentUserTotalPictures;
       $scope.currentMemberToShow.src = vm.currentUserAllPictures[i];
+    }
+
+    $scope.submit = function(isValid)
+    {
+       if (!isValid)
+       {
+          console.log("not valid");
+       } else {
+          console.log($scope.messagebody +  " to send to: " + $scope.currentMemberToShow.id);
+
+       }
     }
 
     index = (index + 1) % 4;

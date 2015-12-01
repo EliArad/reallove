@@ -20,11 +20,87 @@ var mails = [
   'mail from dddd'
 ];
 
+var membersModelCount = 0;
+
 
 var routes = function (app) {
 
 
   var commandsRouter = express.Router();
+
+
+  app.get('/api/getFirstNUserIds', jwtauth, function (req, res, next) {
+      var id = req.idFromToken;
+      //console.log("getFirstNUserIds: " + id);
+    var num = req.query.num;
+    //var criteria = req.body.criteria;
+    membersModel.count({}, function( err, count){
+      membersModelCount = count;
+
+      var limit = Math.min(membersModelCount, num);
+
+      console.log(limit);
+
+      membersModel.find(/*{published: true}*/)
+          //.sort({'date': -1})
+          .limit(limit)
+          .exec(function(err, results) {
+               //console.log(results)
+              if (err) {
+                res.status(500).send("error in getFirstNUserIds" + err);
+              } else {
+                var r = [];
+                //console.log(results.length);
+                for (var i  = 0 ; i < results.length ; i++) {
+                  if (results[i].registrationObjectId == id)
+                    continue;
+                  var x = {
+                    id: results[i]._id,
+                    rid: results[i].registrationObjectId
+                  }
+                  r.push(x);
+                }
+                //console.log(r);
+                return res.send(r);
+              }
+          });
+      })
+  });
+
+  app.get('/api/getNextNUserIds', jwtauth, function (req, res, next) {
+    var id = req.idFromToken;
+    //console.log("getFirstNUserIds: " + id);
+    var num = req.query.num;
+    var skipsize = req.query.skipsize;
+    //var criteria = req.body.criteria;
+
+    membersModel.find(/*{published: true}*/)
+      //.sort({'date': -1})
+      .skip(skipsize)
+      .limit(num)
+      .exec(function(err, results) {
+        //console.log(results)
+        if (err) {
+          res.status(500).send("error in getFirstNUserIds" + err);
+        } else {
+          var r = [];
+          //console.log(results.length);
+          for (var i  = 0 ; i < results.length ; i++) {
+            if (results[i].registrationObjectId == id)
+                continue;
+            var x = {
+              id: results[i]._id,
+              rid: results[i].registrationObjectId
+            }
+            r.push(x);
+          }
+          //console.log(r);
+          return res.send(r);
+        }
+      });
+
+  });
+
 
 
 

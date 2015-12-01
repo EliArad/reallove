@@ -68,7 +68,15 @@
             </ul>
           </li>
 
-          <li ng-if="isAuthenticated" ui-sref-active="active"><a ui-sref="main">ראשי</a></li>
+          <li ng-if="isAuthenticated" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">ראשי
+              <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li ng-if="isAuthenticated" ui-sref-active="active"><a ui-sref="galleryall"> גלירת תמונות</a></li>
+              <li ng-if="isAuthenticated" ui-sref-active="active"><a ui-sref="main"> תצוגת כרטיסים</a></li>
+            </ul>
+          </li>
+
 
 
           <li ng-if="isAuthenticated" ui-sref-active="active"><a ui-sref="preferencessearch">העדפות חיפוש</a></li>

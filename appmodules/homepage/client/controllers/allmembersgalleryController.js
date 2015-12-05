@@ -45,7 +45,7 @@ app.controller('allmembersgalleryController', ['$scope','$state', 'authToken','$
       var totalPictures = result.length;
       vm.skipSize = 100;
       for (i = 0; i < result.length;i++) {
-        var picName =  '/uploads/' + result[i].rid.toString() + '/raw/' + 1 + '.jpg';
+        var picName =  '/uploads/' + result[i].rid.toString() + '/raw/' + 100 + '.jpg';
         var x = {
           src: picName,
           id: result[i].id,
@@ -184,6 +184,7 @@ app.controller('allmembersgalleryController', ['$scope','$state', 'authToken','$
           //console.log($scope.messagebody +  " to send to: " + $scope.currentMemberToShow.id);
           var data = {
             mb : $scope.messagebody,
+            title: $scope.title,
             toid: $scope.currentMemberToShow.rid
           }
           myhttphelper.doApiPost('sendMessageToMember', data).then(function(response)
@@ -234,7 +235,7 @@ app.controller('allmembersgalleryController', ['$scope','$state', 'authToken','$
 
 
           for (i = 0; i < result.length;i++) {
-            var picName =  '/uploads/' + result[i].rid.toString() + '/raw/' + 1 + '.jpg';
+            var picName =  '/uploads/' + result[i].rid.toString() + '/raw/' + 100 + '.jpg';
             var x = {
               src: picName,
               id: result[i].id,

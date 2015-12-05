@@ -1,111 +1,88 @@
+
+
+
 <div class="container" ng-controller="YouGotAMailController as vm">
+
+
+  <script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header">
+      <h3 class="modal-title">מאת: {{ items.from }}</h3>
+      <h4 class="modal-title">נושא: {{ items.title }}</h4>
+    </div>
+    <div class="modal-body">
+
+      {{ items.messagebody }}
+
+      <div class="row">
+        <div class="span8 well" style="padding-bottom:50px">
+          <form name="form" accept-charset="UTF-8" ng-submit="submit(form.$valid, items)">
+
+            <div class="form-group" ng-class="{ 'has-error': form.messagebody.$error.required }">
+              <textarea required class="form-control" rows="5"  id="new_message"  name="whoami"  ng-model="messagebody" placeholder="כבוש את ליבה"   ></textarea>
+            </div>
+
+            <h6  id="cLeft" class="pull-right">500 אותיות נשארו</h6>
+            <button id="sendButton" ng-class="{ 'animated tada': showMessageSendOk  , 'animated rubberBand': showMessageSendFailure}"    class="btn btn-info pull-left"  ng-disabled="form.$invalid" type="submit">
+              שלח הודעה
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+
+      <button class="btn btn-warning" type="button" ng-click="closemodal()">סגור</button>
+    </div>
+  </script>
+
+
+
+
+
+
+  <script type="text/ng-template" id="userProfileModal.html">
+    <div class="modal-header">
+      <h3 class="modal-title">     {{items.from }}</h3>
+    </div>
+    <div class="modal-body">
+
+      <div class="row">
+          user profile
+      </div>
+    </div>
+    <div class="modal-footer">
+
+      <button class="btn btn-warning" type="button" ng-click="closemodal()">סגור</button>
+    </div>
+  </script>
+
+
+
+
   <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'>
   <div class="mail-box">
     <aside class="sm-side">
       <div class="user-head">
         <a class="inbox-avatar pull-right" href="javascript:;">
-          <img  width="64" hieght="60" src="{{ vm.myProfilePicture }}">
+          <img  width="80" hieght="80" src="{{ vm.myProfilePicture }}">
         </a>
 
       </div>
-      <div class="inbox-body">
-        <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade" style="display: none;">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
-                <h4 class="modal-title">Compose</h4>
-              </div>
-              <div class="modal-body">
-                <form role="form" class="form-horizontal">
-                  <div class="form-group">
-                    <label class="col-lg-2 control-label">To</label>
-                    <div class="col-lg-10">
-                      <input type="text" placeholder="" id="inputEmail1" class="form-control">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-lg-2 control-label">Cc / Bcc</label>
-                    <div class="col-lg-10">
-                      <input type="text" placeholder="" id="cc" class="form-control">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-lg-2 control-label">Subject</label>
-                    <div class="col-lg-10">
-                      <input type="text" placeholder="" id="inputPassword1" class="form-control">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-lg-2 control-label">Message</label>
-                    <div class="col-lg-10">
-                      <textarea rows="10" cols="30" class="form-control" id="" name=""></textarea>
-                    </div>
-                  </div>
 
-                  <div class="form-group">
-                    <div class="col-lg-offset-2 col-lg-10">
-                                                      <span class="btn green fileinput-button">
-                                                        <i class="fa fa-plus fa fa-white"></i>
-                                                        <span>Attachment</span>
-                                                        <input type="file" name="files[]" multiple="">
-                                                      </span>
-                      <button class="btn btn-send" type="submit">Send</button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div><!-- /.modal-content -->
-          </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-      </div>
       <ul class="inbox-nav inbox-divider">
         <li class="active">
-          <a href="#"><i class="fa fa-inbox"></i> Inbox <span class="label label-danger pull-right">2</span></a>
+          <a href="#" ng-click="showinbox()"><i class="fa fa-inbox"></i> דואר נכנס <span class="label label-danger pull-right">{{ vm.numunreadmail }}</span></a>
 
         </li>
         <li>
-          <a href="#"><i class="fa fa-envelope-o"></i> Sent Mail</a>
+          <a href="#" ng-click="showsenditems()"><i class="fa fa-envelope-o"></i> דואר יוצא</a>
         </li>
         <li>
-          <a href="#"><i class="fa fa-bookmark-o"></i> Important</a>
-        </li>
-        <li>
-          <a href="#"><i class=" fa fa-external-link"></i> Drafts <span class="label label-info pull-right">30</span></a>
-        </li>
-        <li>
-          <a href="#"><i class=" fa fa-trash-o"></i> Trash</a>
+          <a href="#"><i class=" fa fa-trash-o"></i> פח אשפה</a>
         </li>
       </ul>
       <ul class="nav nav-pills nav-stacked labels-info inbox-divider">
       </ul>
-      <ul class="nav nav-pills nav-stacked labels-info ">
-        <li> <h4>Buddy online</h4> </li>
-        <li> <a href="#"> <i class=" fa fa-circle text-success"></i>Alireza Zare <p>I do not think</p></a>  </li>
-        <li> <a href="#"> <i class=" fa fa-circle text-danger"></i>Dark Coders<p>Busy with coding</p></a> </li>
-        <li> <a href="#"> <i class=" fa fa-circle text-muted "></i>Mentaalist <p>I out of control</p></a>
-        </li><li> <a href="#"> <i class=" fa fa-circle text-muted "></i>H3s4m<p>I am not here</p></a>
-      </li><li> <a href="#"> <i class=" fa fa-circle text-muted "></i>Dead man<p>I do not think</p></a>
-      </li>
-      </ul>
-
-      <div class="inbox-body text-center">
-        <div class="btn-group">
-          <a class="btn mini btn-primary" href="javascript:;">
-            <i class="fa fa-plus"></i>
-          </a>
-        </div>
-        <div class="btn-group">
-          <a class="btn mini btn-success" href="javascript:;">
-            <i class="fa fa-phone"></i>
-          </a>
-        </div>
-        <div class="btn-group">
-          <a class="btn mini btn-info" href="javascript:;">
-            <i class="fa fa-cog"></i>
-          </a>
-        </div>
-      </div>
 
     </aside>
     <aside class="lg-side">
@@ -175,38 +152,23 @@
             </li>
           </ul>
         </div>
+
         <table class="table table-inbox table-hover">
           <tbody>
-          <tr class="unread">
+          <tr class="unread"  ng-repeat="mail in vm.myemails"  >
             <td class="inbox-small-cells">
               <input type="checkbox" class="mail-checkbox">
             </td>
             <td class="inbox-small-cells"><i class="fa fa-star"></i></td>
-            <td class="view-message  dont-show">PHPClass</td>
-            <td class="view-message ">Added a new class: Login Class Fast Site</td>
-            <td class="view-message  inbox-small-cells"><i class="fa fa-paperclip"></i></td>
-            <td class="view-message  text-right">9:27 AM</td>
-          </tr>
-          <tr class="unread">
-            <td class="inbox-small-cells">
-              <input type="checkbox" class="mail-checkbox">
-            </td>
-            <td class="inbox-small-cells"><i class="fa fa-star"></i></td>
-            <td class="view-message dont-show">Google Webmaster </td>
-            <td class="view-message">Improve the search presence of WebSite</td>
-            <td class="view-message inbox-small-cells"></td>
-            <td class="view-message text-right">March 15</td>
-          </tr>
+            <td  ng-click="open(mail)"  class="view-message  dont-show">{{ mail.from }}</td>
+            <td ng-click="open(mail)" class="view-message ">{{ mail.title }}</td>
 
-          <tr class="">
-            <td class="inbox-small-cells">
-              <input type="checkbox" class="mail-checkbox">
+            <td ng-click="open(mail)" class="view-message  text-right">{{ mail.dated }}</td>
+            <td ng-click="openuserprofile(mail)">
+
+               <img  width="80" hieght="80" src="{{mail.imagesrc }}">
+
             </td>
-            <td class="inbox-small-cells"><i class="fa fa-star"></i></td>
-            <td class="view-message dont-show">Facebook</td>
-            <td class="view-message view-message">Alireza Zare Login faild</td>
-            <td class="view-message inbox-small-cells"><i class="fa fa-paperclip"></i></td>
-            <td class="view-message text-right">feb 14</td>
           </tr>
           </tbody>
         </table>
@@ -214,40 +176,5 @@
     </aside>
   </div>
 </div>
-<!--
-<div class="container">
-  <div class="col-xs-9">
-    <div class="tab-content">
-      <div class="tab-pane" id="1a">
-        <div  ng-include="'appmodules/homepage/client/views/mailsigot.html'"></div>
-      </div>
-      <div class="tab-pane active" id="2a">
-        <div  ng-include="'appmodules/homepage/client/views/mailsirecived.html'"></div>
-      </div>
-      <div class="tab-pane active" id="3a">
-        <div  ng-include="'appmodules/homepage/client/views/videoigot.html'"></div>
-      </div>
-      <div class="tab-pane active" id="4a">
-        <div  ng-include="'appmodules/homepage/client/views/videoireceived.html'"></div>
-      </div>
-    </div>
-  </div>
 
-  <div class="col-xs-3">
-    <ul class="nav nav-tabs  nav-pills tabs-right">
-      <li>
-        <a data-target="#1a" data-toggle="tab">הודעות ששלחתי</a>
-      </li>
-      <li>
-        <a data-target="#2a" data-toggle="tab">הודעות שקיבלתי</a>
-      </li>
-      <li>
-        <a data-target="#3a" data-toggle="tab">וידאו ששלחתי</a>
-      </li>
-      <li>
-        <a data-target="#4a" data-toggle="tab">וידאו שקיבלתי</a>
-      </li>
-    </ul>
-  </div>
-</div>
--->
+

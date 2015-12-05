@@ -17,11 +17,6 @@ var cityLoader = new cityLoaderobject();
 var inmessagesModel = require("../models/inmessages").inmessagesModel;
 
 
-var mails = [
-  'mail from eli',
-  'mail from nataly',
-  'mail from dddd'
-];
 
 var membersModelCount = 0;
 
@@ -32,22 +27,47 @@ var routes = function (app) {
   var commandsRouter = express.Router();
 
   app.post('/api/sendMessageToMember' , jwtauth, function (req, res, next) {
+    var m = new inmessagesModel();
 
-      var id = req.idFromToken;
-      // i could do the schema at the client and contruct new here
-      var m = new inmessagesModel();
-      m.messagebody = req.body.mb;
-      m.fromRegistrationId = id;
-      m.toRegistrationId = req.body.toid;
+    membersModel.findOne({'registrationObjectId': req.idFromToken}, '_id', function (err, member) {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          error: 'Cannot save the new member'
+        });
+      }
+      if (member)
+      {
+        console.log("The member id of this user is: " + member._id);
+        m.memberId = member._id;
 
-      m.save(function(err) {
-        if (err) {
-          return res.status(500).json({
-            error: 'Cannot send message to this member'
-          });
-        }
-        res.send("ok");
-      });
+        var id = req.idFromToken;
+        // i could do the schema at the client and contruct new here
+
+        m.messagebody = req.body.mb;
+        m.fromRegistrationId = id;
+        m.toRegistrationId = req.body.toid;
+        m.title = req.body.title;
+
+        m.save(function(err) {
+          if (err) {
+            console.log(err);
+            return res.status(500).json({
+              error: 'Cannot send message to this member' + err
+            });
+          }
+          res.send("ok");
+        });
+
+
+
+
+
+
+      }
+    });
+
+
   });
 
   app.get('/api/getFirstNUserIds', jwtauth, function (req, res, next) {
@@ -276,10 +296,6 @@ var routes = function (app) {
   });
 
 
-  app.get('/api/commands/contactus/yougotmail', jwtauth, function (req, res) {
-
-    res.json(mails);
-  });
 
 
   app.post('/api/commands/contactus', jwtauth, function (req, res) {

@@ -13,8 +13,23 @@ var inMessagesSchema = new Schema({
       type: Date,
       default: Date.now
     },
+    title: {
+        type: String
+    },
     messagebody: {
         type: String
+    },
+    read: {
+        type:Boolean,
+        default:false
+    },
+    rating: {
+        type:Number
+    },
+    memberId : { type: mongoose.Schema.Types.ObjectId, ref: 'SiteMembers' },
+    replaied: {
+        type:Number,
+        default:0
     },
     user: {
         type: Schema.ObjectId,

@@ -89,6 +89,9 @@ var getmembersRouters = membersRouter.routes;
 
 
 var registerRoutes = require('./appmodules/homepage/server/routes/register')(registerController,regModel);
+var mailRoutes = require('./appmodules/homepage/server/routes/mail');
+
+
 
 mkdirp('./uploads/', function(err) {
 
@@ -112,6 +115,8 @@ var commandsRoutes = require('./appmodules/homepage/server/routes/commands')(app
 app.use('/api' , getmembersRouters);
 
 app.use('/api' , registerRoutes.routes);
+
+app.use('/api/mail' , mailRoutes);
 
 app.use('/api/commands' , commandsRoutes.routes);
 
@@ -137,7 +142,7 @@ var util = require('util');
 app.post('/api/upload', bodyParser({limit: '15mb'}), function(req, res)
 {
 
-  console.log("upload!!!!");
+  //console.log(req.body.images);
   var x = util.inspect(req.body.images);
   console.log(req.body.filenum);
 
@@ -148,6 +153,46 @@ app.post('/api/upload', bodyParser({limit: '15mb'}), function(req, res)
   try {
     var decoded = jwt.verify(req.body.token, secret);
     console.log(decoded.sub);
+
+    if (req.body.filenum == 0) {
+      var thumbfile = './uploads/' + decoded.sub + "/raw/0.jpg";
+      console.log(thumbfile);
+      var buf1 = new Buffer(req.body.images, 'base64'); // decode
+      fs.writeFile(thumbfile, buf1, function (err) {
+        if (err) {
+          console.log("err", err);
+          return res.sendStatus(500);
+        } else {
+          return res.json(
+            {
+              picnum: req.body.filenum,
+              err: "uploaded ok"
+            });
+        }
+      });
+      return;
+    }
+
+    //  the image gallery size picture 150 on 150
+    if (req.body.filenum == 100) {
+      var thumbfile = './uploads/' + decoded.sub + "/raw/100.jpg";
+      console.log(thumbfile);
+      var buf1 = new Buffer(req.body.images, 'base64'); // decode
+      fs.writeFile(thumbfile, buf1, function (err) {
+        if (err) {
+          console.log("err", err);
+          return res.sendStatus(500);
+        } else {
+          return res.json(
+            {
+              picnum: req.body.filenum,
+              err: "uploaded ok"
+            });
+        }
+      });
+      return;
+    }
+
 
     var dirToCreateBase64 = './uploads/' + decoded.sub + "/base64/"
     mkdirp(dirToCreateBase64, function(err) {

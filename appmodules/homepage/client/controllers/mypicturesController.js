@@ -195,6 +195,7 @@ app.controller('mypicturesController', ['$scope', 'Registration', 'general','myC
 
 
 
+
       $scope.fileNameChanged1 = function() {
 
         var fileInputElement = document.getElementById("fileInputElementfirst");
@@ -267,12 +268,53 @@ app.controller('mypicturesController', ['$scope', 'Registration', 'general','myC
         $scope.uploadFile15(fileInputElement.files[0]);
       }
 
+      var blobToBase64 = function(blob, cb) {
+        var reader = new FileReader();
+        reader.onload = function() {
+          var dataUrl = reader.result;
+          var base64 = dataUrl.split(',')[1];
+          cb(base64);
+        };
+        reader.readAsDataURL(blob);
+      };
+
       $scope.uploadFile1 = function (fileName, index) {
         $scope.progress = 0;
         console.log(fileName);
         fileReader.readAsDataUrl(fileName, $scope)
           .then(function(result) {
             $scope.imageSrc1 = result;
+
+
+            ImageTools.resize(fileName, {
+              width: 80, // maximum width
+              height: 80 // maximum height
+            }, function(blob, didItResize) {
+              console.log('didItResize:' + didItResize);
+              // didItResize will be true if it managed to resize it, otherwise false (and will return the original file as 'blob')
+              //$scope.imageSrc1 = window.URL.createObjectURL(blob);
+
+              blobToBase64(blob, function(base64)
+              {
+                ajaxUpload(base64,0);
+              });
+            });
+
+            ImageTools.resize(fileName, {
+              width: 250, // maximum width
+              height: 250 // maximum height
+            }, function(blob, didItResize) {
+              console.log('didItResize:' + didItResize);
+              // didItResize will be true if it managed to resize it, otherwise false (and will return the original file as 'blob')
+              //$scope.imageSrc1 = window.URL.createObjectURL(blob);
+
+              blobToBase64(blob, function(base64)
+              {
+                ajaxUpload(base64,100);
+              });
+            });
+
+
             ajaxUpload(result,1);
           });
       };

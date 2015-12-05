@@ -26,6 +26,6 @@ var messagesModel = mongoose.model('Messages', MessagesSchema);
 
 module.exports =
 {
-   messagesModel : messagesModel,
+   outmessagesModel : messagesModel,
    MessagesSchema : MessagesSchema
 }

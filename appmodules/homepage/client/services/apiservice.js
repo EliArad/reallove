@@ -31,6 +31,24 @@ app.factory("API", function($http,$q,myConfig)
       return selectedfood;
     }
 
+    function getNumberOfMails()
+    {
+      console.log('getNumberOfMails');
+        var membersAPI = myConfig.url + "/api/mail/getnumberofmails";
+        return $http.get(membersAPI).then(sendResponseData).catch(sendResponseError);
+
+    }
+    function sendResponseData(response)
+    {
+        //console.log(response);
+        return response.data;
+    }
+    function sendResponseError(response)
+    {
+        //console.log("error from send " + response);
+        return $q.reject("error from send " + response.status);
+    }
+
 
     function getImageList(callback)
     {
@@ -56,6 +74,7 @@ app.factory("API", function($http,$q,myConfig)
     }
 
   return {
+    getNumberOfMails:getNumberOfMails,
     getImageList:getImageList,
     saveSelectedfood:saveSelectedfood,
     getSelectedfood:getSelectedfood,

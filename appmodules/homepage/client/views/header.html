@@ -53,7 +53,7 @@
           <li ng-if="isAuthenticated" ui-sref-active="active"><a ui-sref="help">עזרה</a></li>
           <li ng-if="isAuthenticated" ui-sref-active="active"><a ui-sref="contact">צור קשר</a></li>
           <li ui-sref-active="active"><a ui-sref="about">אודותינו</a></li>
-          <li ng-if="isAuthenticated" ui-sref-active="active"><a ui-sref="mail">הודעות</a></li>
+          <li ng-if="isAuthenticated" ui-sref-active="active"><a ui-sref="mail">הודעות    <span ng-show="yougotmail" ng-class="{ 'animated infinite bounce': true}"   style="color:purple" class="badge">{{numberofmails}}</span></a></li>
 
 
           <li ng-if="isAuthenticated" class="dropdown">

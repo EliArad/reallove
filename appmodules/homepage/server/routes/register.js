@@ -44,8 +44,6 @@ var myhelper = require('../modules/myhelpers');
         delete(registerController.destroy);
 
 
-
-
     return {
         routes:Router
     };

@@ -59,18 +59,16 @@
               <div class="desc">{{ currentMemberToShow.member.walking }}</div>
               <div class="desc">{{ currentMemberToShow.member.gym }}</div>
             </div>
-
           </div>
-
           </div>
           </div>
         </div>
 
-
         <div class="row">
           <div class="span8 well" style="padding-bottom:50px">
             <form name="form" accept-charset="UTF-8" ng-submit="submit(form.$valid)">
-
+              <label for="title">נושא</label>
+              <input type= "text" name="title" id="title" required  class="form-control" ng-model="title" ng-class="{ 'has-error': form.title.$error.required }" />
               <div class="form-group" ng-class="{ 'has-error': form.messagebody.$error.required }">
                 <textarea required class="form-control" rows="5"  id="new_message"  name="whoami"  ng-model="messagebody" placeholder="כבוש את ליבה"   ></textarea>
               </div>

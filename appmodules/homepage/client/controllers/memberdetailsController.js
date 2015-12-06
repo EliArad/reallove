@@ -4,8 +4,6 @@
       function($scope,$state, authToken,myhttphelper)
       {
 
-
-
       }
 
   ]);

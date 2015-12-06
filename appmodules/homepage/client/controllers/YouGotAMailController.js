@@ -4,8 +4,11 @@
 
 
   app.controller('YouGotAMailController', ['$scope','$state', 'authToken','myhttphelper',
-                  'picturesManager','API','$uibModal','$log','$rootScope','$timeout',
-    function($scope,$state, authToken,myhttphelper,picturesManager,API,$uibModal,$log,$rootScope,$timeout)
+                  'picturesManager','API','$uibModal','$log','$rootScope',
+                  '$timeout','$window','myConfig','$http','PassServiceParams',
+    function($scope,$state, authToken,myhttphelper,
+             picturesManager,API,$uibModal,$log,$rootScope,$timeout,
+             $window,myConfig,$http,PassServiceParams)
     {
 
       var vm = this;
@@ -52,41 +55,16 @@
         controller: 'TestDialogController'
       };
 
-
+      $scope.myStyle = {
+        "max-width" : $window.innerWidth,
+        "max-height" : $window.innerHeight - 100
+      };
       $scope.animationsEnabled = true;
-
-
       $scope.openuserprofile = function (mail) {
 
-        $scope.items = mail;// [mail.title, mail.from, mail.messagebody];
-        var modalInstance = $uibModal.open({
-          animation: $scope.animationsEnabled,
-          templateUrl: 'userProfileModal.html',
-          controller: 'YouGotAMailController',
-          scope: $scope, // <-- I added this
-          size: 100,
-          resolve: {
-            items: function () {
-              return $scope.items;
-            }
-          }
-        });
+        PassServiceParams.StoreParam('memberProfileToShow' , mail);
+        $state.go('memberprofile', {}, {reload: true});
 
-        $scope.ok = function () {
-
-          modalInstance.close($scope.selected.item);
-        };
-
-        $scope.closemodal = function () {
-
-          modalInstance.dismiss('cancel');
-        };
-
-        modalInstance.result.then(function (selectedItem) {
-          $scope.selected = selectedItem;
-        }, function () {
-          $log.info('Modal dismissed at: ' + new Date());
-        });
       }
 
       $scope.open = function (mail) {

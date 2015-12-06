@@ -301,8 +301,8 @@ app.controller('mypicturesController', ['$scope', 'Registration', 'general','myC
             });
 
             ImageTools.resize(fileName, {
-              width: 250, // maximum width
-              height: 250 // maximum height
+              width: 300, // maximum width
+              height: 300 // maximum height
             }, function(blob, didItResize) {
               console.log('didItResize:' + didItResize);
               // didItResize will be true if it managed to resize it, otherwise false (and will return the original file as 'blob')

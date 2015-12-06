@@ -1,8 +1,9 @@
 'use strict';
 
 
-  app.controller('LoginController', ['$scope','$state', 'authToken', '$cookieStore', '$http','$rootScope', 'myhttphelper',
-    function($scope,$state, authToken,$cookieStore,$http,$rootScope,myhttphelper)
+  app.controller('LoginController', ['$scope','$state', 'authToken', '$cookieStore',
+                 '$http','$rootScope', 'myhttphelper','PassServiceParams',
+    function($scope,$state, authToken,$cookieStore,$http,$rootScope,myhttphelper,PassServiceParams)
     {
 
       $scope.pageClass = 'page-home';
@@ -19,7 +20,7 @@
       };
 
 
-      $scope.vm.user.email =$cookieStore.get('login_user_name');
+      //$scope.vm.user.email =$cookieStore.get('login_user_name');
 
       function login () {
 
@@ -31,7 +32,8 @@
 
         function sendResponseData(response)
         {
-          $cookieStore.put('login_user_name' , $scope.vm.user.email);
+          PassServiceParams.StoreParam('userNickName' , response.member.nickName);
+          //$cookieStore.put('login_user_name' , $scope.vm.user.email);
           authToken.setToken(response.token);
           $rootScope.$broadcast("updateHeader", authToken.getToken());
 

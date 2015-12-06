@@ -239,9 +239,9 @@ app.controller('ContinueRegistrationController', ['$scope', 'Members', 'general'
           $scope.member.selectedfood = API.getSelectedfood();
           $scope.member.selectedpasstime = API.getSelectedpasstime();
           $scope.member.selectedlang = API.getSelectedlang();
-          console.log($scope.member.selectedfood);
-          console.log($scope.member.selectedlang);
-          console.log($scope.member.selectedpasstime);
+          //console.log($scope.member.selectedfood);
+          //console.log($scope.member.selectedlang);
+          //console.log($scope.member.selectedpasstime);
           $scope.member.needInitiaDetailsAll = false;
 
           $http.put(membersAPI, { 'member': $scope.member }).success(function(result) {

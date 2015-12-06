@@ -35,9 +35,22 @@ app.factory("dbsearch", function($cacheFactory,$http,myConfig,$q) {
       }).then(sendResponseData).
          catch(sendResponseError)
   }
+
+  var getFirstNUserProfiles = function(n)
+  {
+    var url = myConfig.url + "/api/getFirstNUserProfiles/";
+
+    return $http({
+      url: url,
+      method: "GET",
+      params: {num: n}
+    }).then(sendResponseData).
+      catch(sendResponseError)
+  }
+
   function sendResponseData(response)
   {
-    console.log(response);
+    //console.log(response);
     return response.data;
   }
   function sendResponseError(response)
@@ -48,7 +61,8 @@ app.factory("dbsearch", function($cacheFactory,$http,myConfig,$q) {
   return {
     getFirstNUserIds: getFirstNUserIds,
     setCriteria:setCriteria,
-    getNextNUserIds:getNextNUserIds
+    getNextNUserIds:getNextNUserIds,
+    getFirstNUserProfiles:getFirstNUserProfiles
   };
 });
 

@@ -43,7 +43,11 @@ var MembersSchema = new Schema({
       type: String,
       trim: true
     },
-     everydayathom : {
+    licenseandcar : {
+      type: String,
+      trim: true
+    },
+    everydayathom : {
       type: String,
       trim: true
     },

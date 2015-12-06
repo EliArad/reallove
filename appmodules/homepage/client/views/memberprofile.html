@@ -1,0 +1,56 @@
+ <div class="container">
+
+     <div class="col-sm-4">
+
+       <div class="card hovercard">
+         <div class="row">
+           <div class="col-sm-6">
+             <div class="avatar">
+               <img alt="" class="img-circle" width="150" height="150" src="{{ currentMemberToShow.src1 }}" style="">
+             </div>
+           </div>
+           <div class="col-sm-6">
+             <div class="info">
+               <div class="title">
+                 <a target="_blank" href="http://scripteden.com/">{{ currentMemberToShow.memberId.nickName }}</a>
+               </div>
+               <div class="desc">{{ currentMemberToShow.memberId.age }}</div>
+               <div class="desc">{{ currentMemberToShow.memberId.city }}</div>
+               <div class="desc">{{ currentMemberToShow.memberId.numberofkids }}</div>
+               <div class="desc">{{ currentMemberToShow.memberId.status }}</div>
+               <div class="desc">{{ currentMemberToShow.memberId.religion }}</div>
+               <div class="desc">{{ currentMemberToShow.memberId.livingwith }}</div>
+
+               <div class="desc">{{ currentMemberToShow.memberId.eatmeat }}</div>
+               <div class="row">
+                 <div class="col-sm-3">
+                   <div class="desc">{{ currentMemberToShow.memberId.jobtype }}</div>
+                   <div class="desc">{{ currentMemberToShow.memberId.cooking }}</div>
+                   <div class="desc">{{ currentMemberToShow.memberId.zodiacsign }}</div>
+                 </div>
+                 <div class="col-sm-3">
+                   <div class="desc">{{ currentMemberToShow.memberId.cosher }}</div>
+                   <div class="desc">{{ currentMemberToShow.memberId.everydayathom }}</div>
+                 </div>
+
+                 <div class="col-sm-3">
+                   <div class="desc">{{ currentMemberToShow.memberId.education }}</div>
+                   <div class="desc">{{ currentMemberToShow.memberId.height }}</div>
+                 </div>
+                 <div class="col-sm-3">
+                   <div class="desc">{{ currentMemberToShow.memberId.walking }}</div>
+                   <div class="desc">{{ currentMemberToShow.memberId.gym }}</div>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+       <a class="btn btn-primary" href="#" ng-click="ClosePopup()" ng-class="{ active: lions }">חזור להודעות</a>
+     </div>
+     <div  class="col-sm-8">
+       <img src="{{ currentMemberToShow.src }}" ng-swipe-left="swipeleft($event)" resize  ng-swipe-right="swiperight($event)" ng-click="next()" ng-style="myStyle"/>
+     </div>
+   </div>
+
+

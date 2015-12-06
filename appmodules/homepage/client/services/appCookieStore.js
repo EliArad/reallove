@@ -1,20 +1,6 @@
 
 app.factory("appCookieStore", function($cookieStore) {
 
-
-   var getSessionStorage_wd  = function(page)
-   {
-      var c = sessionStorage.getItem(page);
-      console.log("sessionStorage.getItem:" + c );
-   }
-    var getSessionStorage  = function(page)
-    {
-       return sessionStorage.getItem(page);
-    }
-    var setSessionStorage = function(page, value)
-    {
-        sessionStorage.setItem(page, value);
-    }
     var set = function (page , value) {
         $cookieStore.put(page, value);
     }
@@ -30,11 +16,6 @@ app.factory("appCookieStore", function($cookieStore) {
     var remove = function(page)
     {
         $cookieStore.remove(page);
-    }
-
-    var removeSessionStorage = function(page)
-    {
-      sessionStorage.removeItem(page);
     }
 
     return {

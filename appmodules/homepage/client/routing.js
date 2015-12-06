@@ -83,6 +83,14 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider){
       url:'/preferencessearch',
       controller: 'preferencessearchController',
       templateUrl: '/appmodules/homepage/client/views/preferencessearch.html'
+    }).state('memberprofile' , {
+      url:'/memberprofile',
+      controller: 'memberprofileController',
+      templateUrl: '/appmodules/homepage/client/views/memberprofile.html'
+    }).state('fullpagecardlist' , {
+      url:'/fullpagecardlist',
+      controller: 'fullpagecardlistingController',
+      templateUrl: '/appmodules/homepage/client/views/fullpagecardlisting.html'
     })
 
 

@@ -1,0 +1,176 @@
+<style>
+  /*
+Generic Styling, for Desktops/Laptops
+*/
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+  }
+  /* Zebra striping */
+  tr:nth-of-type(odd) {
+    background: #eee;
+    border: 1px solid #ccc;
+  }
+  th {
+    background: #333;
+    color: white;
+    font-weight: bold;
+  }
+  td, th {
+    padding: 6px;
+    border: 1px solid #ccc;
+    text-align: left;
+  }
+</style>
+
+
+<div class="container">
+
+  <div class="row" ng-repeat="currentMemberToShow in allmembersthumb">
+      <div class="col-sm-8 pull-right">
+        <div>
+         <span style="font-size: large; color:darkblue">
+            {{ currentMemberToShow.profile.nickName }}
+            :
+            &nbsp;
+            &nbsp;
+            &nbsp;
+            {{ currentMemberToShow.profile.status }}
+            &nbsp;
+             {{ currentMemberToShow.profile.age }}
+            &nbsp;
+            &nbsp;
+             {{currentMemberToShow.profile.numberofkids }}
+          </span>
+        </div>
+
+        <img id="img{{ $index }}" src="{{ currentMemberToShow.src }}" ng-swipe-left="swipeleft($event)" resize data="{{ $index }}"
+             ng-swipe-right="swiperight($event)" ng-click="next(currentMemberToShow.id , currentMemberToShow.rid, $event)" ng-style="myStyle"/>
+      </div>
+    <div class="col-sm-4 pull-right">
+      <div class="row">
+        <table class="table-responsive">
+          <tr>
+            <td nowrap="">
+              לאום
+            </td>
+            <td nowrap="">
+              {{ currentMemberToShow.profile.religion }}
+            </td>
+            <td>
+              עיר
+            </td>
+            <td>
+              <div class="desc">{{ currentMemberToShow.profile.city }}</div>
+            </td>
+          </tr>
+          <td>
+            מגורים
+          </td>
+          <td nowrap="">
+
+            <div class="desc">{{ currentMemberToShow.profile.livingwith }}</div>
+
+          </td>
+          <td  >
+            סוג עבודה
+          </td>
+          <td nowrap="">
+
+            <div class="desc">{{ currentMemberToShow.profile.jobtype }}</div>
+
+          </td>
+          </tr>
+
+          <tr>
+            <td>
+              רמת בישול
+            </td>
+            <td nowrap="">
+              <div class="desc">{{ currentMemberToShow.profile.cooking }}</div>
+            </td>
+            <td>
+              מזל
+            </td>
+            <td nowrap="">
+
+              <div class="desc">{{ currentMemberToShow.profile.zodiacsign }}</div>
+
+            </td>
+          </tr>
+          <tr>
+            <td>
+              כשרות
+            </td>
+            <td>
+              <div class="desc">{{ currentMemberToShow.profile.cosher }}</div>
+            </td>
+            <td>
+              נמצא בבית
+            </td>
+            <td nowrap="">
+
+              <div class="desc">{{ currentMemberToShow.profile.everydayathom }}</div>
+
+            </td>
+          </tr>
+          <tr>
+            <td>
+
+            </td>
+            <td nowrap="">
+
+            </td>
+            <td>
+              גובה
+            </td>
+            <td nowrap="">
+
+              <div class="desc">{{ currentMemberToShow.profile.height }}</div>
+
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              הליכות
+            </td>
+            <td nowrap="">
+              <div class="desc">{{ currentMemberToShow.profile.walking }}</div>
+            </td>
+            <td>
+              חדר כושר
+            </td>
+            <td nowrap="">
+
+              <div class="desc">{{ currentMemberToShow.profile.gym }}</div>
+
+            </td>
+          </tr>
+
+        </table>
+      </div>
+      <div class="row">
+        <div class="span8 well" style="padding-bottom:50px">
+          <form name="form" accept-charset="UTF-8">
+            <label >נושא</label>
+            <input type="text" name="title" id="msgtitle{{ $index }}" required class="form-control" ng-model="title"
+                   ng-class="{ 'has-error': form.title.$error.required }"/>
+
+            <div class="form-group">
+                <textarea  id="msgbody{{ $index }}"  required class="form-control"  rows="5" id="new_message" name="messagebody" ng-model="messagebody"
+                              placeholder="כבוש את ליבה"></textarea>
+            </div>
+
+            <h6 id="cLeft" class="pull-right">500 אותיות נשארו</h6>
+            <button id="sendButton{{ $index }}"  data="{{ $index }}"   ng-click="submit($event, currentMemberToShow.profile.registrationObjectId)"
+                    class="btn btn-info pull-left" ng-disabled="form.$invalid" type="submit">
+              שלח הודעה
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

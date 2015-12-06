@@ -21,7 +21,7 @@
             $state.go('login', {}, {reload: true});
           } else {
 
-            API.getImageList(function(err , data)
+            API.getImageList(function(err , data , userImageList)
             {
                 if (err == true)
                 {

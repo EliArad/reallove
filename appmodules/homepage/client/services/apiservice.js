@@ -33,7 +33,7 @@ app.factory("API", function($http,$q,myConfig)
 
     function getNumberOfMails()
     {
-      console.log('getNumberOfMails');
+        //console.log('getNumberOfMails');
         var membersAPI = myConfig.url + "/api/mail/getnumberofmails";
         return $http.get(membersAPI).then(sendResponseData).catch(sendResponseError);
 
@@ -49,6 +49,11 @@ app.factory("API", function($http,$q,myConfig)
         return $q.reject("error from send " + response.status);
     }
 
+    function getNickName()
+    {
+      var membersAPI = myConfig.url + "/api/getNickName";
+      return $http.get(membersAPI).then(sendResponseData).catch(sendResponseError);
+    }
 
     function getImageList(callback)
     {
@@ -67,9 +72,33 @@ app.factory("API", function($http,$q,myConfig)
           }
           j++;
         }
-        callback(true, pictures);
+        callback(true, pictures, userImageList);
       }).catch(function (result) {
-        callback(false, null);
+        callback(false, null, null);
+      });
+    }
+
+
+    function getImageListForUser(userId, callback)
+    {
+      var pictures = [];
+
+      var membersAPI = myConfig.url + "/api/getimagelistForUser";
+      $http.post(membersAPI , {'userId':userId}).then(function(result) {
+        var userImageList = result.data.list;
+        var id = result.data.id;
+        //console.log(id);
+        var j = 0;
+        for (var i = 1; i < 16 ; i++)
+        {
+          if (userImageList[j] == true) {
+            pictures.push('/uploads/' + id.toString() + '/raw/' + i + '.jpg');
+          }
+          j++;
+        }
+        callback(true, pictures , userImageList);
+      }).catch(function (result) {
+        callback(false, null, null);
       });
     }
 
@@ -81,7 +110,9 @@ app.factory("API", function($http,$q,myConfig)
     saveSelectedlang:saveSelectedlang,
     getSelectedlang:getSelectedlang,
     saveSelectedpasstime:saveSelectedpasstime,
-    getSelectedpasstime:getSelectedpasstime
+    getSelectedpasstime:getSelectedpasstime,
+    getImageListForUser:getImageListForUser,
+    getNickName:getNickName
   }
 
 

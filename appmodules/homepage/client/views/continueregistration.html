@@ -1,5 +1,5 @@
- 
- 
+
+
 <style>
   .red {
     border: solid 1px red;
@@ -80,8 +80,8 @@
           <div class="form-group" ng-class="{ 'has-error': registrationForm.bmi.$error.required }">
             <label for="bmi">BMI </label>
             <select class="form-control" id="bmi"  name="bmi"  ng-model="member.bmi" required>
-              <option>באזור טוב<option>
-              <option> גבוה</option>
+            <option>באזור טוב</option>
+              <option>גבוה</option>
             </select>
           </div>
 
@@ -111,10 +111,19 @@
           </div>
         </div>
         <div class="col-sm-4">
-          <div class="form-group" ng-class="{ 'has-error': registrationForm.languges.$error.required }">
-              <label for="languges">שפות</label>
-              <a href="#" class="btn btn-success form-control" name="languges" id="languges" data-toggle="modal" data-target="#langugesModal">שפות</a>
+
+
+          <div class="form-group" ng-class="{ 'has-error': registrationForm.licenseandcar.$error.required }">
+            <label for="licenseandcar">רישיון ורכב</label>
+            <select class="form-control" id="licenseandcar" name="licenseandcar" ng-model="member.licenseandcar" required>
+              <option>יש לי רישיון ורכב</option>
+              <option>רשיון בלי רכב</option>
+              <option>אין לירישיון</option>
+            </select>
           </div>
+
+
+
         </div>
         <div class="col-sm-4" >
 
@@ -163,22 +172,27 @@
 
 
       <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-4">
           <div class="form-group" ng-class="{ 'has-error': registrationForm.passtime.$error.required }">
             <label for="passtime"> &nbsp</label>
             <a href="#" class="btn btn-success form-control" name="passtime"  id="passtime" data-toggle="modal" data-target="#passtimeModal">בילויים</a>
           </div>
         </div>
-        <div class="col-sm-6">
+
+        <div class="col-sm-4">
+        <div class="form-group" ng-class="{ 'has-error': registrationForm.languges.$error.required }">
+          <label for="languges">שפות</label>
+          <a href="#" class="btn btn-success form-control" name="languges" id="languges" data-toggle="modal" data-target="#langugesModal">שפות</a>
+        </div>
+        </div>
+
+        <div class="col-sm-4">
           <div class="form-group" ng-class="{ 'has-error': registrationForm.foodlike.$error.required }">
             <label for="foodlike"> &nbsp</label>
             <a href="#" class="btn btn-success form-control" name="foodlike" id="foodlike" data-toggle="modal" data-target="#foodlikeModal">אוכל</a>
           </div>
         </div>
       </div>
-
-
-
 
     </div>
 

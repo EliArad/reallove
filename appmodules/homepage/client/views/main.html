@@ -1,4 +1,192 @@
+<style>
+  /*
+Generic Styling, for Desktops/Laptops
+*/
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+  }
+  /* Zebra striping */
+  tr:nth-of-type(odd) {
+    background: #eee;
+    border: 1px solid #ccc;
+  }
+  th {
+    background: #333;
+    color: white;
+    font-weight: bold;
+  }
+  td, th {
+    padding: 6px;
+    border: 1px solid #ccc;
+    text-align: left;
+  }
+
+
+
+
+
+</style>
+
+
 <div class="container">
 
-  MAIN WINDOWS!!!!!!!!!!!
+  <div ng-repeat="memberthumb in allmembersthumb" ng-show="allthumberspictures">
+
+    <div class="row">
+
+      <div class="col-md-4 pull-right" >
+        <div class="title">
+          <span style="font-size: large; color:darkblue">
+            {{ memberthumb.profile.nickName }}
+            :
+            &nbsp;
+            &nbsp;
+            &nbsp;
+            {{ memberthumb.profile.status }}
+            &nbsp;
+             {{ memberthumb.profile.age }}
+            &nbsp;
+            &nbsp;
+             {{memberthumb.profile.numberofkids }}
+
+
+          </span>
+
+        </div>
+        <img src="{{ memberthumb.src }}" ng-click="ShowMember(memberthumb.id,memberthumb.rid)" class=" floating-box"
+             width="300" height="300">
+      </div>
+      <div class="col-md-4 pull-right">
+
+          <table class="table-responsive">
+            <tr>
+              <td nowrap="">
+לאום
+              </td>
+              <td nowrap="">
+                {{ memberthumb.profile.religion }}
+              </td>
+              <td>
+                עיר
+              </td>
+              <td>
+                <div class="desc">{{ memberthumb.profile.city }}</div>
+              </td>
+            </tr>
+              <td>
+                מגורים
+              </td>
+              <td nowrap="">
+
+                <div class="desc">{{ memberthumb.profile.livingwith }}</div>
+
+              </td>
+            <td  >
+              סוג עבודה
+            </td>
+            <td nowrap="">
+
+              <div class="desc">{{ memberthumb.profile.jobtype }}</div>
+
+            </td>
+            </tr>
+
+            <tr>
+              <td>
+                רמת בישול
+              </td>
+              <td nowrap="">
+                <div class="desc">{{ memberthumb.profile.cooking }}</div>
+              </td>
+              <td>
+                מזל
+              </td>
+              <td nowrap="">
+
+                <div class="desc">{{ memberthumb.profile.zodiacsign }}</div>
+
+              </td>
+            </tr>
+            <tr>
+              <td>
+                כשרות
+              </td>
+              <td>
+                <div class="desc">{{ memberthumb.profile.cosher }}</div>
+              </td>
+              <td>
+                נמצא בבית
+              </td>
+              <td nowrap="">
+
+                <div class="desc">{{ memberthumb.profile.everydayathom }}</div>
+
+              </td>
+            </tr>
+            <tr>
+              <td>
+
+              </td>
+              <td nowrap="">
+
+              </td>
+              <td>
+                גובה
+              </td>
+              <td nowrap="">
+
+                <div class="desc">{{ memberthumb.profile.height }}</div>
+
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                הליכות
+              </td>
+              <td nowrap="">
+                <div class="desc">{{ memberthumb.profile.walking }}</div>
+              </td>
+              <td>
+                חדר כושר
+              </td>
+              <td nowrap="">
+
+                <div class="desc">{{ memberthumb.profile.gym }}</div>
+
+              </td>
+            </tr>
+
+          </table>
+
+
+
+      </div>
+
+      <div class="col-md-4 pull-right">
+        <div class="span8 well" style="padding-bottom:50px">
+          <form name="form" accept-charset="UTF-8" ng-submit="submit(form.$valid)">
+            <label for="title">נושא</label>
+            <input type="text" name="title" id="title" required class="form-control" ng-model="title"
+                   ng-class="{ 'has-error': form.title.$error.required }"/>
+
+            <div class="form-group" ng-class="{ 'has-error': form.messagebody.$error.required }">
+                <textarea required class="form-control" rows="5" id="new_message" name="whoami" ng-model="messagebody"
+                          placeholder="כבוש את ליבה"></textarea>
+            </div>
+
+            <h6 id="cLeft" class="pull-right">500 אותיות נשארו</h6>
+            <button id="sendButton"
+                    ng-class="{ 'animated tada': showMessageSendOk  , 'animated rubberBand': showMessageSendFailure}"
+                    class="btn btn-info pull-left" ng-disabled="form.$invalid" type="submit">
+              שלח הודעה
+            </button>
+          </form>
+        </div>
+      </div>
+
+    </div>
   </div>
+</div>

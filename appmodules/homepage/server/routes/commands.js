@@ -31,14 +31,14 @@ var routes = function (app) {
 
     membersModel.findOne({'registrationObjectId': req.idFromToken}, '_id', function (err, member) {
       if (err) {
-        console.log(err);
+        //console.log(err);
         return res.status(500).json({
           error: 'Cannot save the new member'
         });
       }
       if (member)
       {
-        console.log("The member id of this user is: " + member._id);
+        //console.log("The member id of this user is: " + member._id);
         m.memberId = member._id;
 
         var id = req.idFromToken;
@@ -51,19 +51,13 @@ var routes = function (app) {
 
         m.save(function(err) {
           if (err) {
-            console.log(err);
+            //console.log(err);
             return res.status(500).json({
               error: 'Cannot send message to this member' + err
             });
           }
           res.send("ok");
         });
-
-
-
-
-
-
       }
     });
 
@@ -80,7 +74,7 @@ var routes = function (app) {
 
       var limit = Math.min(membersModelCount, num);
 
-      console.log(limit);
+      //console.log(limit);
 
       membersModel.find(/*{published: true}*/)
           //.sort({'date': -1})
@@ -139,8 +133,52 @@ var routes = function (app) {
           return res.send(r);
         }
       });
-
   });
+
+
+
+
+  app.get('/api/getFirstNUserProfiles', jwtauth, function (req, res, next) {
+     var id = req.idFromToken;
+     //console.log("getFirstNUserIds: " + id);
+     var num = req.query.num;
+     //var criteria = req.body.criteria;
+     membersModel.count({}, function( err, count){
+     membersModelCount = count;
+
+      var limit = Math.min(membersModelCount, num);
+
+      membersModel.find(/*{published: true}*/)
+        //.sort({'date': -1})
+        .limit(limit)
+        .exec(function(err, results) {
+          //console.log(results)
+          if (err) {
+            res.status(500).send("error in getFirstNUserIds" + err);
+          } else {
+            var r = [];
+            //console.log(results.length);
+            for (var i  = 0 ; i < results.length ; i++) {
+              if (results[i].registrationObjectId == id)
+                continue;
+              r.push(results[i]);
+            }
+            //console.log(r);
+            return res.send(r);
+          }
+        });
+    })
+  });
+
+
+
+
+
+
+
+
+
+
 
 
   app.get('/api/getuserinfo', jwtauth, function (req, res, next) {
@@ -160,6 +198,24 @@ var routes = function (app) {
   });
 
 
+  app.post('/api/getuserinfoById', jwtauth, function (req, res, next) {
+    var id = req.body.UserId;
+    var a = myhelper.getImageList(id);
+    membersModel.findOne({'registrationObjectId': id}, function (err, member) {
+      if (err) {
+        res.sendStatus(500);
+      } else {
+        res.json({
+          id:id,
+          member:member,
+          list: a
+        });
+      }
+    });
+  });
+
+
+
   app.get('/api/getimagelist', jwtauth, function (req, res, next) {
       var id = req.idFromToken;
       var a = myhelper.getImageList(id);
@@ -170,13 +226,45 @@ var routes = function (app) {
   });
 
 
+  app.post('/api/getimagelistForUser', jwtauth, function (req, res, next) {
+    console.log(req.body.userId);
+    var id = req.body.userId;
+    var a = myhelper.getImageList(id);
+    res.json({
+      id:id,
+      list: a
+    });
+  });
+
+
+  app.get('/api/getNickName', jwtauth, function (req, res, next) {
+
+    membersModel.findOne({'registrationObjectId': req.idFromToken}, 'nickName', function (err, member) {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          error: 'Cannot get nick name'
+        });
+      } else {
+          if (member.nickName == undefined)
+          {
+            res.send('');
+          } else {
+            res.send(member.nickName);
+          }
+
+      }
+    });
+  });
+
+
   app.get('/api/getuserid', jwtauth, function (req, res, next) {
       res.send(req.idFromToken);
   });
 
   app.get('/api/getcities', jwtauth, function (req, res, next) {
 
-    console.log('getcities');
+    //console.log('getcities');
     cityLoader.basic("C:/GojiLTDTrunk/reallove/citieswithcode.csv", function (rows)
     {
        //console.log(rows);
@@ -193,7 +281,7 @@ var routes = function (app) {
 
     captchaModel.findOne({'registrationObjectId': req.idFromToken}, function (err, data) {
       if (err) {
-        console.log(err);
+        //console.log(err);
         return res.status(401).json({
           error: err
         });
@@ -202,7 +290,7 @@ var routes = function (app) {
         c.value = value;
         c.save(function (err) {
           if (err) {
-            console.log(err);
+            //console.log(err);
             return res.status(500).json({
               error: 'Cannot save the new member'
             });
@@ -213,7 +301,7 @@ var routes = function (app) {
           }
         });
       } else {
-        console.log("need to update the captch ");
+        //console.log("need to update the captch ");
         captchaModel.findOneAndUpdate({'registrationObjectId': req.idFromToken} , {'value':value}, function (err, data) {
           if (err) {
             console.log(err);
@@ -234,13 +322,13 @@ var routes = function (app) {
   app.post('/api/deletepospondcard', jwtauth, function (req, res, next) {
 
 
-    console.log(req.body.capdata.usercode);
+    //console.log(req.body.capdata.usercode);
 
-    console.log(req.idFromToken);
+    //console.log(req.idFromToken);
 
     contactusconModel.remove({'registrationObjectId': req.idFromToken}, function (err) {
       if (err) {
-        console.log(err);
+        //console.log(err);
         return res.status(401).json({
           error: err
         });
@@ -248,7 +336,7 @@ var routes = function (app) {
 
       membersModel.remove({'registrationObjectId': req.idFromToken}, function (err) {
         if (err) {
-          console.log(err);
+          //console.log(err);
           return res.status(401).json({
             error: err
           });
@@ -256,7 +344,7 @@ var routes = function (app) {
 
         captchaModel.remove({'registrationObjectId': req.idFromToken}, function (err) {
           if (err) {
-            console.log(err);
+            //console.log(err);
             return res.status(401).json({
               error: err
             });
@@ -264,7 +352,7 @@ var routes = function (app) {
 
           regModel.remove({'_id': req.idFromToken}, function (err) {
             if (err) {
-              console.log(err);
+              //console.log(err);
               return res.status(401).json({
                 error: err
               });
@@ -278,15 +366,14 @@ var routes = function (app) {
 
 
   app.post('/api/deletepicture', jwtauth, function (req, res, next) {
-    console.log("here2 " + req.body.token);
+
     try {
       var decoded = jwt.verify(req.body.token, secret);
-      console.log("here3");
       // delete a file from the directory
       var fileName = './uploads/' + decoded.sub + '/raw/' + req.body.filenum + '.jpg';
       fs.unlinkSync(fileName);
       fileName = './uploads/' + decoded.sub + '/base64/' + req.body.filenum + '.jpg';
-      console.log(fileName);
+      //console.log(fileName);
       fs.unlinkSync(fileName);
       res.sendStatus(200);
     }
@@ -302,18 +389,18 @@ var routes = function (app) {
 
     var c = new contactusconModel(req.body);
     c.registrationObjectId = req.idFromToken;
-    console.log(c.registrationObjectId);
+    //console.log(c.registrationObjectId);
 
     var todayDate = new Date();
     todayDate.setHours(0, 0, 0, 0);
 
     var query = contactusconModel.find({'created': {$gte: todayDate}});
     query.exec(function (err, docs) {
-      console.log(docs.length);
+      //console.log(docs.length);
       if (docs.length < 5) {
         c.save(function (err) {
           if (err) {
-            console.log(err);
+            //console.log(err);
             return res.status(500).json({
               error: 'Cannot save the new member'
             });

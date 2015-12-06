@@ -1,8 +1,9 @@
 'use strict';
 
 app.controller('allmembersgalleryController', ['$scope','$state', 'authToken','$window',
-               'myhttphelper','dbsearch','myConfig','$http','$timeout',
-  function($scope,$state, authToken,$window,myhttphelper,dbsearch,myConfig,$http,$timeout)
+               'myhttphelper','dbsearch','myConfig','$http','$timeout','myutils','appCookieStore',
+  function($scope,$state, authToken,$window,myhttphelper,dbsearch,
+           myConfig,$http,$timeout,myutils,appCookieStore)
   {
 
     var vm = this;
@@ -12,9 +13,11 @@ app.controller('allmembersgalleryController', ['$scope','$state', 'authToken','$
     $scope.allmembersthumb = [];
     vm.currentUserTotalPictures = 0;
     vm.currentUserAllPictures = [];
-    var i = 0;
     var index = 0;
+    var index1 = 0;
     vm.skipSize = 0;
+
+    appCookieStore.set('mainview' , 'gallery');
 
     myhttphelper.doGet('/isauth').
       then(sendResponseData1).
@@ -44,7 +47,7 @@ app.controller('allmembersgalleryController', ['$scope','$state', 'authToken','$
 
       var totalPictures = result.length;
       vm.skipSize = 100;
-      for (i = 0; i < result.length;i++) {
+      for (var i = 0; i < result.length;i++) {
         var picName =  '/uploads/' + result[i].rid.toString() + '/raw/' + 100 + '.jpg';
         var x = {
           src: picName,
@@ -80,22 +83,16 @@ app.controller('allmembersgalleryController', ['$scope','$state', 'authToken','$
       $scope.allthumberspictures = true;
     }
 
-    function getAge(member)
-    {
-        return 25;
-    }
+
     $scope.ShowMember = function(id,rid)
     {
-      //console.log("Show member: " + id + " " + rid);
 
-
-      var membersAPI = myConfig.url + "/api/getuserinfo";
-      $http.get(membersAPI).success(function(result) {
+      var membersAPI = myConfig.url + "/api/getuserinfoById";
+      $http.post(membersAPI, {'UserId':rid}).success(function(result) {
         vm.userImageList = result.list;
-        //console.log(vm.member);
         vm.currentUserAllPictures = [];
         var j = 0;
-        for (i = 1; i < 16 ; i++)
+        for (var i = 1; i < 16 ; i++)
         {
           if (vm.userImageList[j] == true) {
             vm.currentUserAllPictures.push('/uploads/' + rid.toString() + '/raw/' + i + '.jpg');
@@ -107,13 +104,14 @@ app.controller('allmembersgalleryController', ['$scope','$state', 'authToken','$
         if (vm.userImageList[1] == true)
         {
           $scope.currentMemberToShow.src1 = vm.currentUserAllPictures[1];
+          index1 = 1;
         } else {
           $scope.currentMemberToShow.src1 = vm.currentUserAllPictures[0];
         }
         $scope.currentMemberToShow.id = id;
         $scope.currentMemberToShow.rid = rid;
         $scope.currentMemberToShow.member = result.member;
-        $scope.currentMemberToShow.member.age = getAge($scope.currentMemberToShow.member);
+        $scope.currentMemberToShow.member.age = myutils.getAge($scope.currentMemberToShow.member);
         $scope.allthumberspictures = false;
         $scope.lions = true;
 
@@ -136,12 +134,23 @@ app.controller('allmembersgalleryController', ['$scope','$state', 'authToken','$
 
     var previous = function()
     {
-      if (i > 0)
-        i = i - 1;
+      if (index > 0)
+        index = index - 1;
       else {
-        i = vm.currentUserTotalPictures -1;
+        index = vm.currentUserTotalPictures -1;
       }
-      $scope.currentMemberToShow.src = vm.currentUserAllPictures[i];
+      $scope.currentMemberToShow.src = vm.currentUserAllPictures[index];
+
+
+      if (index1 > 0)
+        index1 = index1 - 1;
+      else {
+        index1 = vm.currentUserTotalPictures -1;
+      }
+      $scope.currentMemberToShow.src1 = vm.currentUserAllPictures[index1];
+
+
+
     }
 
     $scope.myStyle = {
@@ -152,8 +161,12 @@ app.controller('allmembersgalleryController', ['$scope','$state', 'authToken','$
 
     $scope.next = function ()
     {
-      i = (i + 1) % vm.currentUserTotalPictures;
-      $scope.currentMemberToShow.src = vm.currentUserAllPictures[i];
+      //console.log('vm.currentUserTotalPictures %d', index);
+      index = (index + 1) % vm.currentUserTotalPictures;
+      $scope.currentMemberToShow.src = vm.currentUserAllPictures[index];
+
+      index1 = (index1 + 1) % vm.currentUserTotalPictures;
+      $scope.currentMemberToShow.src1 = vm.currentUserAllPictures[index1];
     }
 
     $scope.submit = function(isValid)
@@ -214,7 +227,6 @@ app.controller('allmembersgalleryController', ['$scope','$state', 'authToken','$
        }
     }
 
-    index = (index + 1) % 4;
 
     $(window).scroll(function() {
       if ($scope.allthumberspictures == false)
@@ -233,8 +245,7 @@ app.controller('allmembersgalleryController', ['$scope','$state', 'authToken','$
           }
           vm.skipSize += 100;
 
-
-          for (i = 0; i < result.length;i++) {
+          for (var i = 0; i < result.length;i++) {
             var picName =  '/uploads/' + result[i].rid.toString() + '/raw/' + 100 + '.jpg';
             var x = {
               src: picName,
@@ -244,8 +255,6 @@ app.controller('allmembersgalleryController', ['$scope','$state', 'authToken','$
             $scope.allmembersthumb.push(x);
             //$scope.$apply();
           }
-          index = (index + 1) % 4;
-
         }).catch(function (result)
         {
 

@@ -5,11 +5,21 @@ var express = require('express'),
     moment    = require('moment');
     args = require('yargs').argv;
 
+
+
+
 var path = require('path'),
   fs = require('fs');
 const bearerToken = require('express-bearer-token');
 var app = express();
 var jwtauth = require('./appmodules/homepage/server/common/jwtauth');
+
+var http = require('http');
+var server = http.createServer(app);
+var io = require('socket.io')(server);
+
+
+var notifyServer = require('./appmodules/homepage/server/modules/MailNotify')(io);
 
 
 app.use(function(req, res, next) {
@@ -148,19 +158,19 @@ app.post('/api/upload', bodyParser({limit: '15mb'}), function(req, res)
 
   //var x1 = x.replace(/^data:image\/(png|gif|jpeg);base64,/,'');
 
-  console.log(req.body.token);
+  //console.log(req.body.token);
 
   try {
     var decoded = jwt.verify(req.body.token, secret);
-    console.log(decoded.sub);
+    //console.log(decoded.sub);
 
     if (req.body.filenum == 0) {
       var thumbfile = './uploads/' + decoded.sub + "/raw/0.jpg";
-      console.log(thumbfile);
+      //console.log(thumbfile);
       var buf1 = new Buffer(req.body.images, 'base64'); // decode
       fs.writeFile(thumbfile, buf1, function (err) {
         if (err) {
-          console.log("err", err);
+          //console.log("err", err);
           return res.sendStatus(500);
         } else {
           return res.json(
@@ -176,11 +186,11 @@ app.post('/api/upload', bodyParser({limit: '15mb'}), function(req, res)
     //  the image gallery size picture 150 on 150
     if (req.body.filenum == 100) {
       var thumbfile = './uploads/' + decoded.sub + "/raw/100.jpg";
-      console.log(thumbfile);
+      //console.log(thumbfile);
       var buf1 = new Buffer(req.body.images, 'base64'); // decode
       fs.writeFile(thumbfile, buf1, function (err) {
         if (err) {
-          console.log("err", err);
+          //console.log("err", err);
           return res.sendStatus(500);
         } else {
           return res.json(
@@ -207,7 +217,7 @@ app.post('/api/upload', bodyParser({limit: '15mb'}), function(req, res)
   }
   catch (e)
   {
-    console.log(e);
+    //console.log(e);
     res.status(404).send(e);
     return;
   }
@@ -226,11 +236,11 @@ app.post('/api/upload', bodyParser({limit: '15mb'}), function(req, res)
   var buff = new Buffer(x1, 'base64');
 
 
-  console.log("saving file: " + fileNameRaw);
+  //console.log("saving file: " + fileNameRaw);
   var status = 500;
   fs.writeFile(fileNameRaw, buff, function (err) {
       if (err) {
-        console.log(err);
+        //console.log(err);
         res.sendStatus(status);
         return;
       }
@@ -247,17 +257,17 @@ app.post('/api/upload', bodyParser({limit: '15mb'}), function(req, res)
 app.post('/api/uploadvideo', bodyParser({limit: '25mb'}), function(req, res)
 {
 
-  console.log("upload video");
+  //console.log("upload video");
   var x = util.inspect(req.body.images);
-  console.log(req.body.filenum);
+  //console.log(req.body.filenum);
 
   //var x1 = x.replace(/^data:image\/(png|gif|jpeg);base64,/,'');
 
-  console.log(req.body.token);
+  //console.log(req.body.token);
 
   try {
     var decoded = jwt.verify(req.body.token, secret);
-    console.log(decoded.sub);
+    //console.log(decoded.sub);
     var dirToCreateRaw = './uploadvideo/' + decoded.sub + "/raw/"
     mkdirp(dirToCreateRaw, function(err) {
       // path was created unless there was error
@@ -265,7 +275,7 @@ app.post('/api/uploadvideo', bodyParser({limit: '25mb'}), function(req, res)
   }
   catch (e)
   {
-    console.log(e);
+    //console.log(e);
     res.status(404).send(e);
     return;
   }
@@ -284,7 +294,7 @@ app.post('/api/uploadvideo', bodyParser({limit: '25mb'}), function(req, res)
   var status = 500;
   fs.writeFile(fileNameRaw, buff, function (err) {
     if (err) {
-      console.log(err);
+      //console.log(err);
       res.sendStatus(status);
     }
   });
@@ -313,8 +323,5 @@ app.post('*', function(req, res){
   res.redirect('/#/');
 });
 
-
-app.listen(port, function(){
-    console.log("Running on port " + port);
-});
-
+server.listen(port);
+console.log("Running on port " + port);

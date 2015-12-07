@@ -8,7 +8,7 @@ function getImageList(id)
     for (var i = 1; i < 16; i++)
     {
       var path = './uploads/' + id.toString() + '/raw/' + i.toString() + '.jpg';
-      console.log(path);
+      //console.log(path);
       if (fs.existsSync(path)) {
         arr.push(true);
       } else {

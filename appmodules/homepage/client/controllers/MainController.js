@@ -9,6 +9,11 @@ app.controller('MainController', ['$scope','$state','authToken','myhttphelper','
       $scope.allmembersthumb = [];
       $scope.allthumberspictures = true;
 
+
+
+
+
+
       appCookieStore.set('mainview' , 'smallcardsview');
 
       myhttphelper.doGet('/isauth').

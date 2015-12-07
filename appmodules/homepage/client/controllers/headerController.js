@@ -1,14 +1,20 @@
 'use strict';
 
 
-  app.controller('HeaderController', ['$scope','$state', 'authToken','API','PassServiceParams','appCookieStore',
-    function($scope,$state, authToken,API,PassServiceParams,appCookieStore)
+  app.controller('HeaderController', ['$scope','$state', 'authToken','API','PassServiceParams','appCookieStore','socketioservice',
+    function($scope,$state, authToken,API,PassServiceParams,appCookieStore,socketioservice)
     {
       $scope.isAuthenticated = authToken.isAuthenticated();
 
       API.getNickName().then(function(result){
         $scope.hellousername = ' שלום  ' +  result;
       });
+
+
+
+
+
+
 
       //ui-sref="partyDetail()"
       $scope.partyDetail = function()

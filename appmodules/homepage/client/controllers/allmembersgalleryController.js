@@ -1,9 +1,10 @@
 'use strict';
 
 app.controller('allmembersgalleryController', ['$scope','$state', 'authToken','$window',
-               'myhttphelper','dbsearch','myConfig','$http','$timeout','myutils','appCookieStore',
+               'myhttphelper','dbsearch','myConfig','$http','$timeout','myutils',
+               'appCookieStore','socketioservice', 'Idle','$rootScope',
   function($scope,$state, authToken,$window,myhttphelper,dbsearch,
-           myConfig,$http,$timeout,myutils,appCookieStore)
+           myConfig,$http,$timeout,myutils,appCookieStore,socketioservice,Idle,$rootScope)
   {
 
     var vm = this;
@@ -16,6 +17,38 @@ app.controller('allmembersgalleryController', ['$scope','$state', 'authToken','$
     var index = 0;
     var index1 = 0;
     vm.skipSize = 0;
+    $scope.isOnline = false;
+
+    $scope.$on('IdleStart', function() {
+      // the user appears to have gone idle
+      console.log('IdleStart');
+      socketioservice.disconnect();
+    });
+
+    $scope.$on('IdleTimeout', function() {
+       // the user has timed out (meaning idleDuration + timeout has passed without any activity)
+       // this is where you'd log them
+       //console.log('IdleTimeout');
+      //console.log("logging out");
+      socketioservice.disconnect().success(function (id) {
+
+        authToken.RemoveToken();
+        $state.go('login', {}, {reload: true});
+        $rootScope.$broadcast("updateHeader", authToken.getToken());
+        return;
+      });
+
+    });
+
+    $scope.$on('IdleEnd', function() {
+      // the user has come back from AFK and is doing stuff. if you are warning them, you can use this to hide the dialog
+      console.log('IdleEnd');
+      socketioservice.connect();
+    });
+
+
+
+    socketioservice.setCallback(connectionCallback);
 
     appCookieStore.set('mainview' , 'gallery');
 
@@ -28,11 +61,22 @@ app.controller('allmembersgalleryController', ['$scope','$state', 'authToken','$
       if (response != "OK")
       {
         $state.go('login', {}, {reload: true});
+      } else {
+
+
       }
     }
     function sendResponseError1(response)
     {
       $state.go('login', {}, {reload: true});
+    }
+
+    function connectionCallback(status , id)
+    {
+
+        $scope.isOnline = socketioservice.isUserOnline(id);
+        console.log('connectionCallback ' + $scope.isOnline);
+        $scope.$digest();
     }
 
 
@@ -86,6 +130,10 @@ app.controller('allmembersgalleryController', ['$scope','$state', 'authToken','$
 
     $scope.ShowMember = function(id,rid)
     {
+
+      console.log(rid);
+      $scope.isOnline = socketioservice.isUserOnline(rid);
+      console.log($scope.isOnline);
 
       var membersAPI = myConfig.url + "/api/getuserinfoById";
       $http.post(membersAPI, {'UserId':rid}).success(function(result) {
@@ -154,8 +202,8 @@ app.controller('allmembersgalleryController', ['$scope','$state', 'authToken','$
     }
 
     $scope.myStyle = {
-      "max-width" : $window.innerWidth,
-      "max-height" : $window.innerHeight - 100
+      "max-width" : Math.min($window.innerWidth, 750),
+      "max-height" :Math.min( $window.innerHeight - 100, 700)
     };
 
 
@@ -262,5 +310,14 @@ app.controller('allmembersgalleryController', ['$scope','$state', 'authToken','$
       }
     });
   }
-]);
+]).config(function(IdleProvider, KeepaliveProvider,myConfig) {
+  // configure Idle settings
+  IdleProvider.idle(myConfig.idletimeSeconds); // in seconds
+  IdleProvider.timeout(myConfig.timeoutSeconds); // in seconds
+  KeepaliveProvider.interval(2); // in seconds
+})
+  .run(function(Idle){
+    // start watching when the app runs. also starts the Keepalive service by default.
+    Idle.watch();
+  });
 

@@ -31,17 +31,27 @@ Generic Styling, for Desktops/Laptops
       <div class="col-sm-8 pull-right">
         <div>
          <span style="font-size: large; color:darkblue">
-            {{ currentMemberToShow.profile.nickName }}
-            :
-            &nbsp;
-            &nbsp;
-            &nbsp;
-            {{ currentMemberToShow.profile.status }}
-            &nbsp;
-             {{ currentMemberToShow.profile.age }}
-            &nbsp;
-            &nbsp;
-             {{currentMemberToShow.profile.numberofkids }}
+
+           <table style="width: 50%;border: none">
+             <tr style="background-color: white;border: none">
+               <td >
+                 {{ currentMemberToShow.profile.nickName }}
+               </td>
+               <td>
+                 {{ currentMemberToShow.profile.age }}
+               </td>
+               <td>
+                 {{ currentMemberToShow.profile.status }}
+               </td>
+               <td nowrap>
+                 {{ currentMemberToShow.profile.numberofkids }}
+               </td>
+               <td style="color: lime;cursor:pointer"  class="animated infinite pulse" ng-show="isOnline">
+                 online
+               </td>
+             </tr>
+           </table>
+
           </span>
         </div>
 

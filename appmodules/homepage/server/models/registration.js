@@ -80,7 +80,7 @@ RegistrationSchema.statics.load = function(id, cb) {
 }
 RegistrationSchema.methods.toJSON = function ()
 {
-  console.log("delete password..");
+  //console.log("delete password..");
   var user = this.toObject();
   delete user.password;
   return user;

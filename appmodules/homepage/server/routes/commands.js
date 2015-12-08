@@ -173,14 +173,6 @@ var routes = function (app) {
 
 
 
-
-
-
-
-
-
-
-
   app.get('/api/getuserinfo', jwtauth, function (req, res, next) {
      var id = req.idFromToken;
      var a = myhelper.getImageList(id);

@@ -72,7 +72,7 @@ module.exports = function(membersModel) {
             return;
           }
 
-          console.log("delete all " + req);
+          //console.log("delete all " + req);
 
             membersModel.remove({ }, function (err) {
                 if (err) {

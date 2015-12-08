@@ -101,6 +101,8 @@ var getmembersRouters = membersRouter.routes;
 var registerRoutes = require('./appmodules/homepage/server/routes/register')(registerController,regModel);
 var mailRoutes = require('./appmodules/homepage/server/routes/mail');
 
+var onlineRoutes = require('./appmodules/homepage/server/routes/mail');
+
 
 
 mkdirp('./uploads/', function(err) {
@@ -127,6 +129,7 @@ app.use('/api' , getmembersRouters);
 app.use('/api' , registerRoutes.routes);
 
 app.use('/api/mail' , mailRoutes);
+app.use('/api/online' , onlineRoutes);
 
 app.use('/api/commands' , commandsRoutes.routes);
 

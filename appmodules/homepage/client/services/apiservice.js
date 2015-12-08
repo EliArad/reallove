@@ -38,6 +38,18 @@ app.factory("API", function($http,$q,myConfig)
         return $http.get(membersAPI).then(sendResponseData).catch(sendResponseError);
 
     }
+
+    function IsOnlineUser()
+    {
+       //console.log('getNumberOfMails');
+       var membersAPI = myConfig.url + "/api/online/IsOnlineUser";
+       return $http.get(membersAPI).then(sendResponseData).catch(sendResponseError);
+    }
+    function IsOnlineUserById(id)
+    {
+      var membersAPI = myConfig.url + "/api/online/IsOnlineUserById";
+      return $http.get(membersAPI).then(sendResponseData).catch(sendResponseError);
+    }
     function sendResponseData(response)
     {
         //console.log(response);
@@ -112,7 +124,10 @@ app.factory("API", function($http,$q,myConfig)
     saveSelectedpasstime:saveSelectedpasstime,
     getSelectedpasstime:getSelectedpasstime,
     getImageListForUser:getImageListForUser,
-    getNickName:getNickName
+    getNickName:getNickName,
+    IsOnlineUser:IsOnlineUser,
+    IsOnlineUserById:IsOnlineUserById
+
   }
 
 

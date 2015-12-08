@@ -1,17 +1,53 @@
 'use strict';
 
 
-app.controller('MainController', ['$scope','$state','authToken','myhttphelper','dbsearch','myutils','appCookieStore',
-    function($scope,$state,authToken,myhttphelper,dbsearch,myutils,appCookieStore)
+app.controller('MainController', ['$scope','$state','authToken','myhttphelper','dbsearch','myutils',
+                                  'appCookieStore','socketioservice','Idle','$rootScope',
+    function($scope,$state,authToken,myhttphelper,dbsearch,myutils,appCookieStore,socketioservice,Idle,$rootScope)
     {
       var vm = this;
       $scope.pageClass = 'page-home';
       $scope.allmembersthumb = [];
       $scope.allthumberspictures = true;
 
+      $scope.isOnline = false;
 
 
 
+      $scope.$on('IdleStart', function() {
+        // the user appears to have gone idle
+        console.log('IdleStart');
+        socketioservice.disconnect();
+      });
+
+      $scope.$on('IdleTimeout', function() {
+        // the user has timed out (meaning idleDuration + timeout has passed without any activity)
+        // this is where you'd log them
+        //console.log('IdleTimeout');
+        //console.log("logging out");
+        socketioservice.disconnect().success(function (id) {
+
+          authToken.RemoveToken();
+          $state.go('login', {}, {reload: true});
+          $rootScope.$broadcast("updateHeader", authToken.getToken());
+          return;
+        });
+
+      });
+
+      $scope.$on('IdleEnd', function() {
+        // the user has come back from AFK and is doing stuff. if you are warning them, you can use this to hide the dialog
+        console.log('IdleEnd');
+        socketioservice.connect();
+      });
+      socketioservice.setCallback(connectionCallback);
+
+      function connectionCallback(status , id)
+      {
+        $scope.isOnline = socketioservice.isUserOnline(id);
+        console.log('connectionCallback ' + $scope.isOnline);
+        $scope.$digest();
+      }
 
 
       appCookieStore.set('mainview' , 'smallcardsview');
@@ -63,6 +99,18 @@ app.controller('MainController', ['$scope','$state','authToken','myhttphelper','
 
       }
 
+      $scope.AddToChatRoom = function(id , rid)
+      {
+
+         var allOnline = sessionStorage.getItem("allonlineIds");
+         if (allOnline == null)
+         {
+             allOnline = [];
+         }
+         allOnline.push(rid);
+         sessionStorage.setItem("allonlineIds", allOnline);
+         $state.go('mychatplaces', {}, {reload: true});
+      }
 
       $(function(j) {
         j("#cLeft").text("אותיות נשארו: 320");
@@ -111,14 +159,14 @@ app.controller('MainController', ['$scope','$state','authToken','myhttphelper','
         });
       }
 
-
-
-
-
-
-
-
-
-
     } // the controller closing
-  ]);
+  ]).config(function(IdleProvider, KeepaliveProvider,myConfig) {
+  // configure Idle settings
+  IdleProvider.idle(myConfig.idletimeSeconds); // in seconds
+  IdleProvider.timeout(myConfig.timeoutSeconds); // in seconds
+  KeepaliveProvider.interval(2); // in seconds
+})
+.run(function(Idle){
+  // start watching when the app runs. also starts the Keepalive service by default.
+  Idle.watch();
+});

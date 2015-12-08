@@ -42,7 +42,35 @@ Generic Styling, for Desktops/Laptops
   <div ng-show="lions">
     <div class="row">
       <div class="col-md-8 pull-right">
-        <img src="{{ currentMemberToShow.src }}"  ng-swipe-left="swipeleft($event)" resize
+
+
+        <div>
+         <span style="font-size: large; color:darkblue">
+
+           <table style="width: 50%;border: none">
+             <tr style="background-color: white;border: none">
+               <td >
+                 {{ currentMemberToShow.member.nickName }}
+               </td>
+               <td>
+                 {{ currentMemberToShow.member.age }}
+               </td>
+               <td>
+                 {{ currentMemberToShow.member.status }}
+               </td>
+               <td>
+                 {{ currentMemberToShow.member.numberofkids }}
+               </td>
+               <td style="color: lime;cursor:pointer" class="animated infinite pulse" ng-show="isOnline">
+                 online
+               </td>
+             </tr>
+           </table>
+          </span>
+        </div>
+
+
+        <img src="{{ currentMemberToShow.src }}"    ng-swipe-left="swipeleft($event)" resize
              ng-swipe-right="swiperight($event)" ng-click="next()" ng-style="myStyle"/>
       </div>
       <div class="col-md-4">
@@ -155,7 +183,7 @@ Generic Styling, for Desktops/Laptops
                ng-class="{ active: lions }">חזור לגלריה</a>
           </div>
         </div>
-        <div class="row">
+        <div class="row" style="margin-top: 20px">
           <div class="col-md-12">
             <div class="span8 well" style="padding-bottom:50px">
               <form name="form" accept-charset="UTF-8" ng-submit="submit(form.$valid)">

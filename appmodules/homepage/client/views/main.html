@@ -39,18 +39,26 @@ Generic Styling, for Desktops/Laptops
       <div class="col-md-4 pull-right" >
         <div class="title">
           <span style="font-size: large; color:darkblue">
-            {{ memberthumb.profile.nickName }}
-            :
-            &nbsp;
-            &nbsp;
-            &nbsp;
-            {{ memberthumb.profile.status }}
-            &nbsp;
-             {{ memberthumb.profile.age }}
-            &nbsp;
-            &nbsp;
-             {{memberthumb.profile.numberofkids }}
+            <table style="width: 50%;border: none">
+              <tr style="background-color: white;border: none">
+                <td >
+                  {{ memberthumb.profile.nickName }}
+                </td>
+                <td>
+                  {{ memberthumb.profile.age }}
+                </td>
+                <td>
+                  {{ memberthumb.profile.status }}
+                </td>
+                <td nowrap>
+                  {{ memberthumb.profile.numberofkids }}
+                </td>
 
+                <td style="color: lime;cursor:pointer" ng-click="AddToChatRoom(memberthumb.profile._id,memberthumb.profile.registrationObjectId)" class="animated infinite pulse" ng-show="isOnline">
+                  online
+                </td>
+              </tr>
+            </table>
 
           </span>
 

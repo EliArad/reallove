@@ -15,8 +15,8 @@ app.directive('resize', function ($window) {
       scope.windowHeight = windowHeight;
       scope.windowWidth  = windowWidth;
 
-      console.log('w.innerHeight', windowHeight);
-      console.log('w.innerWidth', windowWidth);
+      //console.log('w.innerHeight', windowHeight);
+      //console.log('w.innerWidth', windowWidth);
 
       //** If want to apply style on element, can do something like:
       var elemStyle = {

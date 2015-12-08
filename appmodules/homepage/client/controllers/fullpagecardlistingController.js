@@ -1,6 +1,8 @@
 app.controller('fullpagecardlistingController', ['$scope','$state', 'authToken','API','PassServiceParams',
-                                                 'myhttphelper','dbsearch','myutils','$window','$timeout','appCookieStore',
-  function($scope,$state, authToken,API,PassServiceParams,myhttphelper,dbsearch,myutils,$window,$timeout,appCookieStore)
+                                                 'myhttphelper','dbsearch','myutils','$window','$timeout',
+                                                 'appCookieStore','socketioservice','Idle','$rootScope',
+  function($scope,$state, authToken,API,PassServiceParams,myhttphelper,
+           dbsearch,myutils,$window,$timeout,appCookieStore,socketioservice,Idle,$rootScope)
   {
 
     var vm = this;
@@ -36,10 +38,49 @@ app.controller('fullpagecardlistingController', ['$scope','$state', 'authToken',
       $state.go('login', {}, {reload: true});
     }
 
+    $scope.isOnline = false;
+
+    $scope.$on('IdleStart', function() {
+      // the user appears to have gone idle
+      console.log('IdleStart');
+      socketioservice.disconnect();
+    });
+
+    $scope.$on('IdleTimeout', function() {
+      // the user has timed out (meaning idleDuration + timeout has passed without any activity)
+      // this is where you'd log them
+      //console.log('IdleTimeout');
+      //console.log("logging out");
+      socketioservice.disconnect().success(function (id) {
+
+        authToken.RemoveToken();
+        $state.go('login', {}, {reload: true});
+        $rootScope.$broadcast("updateHeader", authToken.getToken());
+        return;
+      });
+
+    });
+
+    $scope.$on('IdleEnd', function() {
+      // the user has come back from AFK and is doing stuff. if you are warning them, you can use this to hide the dialog
+      console.log('IdleEnd');
+      socketioservice.connect();
+    });
+
+    socketioservice.setCallback(connectionCallback);
+
+    function connectionCallback(status , id)
+    {
+
+      $scope.isOnline = socketioservice.isUserOnline(id);
+      console.log('connectionCallback ' + $scope.isOnline);
+      $scope.$digest();
+    }
+
 
     $scope.myStyle = {
-      "max-width" : $window.innerWidth,
-      "max-height" : $window.innerHeight - 100
+      "max-width" : Math.min($window.innerWidth, 750),
+      "max-height" :Math.min( $window.innerHeight - 100, 600)
     };
 
     dbsearch.setCriteria("none");
@@ -184,4 +225,14 @@ app.controller('fullpagecardlistingController', ['$scope','$state', 'authToken',
       }
     }
   }
-]);
+]).config(function(IdleProvider, KeepaliveProvider,myConfig) {
+  // configure Idle settings
+  IdleProvider.idle(myConfig.idletimeSeconds); // in seconds
+  IdleProvider.timeout(myConfig.timeoutSeconds); // in seconds
+  KeepaliveProvider.interval(2); // in seconds
+})
+  .run(function(Idle){
+    // start watching when the app runs. also starts the Keepalive service by default.
+    Idle.watch();
+  });
+

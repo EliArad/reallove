@@ -91,6 +91,10 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider){
       url:'/fullpagecardlist',
       controller: 'fullpagecardlistingController',
       templateUrl: '/appmodules/homepage/client/views/fullpagecardlisting.html'
+    }).state('mychatplaces' , {
+      url:'/mychatplaces',
+      controller: 'mychatplaceController',
+      templateUrl: '/appmodules/homepage/client/views/mychatplace.html'
     })
 
 

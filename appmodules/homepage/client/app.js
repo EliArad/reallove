@@ -22,15 +22,21 @@ var app = angular
     'pretty-checkable',
     'ui.select',
     'ngSanitize',
+    'ngIdle',
     'ngTouch',
     'ngVideo',
     "com.2fdevs.videogular",
     "com.2fdevs.videogular.plugins.controls",
     "com.2fdevs.videogular.plugins.overlayplay",
-    "com.2fdevs.videogular.plugins.poster"
+    "com.2fdevs.videogular.plugins.poster",
+
+
+    'irontec.simpleChat'
 
   ]).constant("myConfig", {
       "url": "http://localhost:8000",
+      'timeoutSeconds': 1200,
+      'idletimeSeconds': 1100,
        "MaxPicturesForMember": 14,
          getcities : function($http , callback){
            console.log(cities);

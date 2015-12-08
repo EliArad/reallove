@@ -1,13 +1,20 @@
-app.factory("socketioservice", function($http)
+app.factory("socketioservice", function($http,authToken,myConfig)
 {
 
     var socket = io.connect('http://localhost:8000');
-    socket.on('connect', function(data) {
+    var onlineUsers = {};
 
-      console.log("connection IO ok");
+    var updateCallback = null;
+
+    //var socket = io.connect('http://localhost:8000',{'forceNew':true });
+
+     socket.on('connect', function(data) {
+
+
       try {
-        var token = authToken.getToken();
-        socket.emit('join', token);
+         var token = authToken.getToken();
+         console.log("send token");
+         socket.emit('join', token);
       }
       catch (err)
       {
@@ -15,19 +22,92 @@ app.factory("socketioservice", function($http)
       }
     });
 
-    socket.on('watsonnotify', function (data) {
-      console.log('watsonnotify');
+    socket.on('useridconnected', function (id,token) {
+       console.log('User connected !!!!' + id);
+       onlineUsers[id] = token;
+       if (updateCallback != null)
+          updateCallback('connected' , id);
     });
+
+    socket.on('userdisconnected', function (id,token) {
+        console.log('userdisconnected !!!!' + id);
+        try {
+          delete onlineUsers[id];
+          if (updateCallback != null)
+             updateCallback('disconnect' , id);
+        }
+        catch(e)
+        {
+
+        }
+    });
+
 
     socket.on('disconnect', function () {
-      console.log('disconnect');
+        console.log('disconnect try reconnect');
+        socket.io.reconnecting = undefined; //<- false should be the initial value
+        socket.io._reconnection = true;
+
     });
-    function init()
+
+    function setCallback(c)
+    {
+       updateCallback = c;
+    }
+
+    function isUserOnline(id)
+    {
+      try {
+        var x = onlineUsers[id];
+        console.log('isUserOnline ' + x);
+        if (x == undefined)
+          return false;
+        return true;
+      }
+      catch (e)
+      {
+         return false;
+      }
+    }
+
+    function disconnect()
     {
 
+      var membersAPI = myConfig.url + "/api/getuserid";
+      return $http.get(membersAPI).success(function(id) {
+
+        var token = authToken.getToken();
+        console.log('disconnect in service ' + token );
+        socket.emit('forcedisconnect', token);
+        /*
+        try {
+          delete onlineUsers[id];
+          console.log('delete online user');
+        }
+        catch (e)
+        {
+
+        }
+        socket.disconnect();
+        */
+      });
     }
+
+    function connect()
+    {
+       socket.connect();
+    }
+
+    function sendMessage(fromId, toid , message)
+    {
+       socket.emit('sendMessage', fromId, toid , message);
+    }
+
     return{
-      init:init
+      connect:connect,
+      disconnect:disconnect,
+      isUserOnline:isUserOnline,
+      setCallback:setCallback
     }
 
 });

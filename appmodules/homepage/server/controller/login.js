@@ -51,7 +51,7 @@ exports.login = function(req, res)
                 sub:user._id
             }
 
-            console.log(user._id);
+            //console.log(user._id);
 
             // also after login lets return the member information as well.
             _membermodel.findOne({ 'registrationObjectId':user._id }, function (err, member) {
@@ -72,7 +72,7 @@ exports.login = function(req, res)
 
                     });
                 }
-                delete user._id;
+                //delete user._id;
                 delete user.email;
 
                 var token = jwt.sign(payload, secret, {expiresInMinutes: 60 * 5});

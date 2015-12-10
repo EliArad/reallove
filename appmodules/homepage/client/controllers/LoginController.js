@@ -33,7 +33,8 @@
           PassServiceParams.StoreParam('userNickName' , response.member.nickName);
           //$cookieStore.put('login_user_name' , $scope.vm.user.email);
           authToken.setToken(response.token);
-          SessionStorageService.setSessionStorage()
+          //console.log("login:" + response.user._id);
+          SessionStorageService.setSessionStorage('userid', response.user._id);
           $rootScope.$broadcast("updateHeader", authToken.getToken());
 
           socketioservice.connect();

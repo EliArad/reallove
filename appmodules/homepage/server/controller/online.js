@@ -22,5 +22,7 @@ module.exports = function () {
        var x = onlineUsers.isOnline(req.idFromToken);
        res.send(x);
     }
+
+
   }
 };

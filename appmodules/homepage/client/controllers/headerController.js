@@ -12,10 +12,6 @@
 
 
 
-
-
-
-
       //ui-sref="partyDetail()"
       $scope.partyDetail = function()
       {
@@ -50,7 +46,7 @@
 
 
         API.getNumberOfMails().then(function(result){
-          console.log(result);
+          //console.log(result);
           var numunreadmail = 0;
           result.forEach(function(entry) {
             //console.log(entry);
@@ -63,7 +59,7 @@
             $scope.yougotmail = false;
           $scope.numberofmails = numunreadmail;
         }).catch(function(result)  {
-          console.log(result);
+          //console.log(result);
           $scope.yougotmail = false;
         });
       });

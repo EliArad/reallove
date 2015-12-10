@@ -1,19 +1,22 @@
-app.factory("socketioservice", function($http,authToken,myConfig)
+app.factory("socketioservice", function($rootScope,$http,authToken,myConfig)
 {
 
     var socket = io.connect('http://localhost:8000');
     var onlineUsers = {};
 
     var updateCallback = null;
+    var requestForChatCallback = null;
 
     //var socket = io.connect('http://localhost:8000',{'forceNew':true });
+
+
 
      socket.on('connect', function(data) {
 
 
       try {
          var token = authToken.getToken();
-         console.log("send token");
+         //console.log("send token");
          socket.emit('join', token);
       }
       catch (err)
@@ -23,14 +26,14 @@ app.factory("socketioservice", function($http,authToken,myConfig)
     });
 
     socket.on('useridconnected', function (id,token) {
-       console.log('User connected !!!!' + id);
+       //console.log('User connected !!!!' + id);
        onlineUsers[id] = token;
        if (updateCallback != null)
           updateCallback('connected' , id);
     });
 
     socket.on('userdisconnected', function (id,token) {
-        console.log('userdisconnected !!!!' + id);
+        //console.log('userdisconnected !!!!' + id);
         try {
           delete onlineUsers[id];
           if (updateCallback != null)
@@ -44,11 +47,29 @@ app.factory("socketioservice", function($http,authToken,myConfig)
 
 
     socket.on('disconnect', function () {
-        console.log('disconnect try reconnect');
+        //console.log('disconnect try reconnect');
         socket.io.reconnecting = undefined; //<- false should be the initial value
         socket.io._reconnection = true;
 
     });
+
+    //$rootScope.$emit('myEvent',  'a'  );
+    socket.on('request_to_chat', function (fromid,toid, torid) {
+       console.log('request_to_chat fromid: %s  torid %s ' , fromid,torid);
+       var data = {
+         fromid : fromid,
+         toid: toid,
+         torid:torid
+       }
+       //$rootScope.$emit('myEvent',data );
+       requestForChatCallback(data);
+    });
+
+    function setRequestForChatCallback(c)
+    {
+       requestForChatCallback = c;
+    }
+
 
     function setCallback(c)
     {
@@ -59,7 +80,7 @@ app.factory("socketioservice", function($http,authToken,myConfig)
     {
       try {
         var x = onlineUsers[id];
-        console.log('isUserOnline ' + x);
+        //console.log('isUserOnline ' + x);
         if (x == undefined)
           return false;
         return true;
@@ -77,7 +98,7 @@ app.factory("socketioservice", function($http,authToken,myConfig)
       return $http.get(membersAPI).success(function(id) {
 
         var token = authToken.getToken();
-        console.log('disconnect in service ' + token );
+        //console.log('disconnect in service ' + token );
         socket.emit('forcedisconnect', token);
         /*
         try {
@@ -107,7 +128,8 @@ app.factory("socketioservice", function($http,authToken,myConfig)
       connect:connect,
       disconnect:disconnect,
       isUserOnline:isUserOnline,
-      setCallback:setCallback
+      setCallback:setCallback,
+      setRequestForChatCallback:setRequestForChatCallback
     }
 
 });

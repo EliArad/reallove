@@ -1,4 +1,4 @@
-app.factory("API", function($http,$q,myConfig)
+app.factory("API", function($http,$q,myConfig,myutils)
 {
     var selectedfood = [];
     var selectedlang = [];
@@ -114,6 +114,68 @@ app.factory("API", function($http,$q,myConfig)
       });
     }
 
+    function SendChatRequest(fromid , toid , torid, callback)
+    {
+      var info = {
+          fromid : fromid,
+          toid: toid ,
+          torid: torid
+      }
+
+      var membersAPI = myConfig.url + "/api/chat/SendChatRequest";
+      $http.post(membersAPI , info).then(function(result) {
+         callback("ok");
+      }).catch(function (result) {
+        callback("error:" + result);
+      });
+    }
+
+  function getuserinfoById(rid, callback) {
+
+    var vm = {};
+    vm.currentMemberToShow = {};
+    vm.index1 = 0;
+    vm.index0 = 0;
+    var membersAPI = myConfig.url + "/api/getuserinfoById";
+    $http.post(membersAPI, {'UserId': rid}).success(function (result) {
+      vm.userImageList = result.list;
+      vm.currentUserAllPictures = [];
+      var j = 0;
+      for (var i = 1; i < 16; i++) {
+        if (vm.userImageList[j] == true) {
+          vm.currentUserAllPictures.push('/uploads/' + rid.toString() + '/raw/' + i + '.jpg');
+        }
+        j++;
+      }
+      vm.currentUserTotalPictures = vm.currentUserAllPictures.length;
+      console.log("SIZE *******" + vm.currentUserTotalPictures);
+      vm.currentMemberToShow.src = vm.currentUserAllPictures[0];
+      if (vm.userImageList[1] == true) {
+        vm.currentMemberToShow.src1 = vm.currentUserAllPictures[1];
+        vm.index1 = 1;
+      } else {
+        vm.currentMemberToShow.src1 = vm.currentUserAllPictures[0];
+      }
+      vm.currentMemberToShow.member = result.member;
+      vm.currentMemberToShow.member.age = myutils.getAge(vm.currentMemberToShow.member);
+
+      callback(vm);
+    });
+  }
+
+
+  function RoateMyPicture(id, callback)
+  {
+    console.log('RoateMyPicture : ' + id);
+    var membersAPI = myConfig.url + "/api/general/roateMyPicture";
+    $http.post(membersAPI , {id:id}).success(function (result) {
+
+        //console.log("rotate: " + result)
+        callback(result);
+    });
+  }
+
+
   return {
     getNumberOfMails:getNumberOfMails,
     getImageList:getImageList,
@@ -126,7 +188,10 @@ app.factory("API", function($http,$q,myConfig)
     getImageListForUser:getImageListForUser,
     getNickName:getNickName,
     IsOnlineUser:IsOnlineUser,
-    IsOnlineUserById:IsOnlineUserById
+    IsOnlineUserById:IsOnlineUserById,
+    SendChatRequest:SendChatRequest,
+    getuserinfoById:getuserinfoById,
+    RoateMyPicture:RoateMyPicture
 
   }
 

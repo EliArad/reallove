@@ -12,4 +12,5 @@ var router   = express.Router();
 router.get('/IsOnlineUserById', jwtauth, onlineController.IsOnlineUserById);
 router.get('/IsOnlineUser', jwtauth, onlineController.IsOnlineUser);
 
+
 module.exports = router;

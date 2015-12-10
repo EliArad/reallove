@@ -1,0 +1,164 @@
+<style>
+
+
+  .modal-dialog{
+    width:98%;
+    height: 90%;
+  }
+</style>
+<div ng-controller="GlobalController as m_vm">
+
+</div>
+
+<div id="myModalReauestChat"    class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">
+          <div>
+         <span style="font-size: large; color:darkblue">
+           <table style="width: 50%;border: none">
+             <tr style="background-color: white;border: none">
+               <td id="nickName" >
+
+               </td>
+               <td id="age">
+
+               </td>
+               <td id="status">
+
+               </td>
+               <td  nowrap id="numberofkids">
+
+               </td>
+               <td  class="animated infinite pulse"  nowrap id="wantToSpeak">
+
+               </td>
+             </tr>
+           </table>
+          </span>
+          </div>
+         </h4>
+      </div>
+      <div class="modal-body">
+        <div>
+          <div class="row">
+            <div class="col-md-6 pull-right">
+              <img id="imgsrc" ng-swipe-left="swipeleft($event)" resize
+                   ng-swipe-right="swiperight($event)" ng-click="next()" ng-style="myStyle"/>
+            </div>
+            <div class="col-md-4 col-offset-2">
+              <div class="row">
+              <table class="table-responsive">
+                <tr>
+                  <td nowrap="">
+                    לאום
+                  </td>
+                  <td id="religion" nowrap="">
+
+                  </td>
+                  <td>
+                    עיר
+                  </td>
+                  <td id="city">
+
+                  </td>
+                </tr>
+                <td>
+                  מגורים
+                </td>
+                <td id="livingwith" nowrap="">
+
+                </td>
+                <td  >
+                  סוג עבודה
+                </td>
+                <td id="jobtype" nowrap="">
+
+                </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    רמת בישול
+                  </td>
+                  <td nowrap="" id="cooking">
+
+                  </td>
+                  <td>
+                    מזל
+                  </td>
+                  <td nowrap="" id="zodiacsign">
+
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    כשרות
+                  </td>
+                  <td id="cosher">
+
+                  </td>
+                  <td>
+                    נמצא בבית
+                  </td>
+                  <td nowrap="" id="everydayathom">
+
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+
+                  </td>
+                  <td nowrap="">
+                  </td>
+                  <td>
+                    גובה
+                  </td>
+                  <td nowrap="" id="height">
+
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    הליכות
+                  </td>
+                  <td nowrap="" id="walking">
+
+                  </td>
+                  <td>
+                    חדר כושר
+                  </td>
+                  <td nowrap="" id="gym">
+                  </td>
+                </tr>
+              </table>
+              </div>
+              <div class="row" style="margin-top: 20px">
+                  <button type="button" class="btn btn-success" data-dismiss="modal">סגור בלי להסביר</button>
+                  <button type="button"
+                          ng-click="MoveToChatRoom()"
+                          class="btn btn-success"
+                          data-dismiss="modal">עבור לשוחח
+                  </button>
+                  <button type="button" class="btn btn-success" data-dismiss="modal"> דחה הפעם מבלי לפרט</button>
+                </div>
+                <div class="row" style="margin-top: 20px">
+                  <button type="button" class="btn btn-success" data-dismiss="modal">חסום</button>
+                </div>
+              <div class="row" style="margin-top: 20px">
+                  <button type="button" class="btn btn-success" data-dismiss="modal">שלח הודעה קצרה וסגור</button>
+                  <input type= "text" require  class="form-control" ng-model="messageToUser"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

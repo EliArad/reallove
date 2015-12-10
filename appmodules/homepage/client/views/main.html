@@ -54,7 +54,10 @@ Generic Styling, for Desktops/Laptops
                   {{ memberthumb.profile.numberofkids }}
                 </td>
 
-                <td style="color: lime;cursor:pointer" ng-click="AddToChatRoom(memberthumb.profile._id,memberthumb.profile.registrationObjectId)" class="animated infinite pulse" ng-show="isOnline">
+                <td style="color: lime;cursor:pointer"
+                    ng-click="AddToChatRoom(memberthumb.profile._id,memberthumb.profile.registrationObjectId)"
+                    class="animated infinite pulse"
+                    ng-show="isOnline">
                   online
                 </td>
               </tr>
@@ -196,5 +199,27 @@ Generic Styling, for Desktops/Laptops
       </div>
 
     </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div id="myModal" modal-show modal-visible="showDialog"   class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <p>A message has been send to start chat </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
   </div>
 </div>

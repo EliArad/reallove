@@ -20,9 +20,9 @@ app.factory("SessionStorageService", function() {
   }
 
   return {
-    set: setSessionStorage,
-    get: getSessionStorage,
-    remove : removeSessionStorage,
-    get_wd:getSessionStorage_wd
+    setSessionStorage: setSessionStorage,
+    getSessionStorage: getSessionStorage,
+    removeSessionStorage : removeSessionStorage,
+    getSessionStorage_wd:getSessionStorage_wd
   };
 });

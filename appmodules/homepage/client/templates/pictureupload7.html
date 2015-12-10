@@ -22,7 +22,7 @@
     <button type="button" ng-click="enablePictureDisplay(7,false)"  ng-show="showPicture7" class="btn btn-primary">מחק</button>
 
     <div class="hearts" >
-        <img src="{{imageSrc7}}" ng-show="showPicture7" ng-show="showPicture7" ng-style="{'width': pictureWidth , 'height': pictureHeight }" class="pictures"/>
+        <img  id="img7"  src="{{imageSrc7}}" ng-click="roate(7)"  ng-show="showPicture7" ng-show="showPicture7" ng-style="{'width': pictureWidth , 'height': pictureHeight }" class="pictures"/>
     </div>
 
 </form>

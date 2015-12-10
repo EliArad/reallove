@@ -4,13 +4,17 @@
 
 
 app.controller('mypicturesController', ['$scope', 'Registration', 'general','myConfig',
-               'fileUpload','myhttphelper','appCookieStore','fileReader','authToken','$http',
+               'fileUpload','myhttphelper','appCookieStore','fileReader','authToken','$http','API',
     function($scope, Registration,general,myConfig,
-             fileUpload,myhttphelper,appCookieStore,fileReader,authToken,$http) {
+             fileUpload,myhttphelper,appCookieStore,fileReader,authToken,$http,API) {
 
 
-
+      var imageBase64 = {};
       var vm = this;
+      $scope.allowRotate = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+
+      var angles = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+
       $scope.showPicture1 = true;
       $scope.showPicture2 = true;
       $scope.showPicture3 = true;
@@ -43,6 +47,35 @@ app.controller('mypicturesController', ['$scope', 'Registration', 'general','myC
         $state.go('login', {}, {reload: true});
       }
 
+      $scope.roate = function(id)
+      {
+
+        if ($scope.allowRotate[id] == 0)
+        {
+            return;
+        }
+
+        if ((angles[id]+ 90) <= 360)
+        {
+          angles[id]+= 90;
+        } else {
+          angles[id] = 0;
+        }
+        var srcid = '#img' + id;
+        $(srcid).rotate(
+          {
+            angle : angles[id]
+          }
+        );
+
+        $scope.allowRotate[id] = 0;
+        API.RoateMyPicture(id, function(err)
+        {
+          if (err == 'ok') {
+            $scope.allowRotate[id] = 1;
+          }
+        });
+      }
 
 
       $scope.enablePictureDisplay = function(index , del)
@@ -290,7 +323,7 @@ app.controller('mypicturesController', ['$scope', 'Registration', 'general','myC
               width: 80, // maximum width
               height: 80 // maximum height
             }, function(blob, didItResize) {
-              console.log('didItResize:' + didItResize);
+              //console.log('didItResize:' + didItResize);
               // didItResize will be true if it managed to resize it, otherwise false (and will return the original file as 'blob')
               //$scope.imageSrc1 = window.URL.createObjectURL(blob);
 
@@ -304,7 +337,7 @@ app.controller('mypicturesController', ['$scope', 'Registration', 'general','myC
               width: 300, // maximum width
               height: 300 // maximum height
             }, function(blob, didItResize) {
-              console.log('didItResize:' + didItResize);
+             // console.log('didItResize:' + didItResize);
               // didItResize will be true if it managed to resize it, otherwise false (and will return the original file as 'blob')
               //$scope.imageSrc1 = window.URL.createObjectURL(blob);
 
@@ -342,6 +375,8 @@ app.controller('mypicturesController', ['$scope', 'Registration', 'general','myC
 
         fileReader.readAsDataUrl(fileName, $scope)
           .then(function(result) {
+            console.log(result);
+            imageBase64[4] = result;
             $scope.imageSrc4 = result;
             ajaxUpload(result,4);
           });
@@ -352,6 +387,7 @@ app.controller('mypicturesController', ['$scope', 'Registration', 'general','myC
 
         fileReader.readAsDataUrl(fileName, $scope)
           .then(function(result) {
+            imageBase64[5] = result;
             $scope.imageSrc5 = result;
             ajaxUpload(result,5);
           });

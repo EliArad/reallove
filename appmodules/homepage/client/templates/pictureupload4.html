@@ -22,6 +22,13 @@
   <button type="button" ng-click="enablePictureDisplay(4,false)"  ng-show="showPicture4" class="btn btn-primary">מחק</button>
 
   <div class="hearts" >
-        <img src="{{imageSrc4}}" ng-show="showPicture4" ng-style="{'width': pictureWidth , 'height': pictureHeight }" class="pictures"/>
+        <img  id="img4"
+              src="{{imageSrc4}}"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="לחץ להפוך תמונה"
+              ng-click="roate(4)"
+              ng-show="showPicture4"
+              ng-style="{'width': pictureWidth , 'height': pictureHeight }" class="pictures"/>
     </div>
 </form>

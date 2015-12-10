@@ -2,8 +2,9 @@
 
 
 app.controller('MainController', ['$scope','$state','authToken','myhttphelper','dbsearch','myutils',
-                                  'appCookieStore','socketioservice','Idle','$rootScope',
-    function($scope,$state,authToken,myhttphelper,dbsearch,myutils,appCookieStore,socketioservice,Idle,$rootScope)
+                                  'appCookieStore','socketioservice','Idle','$rootScope','SessionStorageService','API',
+    function($scope,$state,authToken,myhttphelper,dbsearch,myutils,
+             appCookieStore,socketioservice,Idle,$rootScope,SessionStorageService,API)
     {
       var vm = this;
       $scope.pageClass = 'page-home';
@@ -80,7 +81,7 @@ app.controller('MainController', ['$scope','$state','authToken','myhttphelper','
         var totalPictures = result.length;
         vm.skipSize = 100;
         for (var i = 0; i < result.length;i++) {
-          console.log(result[i]);
+          //console.log(result[i]);
           var picName =  '/uploads/' + result[i].registrationObjectId.toString() + '/raw/' + 100 + '.jpg';
           var x = {
             src: picName,
@@ -102,14 +103,19 @@ app.controller('MainController', ['$scope','$state','authToken','myhttphelper','
       $scope.AddToChatRoom = function(id , rid)
       {
 
-         var allOnline = sessionStorage.getItem("allonlineIds");
-         if (allOnline == null)
-         {
-             allOnline = [];
-         }
-         allOnline.push(rid);
-         sessionStorage.setItem("allonlineIds", allOnline);
-         $state.go('mychatplaces', {}, {reload: true});
+        var fromid = SessionStorageService.getSessionStorage('userid');
+        console.log('fromid %s , toid %s' , fromid, rid);
+        API.SendChatRequest(fromid, id , rid, function (err)
+        {
+
+             if (err != "ok")
+             {
+               $state.go('login', {}, {reload: false});
+             } else {
+               //$scope.showDialog = true;
+             }
+
+        });
       }
 
       $(function(j) {

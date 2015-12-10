@@ -23,7 +23,15 @@
 
 
   <div class="hearts" >
-        <img src="{{imageSrc3}}" ng-show="showPicture3" ng-style="{'width': pictureWidth , 'height': pictureHeight }" class="pictures"/>
+        <img id="img3"
+             src="{{imageSrc3}}"
+             data-toggle="tooltip"
+             data-placement="top"
+             title="לחץ להפוך תמונה"
+             ng-click="roate(3)"
+             ng-show="showPicture3"
+             ng-style="{'width': pictureWidth , 'height': pictureHeight }"
+             class="pictures"/>
     </div>
 
 </form>

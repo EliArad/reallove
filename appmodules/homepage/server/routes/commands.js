@@ -4,7 +4,7 @@ var secret = require('../common/config').secret;
 var contactusconModel = require('../models/contactus').contactusModel;
 var myhelper = require('../modules/myhelpers');
 var jwtauth = require('../common/jwtauth');
-var fs = fs = require('fs');
+var fs = require('fs');
 var randomstring = require("randomstring");
 var captchaModel = require("../models/captcha").captchaModel;
 var membersModel = require('../models/members').membersModel;
@@ -23,8 +23,6 @@ var membersModelCount = 0;
 
 var routes = function (app) {
 
-
-  var commandsRouter = express.Router();
 
   app.post('/api/sendMessageToMember' , jwtauth, function (req, res, next) {
     var m = new inmessagesModel();

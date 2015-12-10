@@ -11,12 +11,19 @@ app.controller('GlobalController', ['$scope','$state', 'authToken','API','PassSe
     var index = 0;
     $scope.size = 0;
 
+    var busyForAMoment = false;
+
 
     socketioservice.setRequestForChatCallback(requestForChat);
 
 
     function requestForChat(data)
     {
+      if (busyForAMoment == true)
+      {
+          return;
+      }
+      busyForAMoment = true;
 
       API.getuserinfoById(data.fromid, function(vm)
       {
@@ -53,6 +60,11 @@ app.controller('GlobalController', ['$scope','$state', 'authToken','API','PassSe
       });
     }
 
+    $("#myModalReauestChat").on("hidden.bs.modal", function () {
+      console.log("closing");
+      busyForAMoment = false;
+    });
+
 
     $scope.swiperight = function($event) {
       //console.log("swiperight");
@@ -61,7 +73,6 @@ app.controller('GlobalController', ['$scope','$state', 'authToken','API','PassSe
     $scope.swipeleft = function($event) {
       previous();
     };
-
 
 
     var previous = function()
@@ -84,9 +95,10 @@ app.controller('GlobalController', ['$scope','$state', 'authToken','API','PassSe
     $scope.MoveToChatRoom = function()
     {
       $('#myModalReauestChat').modal('hide');
+      busyForAMoment = false;
       $state.go('mychatplaces', {}, {reload: false});
 
-      
+
     }
 
   }

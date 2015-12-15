@@ -1,46 +1,41 @@
-app.factory("socketioservice", function($rootScope,$http,authToken,myConfig)
-{
+app.factory("socketioservice", function ($rootScope, $http, authToken, myConfig) {
 
     var socket = io.connect('http://localhost:8000');
     var onlineUsers = {};
 
     var updateCallback = null;
     var requestForChatCallback = null;
+    var acceptChatCallback = null;
+    var incomingMessageFunctionCallback = null;
 
     //var socket = io.connect('http://localhost:8000',{'forceNew':true });
 
+    socket.on('connect', function (data) {
 
 
-     socket.on('connect', function(data) {
+        try {
+            var token = authToken.getToken();
+            //console.log("send token");
+            socket.emit('join', token);
+        } catch (err) {
 
-
-      try {
-         var token = authToken.getToken();
-         //console.log("send token");
-         socket.emit('join', token);
-      }
-      catch (err)
-      {
-
-      }
+        }
     });
 
-    socket.on('useridconnected', function (id,token) {
-       //console.log('User connected !!!!' + id);
-       onlineUsers[id] = token;
-       if (updateCallback != null)
-          updateCallback('connected' , id);
+    socket.on('useridconnected', function (id, token) {
+        //console.log('User connected !!!!' + id);
+        onlineUsers[id] = token;
+        if (updateCallback != null)
+            updateCallback('connected', id);
     });
 
-    socket.on('userdisconnected', function (id,token) {
+    socket.on('userdisconnected', function (id, token) {
         //console.log('userdisconnected !!!!' + id);
         try {
-          delete onlineUsers[id];
-          if (updateCallback != null)
-             updateCallback('disconnect' , id);
-        }
-        catch(e)
-        {
+            delete onlineUsers[id];
+            if (updateCallback != null)
+                updateCallback('disconnect', id);
+        } catch (e) {
 
         }
     });
@@ -54,82 +49,102 @@ app.factory("socketioservice", function($rootScope,$http,authToken,myConfig)
     });
 
     //$rootScope.$emit('myEvent',  'a'  );
-    socket.on('request_to_chat', function (fromid,toid, torid) {
-       console.log('request_to_chat fromid: %s  torid %s ' , fromid,torid);
-       var data = {
-         fromid : fromid,
-         toid: toid,
-         torid:torid
-       }
-       //$rootScope.$emit('myEvent',data );
-       requestForChatCallback(data);
+    socket.on('request_to_chat', function (fromid, toid, torid) {
+        console.log('request_to_chat fromid: %s  torid %s ', fromid, torid);
+        var data = {
+                fromid: fromid,
+                toid: toid,
+                torid: torid
+            }
+            //$rootScope.$emit('myEvent',data );
+        requestForChatCallback(data);
     });
 
-    function setRequestForChatCallback(c)
-    {
-       requestForChatCallback = c;
-    }
+    socket.on('chat_accpeted_move_to_chat_room', function (fromid, toid) {
+        console.log('chat_accpeted_move_to_chat_room fromid: %s  toid %s ', fromid, toid);
+        var data = {
+            fromid: fromid,
+            toid: toid,
+        }
+        acceptChatCallback(data);
+    });
 
-
-    function setCallback(c)
-    {
-       updateCallback = c;
-    }
-
-    function isUserOnline(id)
-    {
-      try {
-        var x = onlineUsers[id];
-        //console.log('isUserOnline ' + x);
-        if (x == undefined)
-          return false;
-        return true;
-      }
-      catch (e)
-      {
-         return false;
-      }
-    }
-
-    function disconnect()
-    {
-
-      var membersAPI = myConfig.url + "/api/getuserid";
-      return $http.get(membersAPI).success(function(id) {
-
-        var token = authToken.getToken();
-        //console.log('disconnect in service ' + token );
-        socket.emit('forcedisconnect', token);
-        /*
+    socket.on('sendMessage', function (fromid, toid, message) {
+        console.log('got send message to me! from %s : %s', fromid, message);
         try {
-          delete onlineUsers[id];
-          console.log('delete online user');
+            incomingMessageFunctionCallback(fromid, message);
+        } catch (err) {
+            console.log(err);
         }
-        catch (e)
-        {
+    });
 
+    function setAcceptChatCallback(c) {
+        acceptChatCallback = c;
+    }
+
+    function setRequestForChatCallback(c) {
+        requestForChatCallback = c;
+    }
+
+    function RegisterIncomingMessage(c) {
+        incomingMessageFunctionCallback = c;
+    }
+
+    function setCallback(c) {
+        updateCallback = c;
+    }
+
+    function isUserOnline(id) {
+        try {
+            var x = onlineUsers[id];
+            //console.log('isUserOnline ' + x);
+            if (x == undefined)
+                return false;
+            return true;
+        } catch (e) {
+            return false;
         }
-        socket.disconnect();
-        */
-      });
     }
 
-    function connect()
-    {
-       socket.connect();
+    function disconnect() {
+
+        var membersAPI = myConfig.url + "/api/getuserid";
+        return $http.get(membersAPI).success(function (id) {
+
+            var token = authToken.getToken();
+            //console.log('disconnect in service ' + token );
+            socket.emit('forcedisconnect', token);
+            /*
+            try {
+              delete onlineUsers[id];
+              console.log('delete online user');
+            }
+            catch (e)
+            {
+
+            }
+            socket.disconnect();
+            */
+        });
     }
 
-    function sendMessage(fromId, toid , message)
-    {
-       socket.emit('sendMessage', fromId, toid , message);
+    function connect() {
+        socket.connect();
     }
 
-    return{
-      connect:connect,
-      disconnect:disconnect,
-      isUserOnline:isUserOnline,
-      setCallback:setCallback,
-      setRequestForChatCallback:setRequestForChatCallback
+    function sendMessage(fromId, toid, message) {
+        socket.emit('sendMessage', fromId, toid, message);
+    }
+
+    return {
+        connect: connect,
+        disconnect: disconnect,
+        isUserOnline: isUserOnline,
+        setCallback: setCallback,
+        setRequestForChatCallback: setRequestForChatCallback,
+        sendMessage: sendMessage,
+        RegisterIncomingMessage: RegisterIncomingMessage,
+        setAcceptChatCallback: setAcceptChatCallback
     }
 
 });

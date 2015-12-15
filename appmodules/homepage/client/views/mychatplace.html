@@ -1,38 +1,16 @@
-<style>
-  .chat-container {
-    width: 400px;
-    height: 100%;
-    margin: 0 auto;
-  }
-</style>
-<div class="container " ng-controller="mychatplaceController as vm">
-<div class="row">
-  <div class="col-md-6">
-  <irontec-simple-chat
-    messages="vm.messages"
-    username="vm.username"
-    imageUrl="vm.imagesrc"
-    input-placeholder-text="You can write here"
-    submit-button-text="Send your message"
-    title="{{  vm.title }}"
-    theme="material"
-    submit-function="vm.sendMessage"
-    visible="vm.visible"
-    expand-on-new="vm.expandOnNew">
-  </irontec-simple-chat>
-  </div>
-  <div class="col-md-6">
-    <irontec-simple-chat
-      messages="vm.messages"
-      username="vm.username"
-      input-placeholder-text="You can write here"
-      submit-button-text="Send your message"
-      title="{{  vm.title }}"
-      theme="material"
-      submit-function="vm.sendMessage"
-      visible="vm.visible"
-      expand-on-new="vm.expandOnNew">
-    </irontec-simple-chat>
-  </div>
-</div>
-</div>
+<div class="container">
+
+
+    <div style="height: 800px; overflow: auto" scroll-glue>
+
+        <div class="row">
+
+
+            <div class="col-md-8 pull-right">
+                <irontec-simple-chat messages="messages" username="username" imageUrl="imagesrc" input- placeholder-text="You can write here" submit-button-text="שלח הודעה" title="{{  title }}" theme="material" submit-function="sendMessage" visible="visible" expand-on-new="expandOnNew">
+                </irontec-simple-chat>
+            </div>
+
+        </div>
+
+    </div>

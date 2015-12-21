@@ -19,12 +19,17 @@ app.controller('LoginController', ['$scope', '$state', 'authToken', '$cookieStor
             password: "",
             email: ""
         };
+
+        $scope.vm.clearError = function () {
+            $scope.loginfailure = false;
+        }
+
         //$scope.vm.user.email =$cookieStore.get('login_user_name');
         function login() {
 
             authToken.RemoveToken();
 
-            myhttphelper.doPost('/login', $scope.vm.user).
+            myhttphelper.doPost('/api/login', $scope.vm.user).
             then(sendResponseData).
             catch(sendResponseError);
 
@@ -36,11 +41,15 @@ app.controller('LoginController', ['$scope', '$state', 'authToken', '$cookieStor
                 //console.log("login:" + response.user._id);
                 SessionStorageService.setSessionStorage('userid', response.user._id);
                 $rootScope.$broadcast("updateHeader", authToken.getToken());
-
                 socketioservice.connect();
+                var rule = response.rule;
+                $rootScope.$broadcast("userrule", rule);
 
-                if (response.member.needInitiaDetails == true) {
-                    $state.go('newmember', {}, {
+                SessionStorageService.setSessionStorage('needInitiaDetailsBase', response.member.needInitiaDetailsBase);
+                SessionStorageService.setSessionStorage('needInitiaDetailsAll', response.member.needInitiaDetailsAll);
+
+                if (response.member.needInitiaDetailsBase == true || response.member.needInitiaDetailsAll == true) {
+                    $state.go('memberdetails', {}, {
                         reload: true
                     });
                 } else {

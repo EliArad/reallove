@@ -2,25 +2,25 @@
     /*
 Generic Styling, for Desktops/Laptops
 */
-    
+
     table {
         width: 100%;
         border-collapse: collapse;
         border: 1px solid #ccc;
     }
     /* Zebra striping */
-    
+
     tr:nth-of-type(odd) {
         background: #eee;
         border: 1px solid #ccc;
     }
-    
+
     th {
         background: #333;
         color: white;
         font-weight: bold;
     }
-    
+
     td,
     th {
         padding: 6px;
@@ -54,10 +54,10 @@ Generic Styling, for Desktops/Laptops
                   {{ memberthumb.profile.numberofkids }}
                 </td>
 
-                <td nowrap id="online{{$index}}" style="color: lime;cursor:pointer" data="{{ $index }}"
+                <td nowrap id="online{{$index}}" style="color: lime;cursor:pointer;display:none" data="{{ $index }}"
                     ng-click="AddToChatRoom(memberthumb.profile._id,memberthumb.profile.registrationObjectId,$event)"
-                    class="animated infinite pulse"
-                    ng-show="isOnline">
+                    ng-show="memberthumb.online"
+                    class="animated infinite pulse">
                   online
                 </td>
               </tr>
@@ -66,7 +66,7 @@ Generic Styling, for Desktops/Laptops
           </span>
 
                 </div>
-                <img src="{{ memberthumb.src }}" ng-click="ShowMember(memberthumb.id,memberthumb.rid)" class=" floating-box" width="300" height="300">
+                <img id="imgsrc{{$index}}" src="{{ memberthumb.src }}" ng-click="ShowMember(memberthumb.id,memberthumb.rid,$event)" data="{{ $index }}" class=" floating-box" width="300" height="300">
             </div>
             <div class="col-md-4 pull-right">
 

@@ -29,14 +29,12 @@ app.factory("API", function ($http, $q, myConfig, myutils) {
 
 
     function getNumberOfMails() {
-        //console.log('getNumberOfMails');
         var membersAPI = myConfig.url + "/api/mail/getnumberofmails";
         return $http.get(membersAPI).then(sendResponseData).catch(sendResponseError);
 
     }
 
     function IsOnlineUser() {
-        //console.log('getNumberOfMails');
         var membersAPI = myConfig.url + "/api/online/IsOnlineUser";
         return $http.get(membersAPI).then(sendResponseData).catch(sendResponseError);
     }
@@ -47,12 +45,10 @@ app.factory("API", function ($http, $q, myConfig, myutils) {
     }
 
     function sendResponseData(response) {
-        //console.log(response);
         return response.data;
     }
 
     function sendResponseError(response) {
-        //console.log("error from send " + response);
         return $q.reject("error from send " + response.status);
     }
 
@@ -68,7 +64,6 @@ app.factory("API", function ($http, $q, myConfig, myutils) {
         $http.get(membersAPI).then(function (result) {
             var userImageList = result.data.list;
             var id = result.data.id;
-            //console.log(id);
             var j = 0;
             for (var i = 1; i < 16; i++) {
                 if (userImageList[j] == true) {
@@ -91,7 +86,6 @@ app.factory("API", function ($http, $q, myConfig, myutils) {
         }).then(function (result) {
             var userImageList = result.data.list;
             var id = result.data.id;
-            //console.log(id);
             var j = 0;
             for (var i = 1; i < 16; i++) {
                 if (userImageList[j] == true) {
@@ -155,7 +149,6 @@ app.factory("API", function ($http, $q, myConfig, myutils) {
                 j++;
             }
             vm.currentUserTotalPictures = vm.currentUserAllPictures.length;
-            console.log("SIZE *******" + vm.currentUserTotalPictures);
             vm.currentMemberToShow.src = vm.currentUserAllPictures[0];
             if (vm.userImageList[1] == true) {
                 vm.currentMemberToShow.src1 = vm.currentUserAllPictures[1];
@@ -177,8 +170,6 @@ app.factory("API", function ($http, $q, myConfig, myutils) {
         $http.post(membersAPI, {
             id: id
         }).success(function (result) {
-
-            //console.log("rotate: " + result)
             callback(result);
         });
     }
@@ -207,7 +198,23 @@ app.factory("API", function ($http, $q, myConfig, myutils) {
     }
 
 
-    return {
+    function Logout() {
+
+        var membersAPI = myConfig.url + "/api/Logout";
+        return $http.get(membersAPI).then(sendResponseData).catch(sendResponseError);
+    }
+
+
+    function GetNumberUsersOnline(callback) {
+      var membersAPI = myConfig.url + "/api/GetNumberUsersOnline";
+      return $http.get(membersAPI).then(function (result){
+        callback("ok" , result.data);
+      }).catch(function (result){
+        callback("error" , result.data);
+      });
+    }
+
+  return {
         getNumberOfMails: getNumberOfMails,
         getImageList: getImageList,
         saveSelectedfood: saveSelectedfood,
@@ -225,7 +232,9 @@ app.factory("API", function ($http, $q, myConfig, myutils) {
         RoateMyPicture: RoateMyPicture,
         UserAcceptMoveToChatRoom: UserAcceptMoveToChatRoom,
         IamInCall: IamInCall,
-        IsUserInACall: IsUserInACall
+        IsUserInACall: IsUserInACall,
+        Logout: Logout,
+        GetNumberUsersOnline:GetNumberUsersOnline
 
     }
 

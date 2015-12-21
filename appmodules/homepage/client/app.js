@@ -34,7 +34,7 @@ var app = angular
     'irontec.simpleChat'
 
   ]).constant("myConfig", {
-        "url": "http://localhost:8000",
+        "url": "http://192.168.22.32:8000",
         'timeoutSeconds': 1200,
         'idletimeSeconds': 1100,
         "MaxPicturesForMember": 14,
@@ -42,7 +42,7 @@ var app = angular
             console.log(cities);
             if (!cities.length) {
                 console.log("cities constant");
-                var url = 'http://localhost:8000/api/getcities';
+                var url = 'http://192.168.22.32:8000/api/getcities';
                 $http.get(url).then(function (result) {
                     //console.log(result);
                     cities = result;

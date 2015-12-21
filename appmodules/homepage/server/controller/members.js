@@ -131,12 +131,12 @@ module.exports = function(membersModel) {
             return;
           }
 
-            console.log("update  " + req.body.member.nickName);
+            //console.log("update  " + req.body.member.nickName);
 
             // take the mamber from the findById middleware
             var member = req.member;
             member = _.extend(member, req.body.member);
-            console.log(member.nickName);
+            //console.log(member.nickName);
 
             member.save(function(err) {
                 if (err) {
@@ -203,21 +203,21 @@ module.exports = function(membersModel) {
             console.log("not authorized");
             return next();
           }
-          console.log("show member");
+          //console.log("show member");
           // why member ? it is our middleware findById that was injected into the request :)
           res.json({member:req.member});
 
         },
         all: function(req, res,next)
         {
-            console.log("member all");
+            //console.log("member all");
             if (req.foundToken == false)
             {
                 console.log("not authorized");
                 next();
                 return;
             }
-            console.log("get all");
+            //console.log("get all");
             membersModel.find(function(err, membersResults) {
             //membersModel.find({}).sort('-created').populate('user', 'name username').exec(function(err, membersResults) {
                 if (err) {

@@ -5,8 +5,10 @@ var express = require('express'),
     moment = require('moment');
 args = require('yargs').argv;
 
-var demofile = './uploads/' + '566408969e8d1b71d0982d20' + "/raw/5.jpg";
-var demofile1 = './uploads/' + '566408969e8d1b71d0982d20' + "/raw/6.jpg";
+var cors = require('./appmodules/homepage/server/common/cors');
+
+//var demofile = './uploads/' + '566408969e8d1b71d0982d20' + "/raw/5.jpg";
+//var demofile1 = './uploads/' + '566408969e8d1b71d0982d20' + "/raw/6.jpg";
 /*
 //https://www.npmjs.com/package/easyimage
 var easyimg = require('easyimage');
@@ -44,7 +46,13 @@ var notifyServer = new notifyServerModule(io);
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
+    res.header("Access-Control-Allow-Methods", 'PUT', 'GET', 'POST', 'DELETE', 'OPTIONS');
+    // intercept OPTIONS method
+    if ('OPTIONS' == req.method) {
+        res.send(200);
+    } else {
+        next();
+    }
 });
 
 
@@ -141,19 +149,42 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(bodyParser.json());
-var commandsRoutes = require('./appmodules/homepage/server/routes/commands')(app);
+
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+/*
+const MongoStore = require('connect-mongo')(session);
+app.use(session({
+    secret: 'eeee',
+    saveUninitialized: true,
+    resave: true,
+    store: new MongoStore({
+        mongooseConnection: mongoose.connecion
+    })
+}));
+*/
+/*
+app.use(cookieParser());
+
+require('./config/passport')(app);
+*/
+
+var commandsRoutes = require('./appmodules/homepage/server/routes/commands')(app,notifyServer);
 var generalRoutes = require('./appmodules/homepage/server/routes/general')(app);
 var getGeneralRoutes = generalRoutes.routes;
 
 var registerRoutes = require('./appmodules/homepage/server/routes/register')(registerController, regModel);
 var mailRoutes = require('./appmodules/homepage/server/routes/mail');
+var adminRoutes = require('./appmodules/homepage/server/routes/admin')(notifyServer);
 var chatRoutes = require('./appmodules/homepage/server/routes/chat')(app, notifyServer, membersModel.membersModel);
 var onlineRoutes = require('./appmodules/homepage/server/routes/online');
 
 
-app.use('/api', getmembersRouters);
-app.use('/api', registerRoutes.routes);
+
+app.use('/api/members', getmembersRouters);
+app.use('/api/register', registerRoutes.routes);
 app.use('/api/mail', mailRoutes);
+app.use('/api/admin', adminRoutes.router);
 app.use('/api/online', onlineRoutes);
 app.use('/api/general', jwtauth, getGeneralRoutes);
 
@@ -172,7 +203,7 @@ app.use(
 
 var loginCtrl = require('./appmodules/homepage/server/controller/login');
 loginCtrl.setModel(regModel, membersModel.membersModel);
-app.post('/login', loginCtrl.login);
+app.post('/api/login', loginCtrl.login);
 
 var util = require('util');
 
@@ -317,10 +348,14 @@ app.post('/api/uploadvideo', bodyParser({
 
 
 app.get('/isauth', jwtauth, function (req, res, next) {
-    //    console.log('isauth');
     res.sendStatus(200); // must return a response!!!
-
 });
+
+
+app.get('/eli', cors, function (req, res) {
+    res.send("ok from this");
+});
+
 
 
 app.use(function (err, req, res, next) {
@@ -330,11 +365,11 @@ app.use(function (err, req, res, next) {
 
 
 app.get('*', function (req, res) {
-    res.send(500, 'error');
+    res.send(500, 'error 4000');
 });
 
 app.post('*', function (req, res) {
-    res.send(500, 'error');
+    res.send(500, 'error 5000');
 });
 
 

@@ -98,8 +98,11 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
             url: '/mychatplacesnotme',
             controller: 'mychatplaceControllerNotMe',
             templateUrl: '/appmodules/homepage/client/views/mychatplace.html'
-        })
-
+        }).state('admin', {
+            url: '/admin',
+            controller: 'adminController',
+            templateUrl: '/appmodules/homepage/client/views/adminpage.html'
+          });
 
 
     $httpProvider.interceptors.push('authIntercepter');

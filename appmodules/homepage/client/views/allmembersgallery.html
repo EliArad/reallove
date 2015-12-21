@@ -1,53 +1,57 @@
 <style>
-  /*
-Generic Styling, for Desktops/Laptops
-*/
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    border: 1px solid #ccc;
-  }
-  /* Zebra striping */
-  tr:nth-of-type(odd) {
-    background: #eee;
-    border: 1px solid #ccc;
-  }
-  th {
-    background: #333;
-    color: white;
-    font-weight: bold;
-  }
-  td, th {
-    padding: 6px;
-    border: 1px solid #ccc;
-    text-align: left;
-  }
+    .container1 {
+        padding-left: 20px;
+        padding-right: 10px;
+        margin-left: 20px;
+        margin-right: 10px;
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1px solid #ccc;
+    }
+    /* Zebra striping */
+    
+    tr:nth-of-type(odd) {
+        background: #eee;
+        border: 1px solid #ccc;
+    }
+    
+    th {
+        background: #333;
+        color: white;
+        font-weight: bold;
+    }
+    
+    td,
+    th {
+        padding: 6px;
+        border: 1px solid #ccc;
+        text-align: left;
+    }
 </style>
 
 <style>
-
-  .floating-box {
-    float: left;
-
-    border: 1px solid gray;
-    padding: 5px;
-  }
-
-
+    .floating-box {
+        float: left;
+        border: 1px solid gray;
+        padding: 5px;
+    }
 </style>
-<div class="container">
+<div class="container1">
 
 
-  <!-- show and hide the lion picture -->
-  <div ng-show="lions">
-    <div class="row">
-      <div class="col-md-8 pull-right">
+    <!-- show and hide the lion picture -->
+    <div ng-show="lions">
+        <div class="row">
+            <div class="col-md-9 pull-right">
 
 
-        <div>
-         <span style="font-size: large; color:darkblue">
+                <div>
+                    <span style="font-size: large; color:darkblue">
 
-           <table style="width: 50%;border: none">
+           <table style="width: 100%;border: none;background-color:red">
              <tr style="background-color: white;border: none">
                <td >
                  {{ currentMemberToShow.member.nickName }}
@@ -61,160 +65,150 @@ Generic Styling, for Desktops/Laptops
                <td>
                  {{ currentMemberToShow.member.numberofkids }}
                </td>
-               <td style="color: lime;cursor:pointer" class="animated infinite pulse" ng-show="isOnline">
+               <td align="left" style="color: lime;cursor:pointer" class="animated infinite pulse" ng-show="isOnline">
                  online
                </td>
-             </tr>
+<td>
+    <a class="btn btn-primary" href="#" ng-click="ClosePopup()" ng-class="{ active: lions }">חזור לגלריה</a>
+</td>             </tr>
            </table>
           </span>
-        </div>
-
-
-        <img src="{{ currentMemberToShow.src }}"    ng-swipe-left="swipeleft($event)" resize
-             ng-swipe-right="swiperight($event)" ng-click="next()" ng-style="myStyle"/>
-      </div>
-      <div class="col-md-4">
-        <div class="row">
-          <div class="col-md-6">
-            <table class="table-responsive">
-              <tr>
-                <td nowrap="">
-                  לאום
-                </td>
-                <td nowrap="">
-                  {{ currentMemberToShow.member.religion }}
-                </td>
-                <td>
-                  עיר
-                </td>
-                <td>
-                  <div class="desc">{{ currentMemberToShow.member.city }}</div>
-                </td>
-              </tr>
-              <td>
-                מגורים
-              </td>
-              <td nowrap="">
-
-                <div class="desc">{{ currentMemberToShow.member.livingwith }}</div>
-
-              </td>
-              <td  >
-                סוג עבודה
-              </td>
-              <td nowrap="">
-
-                <div class="desc">{{ currentMemberToShow.member.jobtype }}</div>
-
-              </td>
-              </tr>
-
-              <tr>
-                <td>
-                  רמת בישול
-                </td>
-                <td nowrap="">
-                  <div class="desc">{{ currentMemberToShow.member.cooking }}</div>
-                </td>
-                <td>
-                  מזל
-                </td>
-                <td nowrap="">
-
-                  <div class="desc">{{ currentMemberToShow.member.zodiacsign }}</div>
-
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  כשרות
-                </td>
-                <td>
-                  <div class="desc">{{ currentMemberToShow.member.cosher }}</div>
-                </td>
-                <td>
-                  נמצא בבית
-                </td>
-                <td nowrap="">
-
-                  <div class="desc">{{ currentMemberToShow.member.everydayathom }}</div>
-
-                </td>
-              </tr>
-              <tr>
-                <td>
-
-                </td>
-                <td nowrap="">
-
-                </td>
-                <td>
-                  גובה
-                </td>
-                <td nowrap="">
-
-                  <div class="desc">{{ currentMemberToShow.member.height }}</div>
-
-                </td>
-              </tr>
-
-              <tr>
-                <td>
-                  הליכות
-                </td>
-                <td nowrap="">
-                  <div class="desc">{{ currentMemberToShow.member.walking }}</div>
-                </td>
-                <td>
-                  חדר כושר
-                </td>
-                <td nowrap="">
-
-                  <div class="desc">{{ currentMemberToShow.member.gym }}</div>
-
-                </td>
-              </tr>
-
-            </table>
-          </div>
-          <div class="col-md-6">
-            <img alt="" class="img-circle" width="150" height="150" src="{{ currentMemberToShow.src1 }}" style="">
-            <a class="btn btn-primary" href="#" style="margin-right:70px;margin-top:20px" ng-click="ClosePopup()"
-               ng-class="{ active: lions }">חזור לגלריה</a>
-          </div>
-        </div>
-        <div class="row" style="margin-top: 20px">
-          <div class="col-md-12">
-            <div class="span8 well" style="padding-bottom:50px">
-              <form name="form" accept-charset="UTF-8" ng-submit="submit(form.$valid)">
-                <label for="title">נושא</label>
-                <input type="text" name="title" id="title" required class="form-control" ng-model="title"
-                       ng-class="{ 'has-error': form.title.$error.required }"/>
-
-                <div class="form-group" ng-class="{ 'has-error': form.messagebody.$error.required }">
-                <textarea required class="form-control" rows="5" id="new_message" name="whoami" ng-model="messagebody"
-                          placeholder="כבוש את ליבה"></textarea>
                 </div>
 
-                <h6 id="cLeft" class="pull-right">500 אותיות נשארו</h6>
-                <button id="sendButton"
-                        ng-class="{ 'animated tada': showMessageSendOk  , 'animated rubberBand': showMessageSendFailure}"
-                        class="btn btn-info pull-left" ng-disabled="form.$invalid" type="submit">
-                  שלח הודעה
-                </button>
-              </form>
+
+                <img src="{{ currentMemberToShow.src }}" ng-swipe-left="swipeleft($event)" class="img-responsive" ng-style="myStyle" ng-swipe-right="swiperight($event)" ng-click="next()" />
             </div>
-          </div>
+            <div class="col-md-3">
+                <div class="row">
+                    <img alt="" class="img-circle" width="150" height="150" src="{{ currentMemberToShow.src1 }}" style="">
+                </div>
+                <div class="row">
+                    <table class="table-responsive">
+                        <tr>
+                            <td nowrap="">
+                                לאום
+                            </td>
+                            <td nowrap="">
+                                {{ currentMemberToShow.member.religion }}
+                            </td>
+                            <td>
+                                עיר
+                            </td>
+                            <td>
+                                <div class="desc">{{ currentMemberToShow.member.city }}</div>
+                            </td>
+                        </tr>
+                        <td>
+                            מגורים
+                        </td>
+                        <td nowrap="">
+
+                            <div class="desc">{{ currentMemberToShow.member.livingwith }}</div>
+
+                        </td>
+                        <td nowrap>
+                            סוג עבודה
+                        </td>
+                        <td nowrap="">
+
+                            <div class="desc">{{ currentMemberToShow.member.jobtype }}</div>
+
+                        </td>
+                        </tr>
+
+                        <tr>
+                            <td nowrap>
+                                רמת בישול
+                            </td>
+                            <td nowrap="">
+                                <div class="desc">{{ currentMemberToShow.member.cooking }}</div>
+                            </td>
+                            <td>
+                                מזל
+                            </td>
+                            <td nowrap="">
+
+                                <div class="desc">{{ currentMemberToShow.member.zodiacsign }}</div>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td nowrap>
+                                כשרות
+                            </td>
+                            <td>
+                                <div class="desc">{{ currentMemberToShow.member.cosher }}</div>
+                            </td>
+                            <td nowrap>
+                                נמצא בבית
+                            </td>
+                            <td nowrap>
+
+                                <div class="desc">{{ currentMemberToShow.member.everydayathom }}</div>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+
+                            </td>
+                            <td nowrap="">
+
+                            </td>
+                            <td>
+                                גובה
+                            </td>
+                            <td nowrap="">
+
+                                <div class="desc">{{ currentMemberToShow.member.height }}</div>
+
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td nowrap>
+                                הליכות
+                            </td>
+                            <td nowrap="">
+                                <div class="desc">{{ currentMemberToShow.member.walking }}</div>
+                            </td>
+                            <td nowrap>
+                                חדר כושר
+                            </td>
+                            <td nowrap="">
+
+                                <div class="desc">{{ currentMemberToShow.member.gym }}</div>
+
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+                <div class="row" style="margin-top:20px">
+                    <div class="span8 well" style="padding-bottom:50px">
+                        <form name="form" accept-charset="UTF-8" ng-submit="submit(form.$valid)">
+                            <label for="title">נושא</label>
+                            <input type="text" name="title" id="title" required class="form-control" ng-model="title" ng-class="{ 'has-error': form.title.$error.required }" />
+
+                            <div class="form-group" ng-class="{ 'has-error': form.messagebody.$error.required }">
+                                <textarea required class="form-control" rows="5" id="new_message" name="whoami" ng-model="messagebody" placeholder="כבוש את ליבה"></textarea>
+                            </div>
+
+                            <h6 id="cLeft" class="pull-right">500 אותיות נשארו</h6>
+                            <button id="sendButton" ng-class="{ 'animated tada': showMessageSendOk  , 'animated rubberBand': showMessageSendFailure}" class="btn btn-info pull-left" ng-disabled="form.$invalid" type="submit">
+                                שלח הודעה
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 
 
-  <div ng-repeat="memberthumb in allmembersthumb" ng-show="allthumberspictures">
-    <img src="{{ memberthumb.src }}" ng-click="ShowMember(memberthumb.id,memberthumb.rid)" class=" floating-box"
-         width="220" height="250">
-  </div>
+    <div ng-repeat="memberthumb in allmembersthumb" ng-show="allthumberspictures">
+        <img src="{{ memberthumb.src }}" ng-click="ShowMember(memberthumb.id,memberthumb.rid)" class=" floating-box" width="220" height="250">
+    </div>
 
 
 </div>

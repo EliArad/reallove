@@ -49,7 +49,7 @@ var routes = function (app, notifyServer, membersModel) {
             if (err) {
                 res.status(500).send("middleware did not found the id" + err);
             } else if (member) {
-                console.log(member.nickName);
+                //console.log(member.nickName);
                 res.send(member.nickName);
             } else {
                 res.status(500);

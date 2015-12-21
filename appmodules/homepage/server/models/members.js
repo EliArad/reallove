@@ -13,7 +13,8 @@ var MembersSchema = new Schema({
 
     created: {
         type: Date,
-        default: Date.now
+        default: Date.now,
+        index: true
     },
     whoami: {
         type: String,
@@ -24,126 +25,153 @@ var MembersSchema = new Schema({
         trim: true
     },
     needInitiaDetailsBase: {
-      type: Boolean,
-      default: true
+        type: Boolean,
+        default: true
     },
     needInitiaDetailsAll: {
+        type: Boolean,
+        default: true
+    },
+    nickName: {
+        type: String,
+        trim: true
+    },
+    gym: {
+        type: String,
+        trim: true,
+        index: true
+    },
+    walking: {
+        type: String,
+        trim: true,
+        index: true
+    },
+    licenseandcar: {
+        type: String,
+        trim: true,
+        index: true
+    },
+    everydayathom: {
+        type: String,
+        trim: true,
+        index: true
+    },
+    cosher: {
+        type: String,
+        trim: true,
+        index: true
+    },
+    bmi: {
+        type: String,
+        trim: true
+    },
+    running: {
+        type: String,
+        trim: true,
+        index: true
+    },
+    jobtype: {
+        type: String,
+        trim: true
+    },
+    livingwith: {
+        type: String,
+        trim: true,
+        index: true
+    },
+    eatmeat: {
+        type: String,
+        trim: true,
+        index: true
+    },
+    moutainbikes: {
+        type: String,
+        trim: true,
+        index: true
+    },
+    cooking: {
+        type: String,
+        trim: true,
+        index: true
+    },
+    bornday: {
+        type: Number,
+        trim: true,
+        index: true
+    },
+    bornmonth: {
+        type: Number,
+        trim: true,
+        index: true
+    },
+    bornyear: {
+        type: Number,
+        trim: true,
+        index: true
+    },
+    zodiacsign: {
+        type: String,
+        trim: true,
+        index: true
+    },
+    education: {
+        type: String,
+        trim: true,
+        index: true
+    },
+    height: {
+        type: Number,
+        index: true
+    },
+    religion: {
+        type: String,
+        trim: true,
+        index: true
+    },
+    status: {
+        type: String,
+        trim: true,
+        index: true
+    },
+    numberofkids: {
+        type: String,
+        trim: true,
+        index: true
+    },
+    smoking: {
+        type: String,
+        trim: true,
+        index: true
+    },
+    city: {
+        type: String,
+        trim: true
+    },
+    religionbelong: {
+        type: String,
+        trim: true
+    },
+    gender: {
+        type: String,
+        trim: true,
+        index: true
+    },
+    blocked : {
       type: Boolean,
-      default: true
+      default:false
     },
-    nickName : {
-      type: String,
-      trim: true
-    },
-    gym : {
-      type: String,
-      trim: true
-    },
-    walking : {
-      type: String,
-      trim: true
-    },
-    licenseandcar : {
-      type: String,
-      trim: true
-    },
-    everydayathom : {
-      type: String,
-      trim: true
-    },
-    cosher : {
-      type: String,
-      trim: true
-    },
-    bmi : {
-      type: String,
-      trim: true
-    },
-    running : {
-      type: String,
-      trim: true
-    },
-    jobtype : {
-      type: String,
-      trim: true
-    },
-    livingwith : {
-      type: String,
-      trim: true
-    },
-    eatmeat : {
-      type: String,
-      trim: true
-    },
-     moutainbikes : {
-        type: String,
-        trim: true
-    },
-    cooking : {
-      type: String,
-      trim: true
-    },
-    bornday : {
-      type: Number,
-      trim: true
-    },
-    bornmonth : {
-      type: Number,
-      trim: true
-    },
-    bornyear : {
-      type: Number,
-      trim: true
-    },
-    zodiacsign : {
-      type: String,
-      trim: true
-    },
-    education : {
-      type: String,
-      trim: true
-    },
-    height : {
-      type: Number
-    },
-    religion : {
-      type: String,
-      trim: true
-    },
-    status : {
-        type: String,
-        trim: true
-    },
-    numberofkids : {
-      type: String,
-      trim: true
-    },
-    smoking : {
-      type: String,
-      trim: true
-    },
-    city : {
-        type: String,
-        trim: true
-    },
-    religionbelong : {
-      type: String,
-      trim: true
-    },
-    gender : {
-        type: String,
-        trim: true
-    },
-
-    selectedpasstime :   [],
-    selectedfood : [],
-    selectedlang : [],
+    selectedpasstime: [],
+    selectedfood: [],
+    selectedlang: [],
     restselection: [],
     user: {
         type: Schema.ObjectId,
         ref: 'User'
     },
-    registrationObjectId: {type: mongoose.Schema.Types.ObjectId, ref: 'registrations'}
+    registrationObjectId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'registrations'
+    }
 });
 
 
@@ -152,6 +180,6 @@ var MembersSchema = new Schema({
 var membersModel = mongoose.model('SiteMembers', MembersSchema);
 
 module.exports = {
-  membersModel :membersModel
+    membersModel: membersModel
 
 }

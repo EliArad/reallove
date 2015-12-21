@@ -2,17 +2,20 @@
 
 
 app.controller('MainController', ['$scope', '$state', 'authToken', 'myhttphelper', 'dbsearch', 'myutils',
-                                  'appCookieStore', 'socketioservice', 'Idle', '$rootScope', 'SessionStorageService', 'API',
+                                  'appCookieStore', 'socketioservice', 'Idle', '$rootScope',
+                                  'SessionStorageService', 'API', 'myConfig', '$http','$window',
     function ($scope, $state, authToken, myhttphelper, dbsearch, myutils,
-            appCookieStore, socketioservice, Idle, $rootScope, SessionStorageService, API)
+              appCookieStore, socketioservice, Idle, $rootScope, SessionStorageService,
+              API, myConfig, $http,$window)
         {
             var vm = this;
+            vm.skipSize = 0;
             $scope.pageClass = 'page-home';
             $scope.allmembersthumb = [];
             $scope.allthumberspictures = true;
-
+            var index = 0;
             $scope.isOnline = false;
-
+            var lastShowId = -1;
 
 
             $scope.$on('IdleStart', function () {
@@ -46,11 +49,9 @@ app.controller('MainController', ['$scope', '$state', 'authToken', 'myhttphelper
             socketioservice.setCallback(connectionCallback);
 
             function connectionCallback(status, id) {
-                $scope.isOnline = socketioservice.isUserOnline(id);
-                console.log('connectionCallback ' + $scope.isOnline);
-                $scope.$digest();
+                var isOnline = socketioservice.isUserOnline(id);
+              console.log('online: ' + id);
             }
-
 
             appCookieStore.set('mainview', 'smallcardsview');
 
@@ -64,6 +65,15 @@ app.controller('MainController', ['$scope', '$state', 'authToken', 'myhttphelper
                     $state.go('login', {}, {
                         reload: true
                     });
+                } else {
+                    var n1 = SessionStorageService.getSessionStorage('needInitiaDetailsBase');
+                    var n2 = SessionStorageService.getSessionStorage('needInitiaDetailsAll');
+
+                    if (n1 == 'true' || n2 == 'true') {
+                        $state.go('memberdetails', {}, {
+                            reload: true
+                        });
+                    }
                 }
             }
 
@@ -80,19 +90,21 @@ app.controller('MainController', ['$scope', '$state', 'authToken', 'myhttphelper
 
 
             function UsersOk(result) {
-                var totalPictures = result.length;
+                console.log(result);
+                var totalPictures = result.results.length;
                 vm.skipSize = 100;
-                for (var i = 0; i < result.length; i++) {
+                for (var i = 0; i < result.results.length; i++) {
                     //console.log(result[i]);
-                    var picName = '/uploads/' + result[i].registrationObjectId.toString() + '/raw/' + 100 + '.jpg';
+                    var picName = '/uploads/' + result.results[i].registrationObjectId.toString() + '/raw/' + 100 + '.jpg';
                     var x = {
                         src: picName,
-                        id: result[i].id,
-                        rid: result[i].registrationObjectId,
-                        profile: result[i]
+                        id: result.results[i].id,
+                        rid: result.results[i].registrationObjectId,
+                        profile: result.results[i],
+                        online:result.online[i]
                     }
-
-                    x.profile.age = myutils.getAge(result[i].created);
+                    //console.log(x.online);
+                    x.profile.age = myutils.getAge(result.results[i].created);
                     $scope.allmembersthumb.push(x);
                 }
             }
@@ -150,39 +162,82 @@ app.controller('MainController', ['$scope', '$state', 'authToken', 'myhttphelper
             });
 
 
-            $scope.ShowMember = function (id, rid) {
+          $(window).scroll(function () {
+            if ($scope.allthumberspictures == false) {
+              return;
+            }
+            if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+
+              dbsearch.getNextNUserIds(100, vm.skipSize).then(function (result) {
+                //console.log("Get next: " + result);
+                var totalPictures = result.length;
+                if (totalPictures == 0) {
+                  console.log("no more to present")
+                  return;
+                }
+                vm.skipSize += 100;
+
+                for (var i = 0; i < result.length; i++) {
+                  var picName = '/uploads/' + result[i].rid.toString() + '/raw/' + 100 + '.jpg';
+                  var x = {
+                    src: picName,
+                    id: result[i].id,
+                    rid: result[i].rid
+                  }
+                  $scope.allmembersthumb.push(x);
+                  //$scope.$apply();
+                }
+              }).catch(function (result) {
+
+              });
+            }
+          });
 
 
-                var membersAPI = myConfig.url + "/api/getuserinfoById";
-                $http.post(membersAPI, {
-                    'UserId': rid
-                }).success(function (result) {
-                    vm.userImageList = result.list;
-                    vm.currentUserAllPictures = [];
-                    var j = 0;
-                    for (var i = 1; i < 16; i++) {
-                        if (vm.userImageList[j] == true) {
-                            vm.currentUserAllPictures.push('/uploads/' + rid.toString() + '/raw/' + i + '.jpg');
+
+
+
+
+
+
+
+            $scope.ShowMember = function (id, rid, obj) {
+
+                var dataValue = obj.target.attributes.data.value;
+
+                if (lastShowId != dataValue) {
+                    index = 0;
+                    lastShowId = dataValue;
+                    var membersAPI = myConfig.url + "/api/getuserinfoById";
+                    $http.post(membersAPI, {
+                        'UserId': rid
+                    }).success(function (result) {
+                        vm.userImageList = result.list;
+                        vm.currentUserAllPictures = [];
+                        var j = 0;
+                        for (var i = 1; i < 16; i++) {
+                            if (vm.userImageList[j] == true) {
+                                vm.currentUserAllPictures.push('/uploads/' + rid.toString() + '/raw/' + i + '.jpg');
+                            }
+                            j++;
                         }
-                        j++;
-                    }
-                    vm.currentUserTotalPictures = vm.currentUserAllPictures.length;
-                    $scope.currentMemberToShow.src = vm.currentUserAllPictures[0];
-                    if (vm.userImageList[1] == true) {
-                        $scope.currentMemberToShow.src1 = vm.currentUserAllPictures[1];
-                    } else {
-                        $scope.currentMemberToShow.src1 = vm.currentUserAllPictures[0];
-                    }
-                    $scope.currentMemberToShow.id = id;
-                    $scope.currentMemberToShow.rid = rid;
-                    $scope.currentMemberToShow.member = result.member;
-                    $scope.currentMemberToShow.member.age = myutils.getAge($scope.currentMemberToShow.member);
-                    $scope.allthumberspictures = false;
-                    $scope.lions = true;
+                        vm.currentUserTotalPictures = vm.currentUserAllPictures.length;
+                        index = (index + 1) % vm.currentUserTotalPictures;
+                        console.log("here" + index);
+                        console.log(vm.currentUserTotalPictures);
+                        var id = 'imgsrc' + dataValue;
+                        document.getElementById(id).src = vm.currentUserAllPictures[index];
 
-                }).error(function (result) {
-                    console.log(result);
-                });
+
+                    }).error(function (result) {
+                        console.log(result);
+                    });
+                } else {
+                    index = (index + 1) % vm.currentUserTotalPictures;
+                    console.log("here1" + index);
+                    var id = 'imgsrc' + dataValue;
+                    document.getElementById(id).src = vm.currentUserAllPictures[index];
+                }
             }
 
     } // the controller closing

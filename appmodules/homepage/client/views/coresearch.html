@@ -11,52 +11,50 @@
 
 
 <div class="container " style="margin-top: 20px" ng-controller="coresearchController as vm">
-  <div class="row">
-    <div class="col-sm-4">
+    <div class="row">
+        <div class="col-sm-4">
 
-    </div>
-
-
-    <div class="col-sm-4">
-
-      <label for="searchreligion">עם שיוך דתי</label>
-      <div class="checkbox" ng-repeat="item in vm.searchreligion">
-        <label><input type="checkbox"  id="searchreligion" value="">{{item }}</label>
-      </div>
-
-
-      <label for="smokingssearch">{{vm.labelsmokingsearch }} ? </label>
-      <select class="form-control" style="width: 180px" name="smokingssearch" id="smokingssearch" ng-model="vm.usersearch.smokingpartner"
-              ng-change="updatestatus(2)">
-        <option>כן</option>
-        <option>לא</option>
-        <option>לא משנה לי</option>
-      </select>
-
-    </div>
-    <div class="col-sm-4">
-
-
-      <label for="statussearch">{{vm.labelsearch }} </label>
-      <div class="divcol">
-        <div class="checkbox" ng-repeat="item in vm.statussearch">
-          <label><input type="checkbox" id="statussearch" value="">{{item }}</label>
         </div>
-      </div>
 
 
-      <label for="searchnumberkids">ילדים ?</label>
-      <select class="form-control"  style="width: 180px" name="smoking" id="searchnumberkids" ng-model="vm.usersearch.searchnumberofkids">
-        <option>ללא ילדים</option>
-        <option>עם ילדים</option>
-        <option>לא משנה לי</option>
-      </select>
+        <div class="col-sm-4">
+
+            <label for="searchreligion">עם שיוך דתי</label>
+            <div class="checkbox" ng-repeat="item in vm.searchreligion">
+                <label>
+                    <input type="checkbox" id="searchreligion" value="">{{item }}</label>
+            </div>
+
+
+            <label for="smokingssearch">{{vm.labelsmokingsearch }} ? </label>
+            <select class="form-control" style="width: 180px" name="smokingssearch" id="smokingssearch" ng-model="vm.usersearch.smokingpartner" ng-change="updatestatus(1)">
+                <option>כן</option>
+                <option>לא</option>
+                <option>לא משנה לי</option>
+            </select>
+
+        </div>
+        <div class="col-sm-4">
+
+
+            <label for="statussearch">{{vm.labelsearch }} </label>
+            <div class="divcol">
+                <div class="checkbox" ng-repeat="item in vm.statussearch">
+                    <label>
+                        <input type="checkbox" id="statussearch" value="">{{item }}</label>
+                </div>
+            </div>
+
+
+            <label for="searchnumberkids">ילדים ?</label>
+            <select class="form-control" style="width: 180px" name="smoking" id="searchnumberkids" ng-model="vm.usersearch.searchnumberofkids">
+                <option>ללא ילדים</option>
+                <option>עם ילדים</option>
+                <option>לא משנה לי</option>
+            </select>
 
 
 
+        </div>
     </div>
-  </div>
 </div>
-
-
-

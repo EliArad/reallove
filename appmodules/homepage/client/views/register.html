@@ -1,96 +1,135 @@
 <style>
-
-  .area {
-    width: 100%;
-    height: 100%;
-    margin-right: 3%;
-  }
-  span, p{
-    overflow:hidden;
-    white-space: nowrap;
-    display:inline;
-  }
-
-  .btn-group-vertical {
-    margin-bottom:10px;
-    border-radius:10px !important;
-  }
-
-  .container .btn-group .active
-  { background-color: red ; color: white; }
-
-  .divcol {
-    width: 50%;
-  }
+    .area {
+        width: 100%;
+        height: 100%;
+        margin-right: 3%;
+    }
+    
+    span,
+    p {
+        overflow: hidden;
+        white-space: nowrap;
+        display: inline;
+    }
+    
+    .btn-group-vertical {
+        margin-bottom: 10px;
+        border-radius: 10px !important;
+    }
+    
+    .container .btn-group .active {
+        background-color: red;
+        color: white;
+    }
+    
+    .divcol {
+        width: 50%;
+    }
+    
+    h3 {
+        padding: 0px;
+        margin: 0px;
+    }
 </style>
+
 
 <div class="container" ng-controller="RegistrationController as vm">
 
-  <h3>{{ vm.message }}</h3>
-  <div class="row text-center">
-    <span style="font-size: xx-large" ng-show="showRegistration">
-  הרשמה ראשונית
-</span>
-
-  </div>
-  <div class="row">
 
 
-    <div class="col-md-4 " ></div>
-    <div class="col-sm-4  col-centered">
+
+    <div class="row">
 
 
-      <modal title="Registration form" visible="showModal">
-        <h3>{{ vm.message }}</h3>
-      </modal>
 
-      <form name="registrationForm" novalidate ng-show="showRegistration"
-            ng-submit="vm.submit(registrationForm.$valid)">
+        <!--<div class="col-sm-4  col-centered">-->
+        <div class="col-md-4 col-sm-12  pull-right">
 
-        <div class="form-group">
-          <label>דואר אלקטרוני</label>
-          <input type="email" name="email" class="form-control" ng-model="vm.user.email" required/>
 
-          <div ng-messages="registrationForm.email.$error">
-            <div ng-messages-include="/appmodules/homepage/client/templates/messages.html"></div>
-          </div>
+            <modal title="RealLove הרשמה" visible="showModal">
+                <h3>{{ vm.errormessage }}</h3>
+            </modal>
+
+
+
+            <div ng-show="!showRegistration">
+                <table>
+                    <tr>
+                        <td>
+                            <h3>{{ vm.message }}</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h3>{{ vm.message1 }}</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h3>{{ vm.message2 }}</h3>
+                        </td>
+                    </tr>
+                </table>
+
+                <div ng-show="vm.showwaitcircle" ng-include="'/appmodules/homepage/client/templates/waitcircle.html'">
+                </div>
+            </div>
+
+            <span style="font-size: xx-large" ng-show="showRegistration">
+                הרשמה ראשונית
+                
+                </span>
+
+            <form name="registrationForm" novalidate ng-show="showRegistration" ng-submit="vm.submit(registrationForm.$valid)">
+
+                <div class="form-group">
+                    <label>דואר אלקטרוני</label>
+                    <input type="email" name="email" class="form-control" ng-model="vm.user.email" required/>
+
+                    <div ng-messages="registrationForm.email.$error">
+                        <div ng-messages-include="/appmodules/homepage/client/templates/messages.html"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+
+                    <label>סיסמא</label>
+                    <input type="password" name="password" class="form-control" ng-model="vm.user.password" required/>
+
+                    <div ng-messages="registrationForm.password.$error">
+                        <div ng-messages-include="/appmodules/homepage/client/templates/messages.html"></div>
+                    </div>
+                    <div ng-password-strength="vm.user.password" strength="passStrength" inner-class="progress-bar" inner-class-prefix="progress-bar-"></div>
+                    <div>חוזק הססמא כרגע<strong>&nbsp{{passStrength}}</strong></div>
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" name="confirmPassword" class="form-control" ng-model="vm.user.confirmPassword" required compare-to="vm.user.password" />
+
+                    <div ng-messages="registrationForm.confirmPassword.$error">
+                        <div ng-messages-include="/appmodules/homepage/client/templates/messages.html"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary">הרשם</button>
+                    <h4 ng-show="showerrormessage1" ng-class="{ 'animated bounce': showerrormessage1}">{{ messagetoshow1 }}</h4>
+                    <h4 ng-show="showerrormessage2" ng-class="{ 'animated bounce': showerrormessage2}">{{ messagetoshow2 }}</h4>
+                    <h4 ng-show="showerrormessage3" ng-class="{ 'animated bounce': showerrormessage3}">{{ messagetoshow3 }}</h4>
+                </div>
+
+            </form>
+
         </div>
-
-        <div class="form-group">
-
-          <label>סיסמא</label>
-          <input type="password" name="password" class="form-control" ng-model="vm.user.password" required/>
-
-          <div ng-messages="registrationForm.password.$error">
-            <div ng-messages-include="/appmodules/homepage/client/templates/messages.html"></div>
-          </div>
-          <div ng-password-strength="vm.user.password" strength="passStrength" inner-class="progress-bar"
-               inner-class-prefix="progress-bar-"></div>
-          <div>חוזק הססמא כרגע<strong>&nbsp{{passStrength}}</strong></div>
+        <div class="col-md-8  col-sm-12 pull-right">
+            <div class="row">
+                <img src="/appmodules/homepage/client/images/login.jpg" style="margin-right:40px">
+            </div>
+            <div class="row">
+                ברוכים הבאים לאתר REAL LOVE אתר חדשני , דינמי , מהיר וכיף לשימוש.
+            </div>
         </div>
-        <div class="form-group">
-          <label>Confirm Password</label>
-          <input type="password" name="confirmPassword" class="form-control"
-                 ng-model="vm.user.confirmPassword"
-                 required compare-to="vm.user.password"/>
-
-          <div ng-messages="registrationForm.confirmPassword.$error">
-            <div ng-messages-include="/appmodules/homepage/client/templates/messages.html"></div>
-          </div>
-        </div>
-        <div class="form-group">
-          <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary">הרשם</button>
-          <h4  ng-show="showerrormessage1" ng-class="{ 'animated bounce': showerrormessage1}">{{ messagetoshow1 }}</h4>
-          <h4  ng-show="showerrormessage2" ng-class="{ 'animated bounce': showerrormessage2}">{{ messagetoshow2 }}</h4>
-          <h4  ng-show="showerrormessage3" ng-class="{ 'animated bounce': showerrormessage3}">{{ messagetoshow3 }}</h4>
-        </div>
-
-      </form>
 
     </div>
-    <div class="col-md-4 " ></div>
-
-  </div>
 
 
 </div>

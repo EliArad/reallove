@@ -3,21 +3,22 @@
 //(function() {
 
 
-  app.controller('LogoutController', ['$scope','$state', 'authToken','$rootScope','socketioservice',
-    function($scope,$state, authToken,$rootScope,socketioservice)
+app.controller('LogoutController', ['$scope', '$state', 'authToken', '$rootScope', 'socketioservice', 'API',
+    function ($scope, $state, authToken, $rootScope, socketioservice, API)
     {
-      //console.log("logging out");
-      socketioservice.disconnect().success(function (id) {
 
-        authToken.RemoveToken();
-        $state.go('login', {}, {reload: true});
-        $rootScope.$broadcast("updateHeader", authToken.getToken());
+        API.Logout();
 
-      });
+        socketioservice.disconnect().success(function (id) {
+            authToken.RemoveToken();
+            $state.go('login', {}, {
+                reload: true
+            });
+            $rootScope.$broadcast("updateHeader", authToken.getToken());
+        });
+
 
     }
-
   ]);
 
 //}());
-

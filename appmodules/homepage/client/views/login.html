@@ -1,23 +1,28 @@
-<div class="col-md-4 col-md-offset-4">
-  <h2>Login</h2>
-  <div ng-show="vm.error" class="alert alert-danger">{{vm.error}}</div>
-  <form name="form" ng-submit="vm.login()" role="form">
-    <div class="form-group" ng-class="{ 'has-error': form.email.$dirty && form.email.$error.required }">
-      <label for="email">Username</label>
-      <input type="email" name="email" id="email" class="form-control" ng-model="vm.user.email" required />
-      <span ng-show="form.email.$dirty && form.email.$error.required" class="help-block">Email is required</span>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8"> <img src="/appmodules/homepage/client/images/login.jpg"></div>
+        <div class="col-md-4">
+            <h2>התחבר</h2>
+            <div ng-show="vm.error" class="alert alert-danger">{{vm.error}}</div>
+            <form name="form" ng-submit="vm.login()" role="form">
+                <div class="form-group" ng-class="{ 'has-error': form.email.$dirty && form.email.$error.required }">
+                    <label for="email">אמייל</label>
+                    <input type="email" name="email" id="email" class="form-control" ng-model="vm.user.email" ng-change="vm.clearError()" required />
+                    <span ng-show="form.email.$dirty && form.email.$error.required" class="help-block">Email is required</span>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
+                    <label for="password">ססמא</label>
+                    <input type="password" name="password" id="password" ng-change="loginfailure=false" class="form-control" ng-model="vm.user.password" required />
+                    <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary">Login</button>
+                    <a href="#/register" class="btn btn-link">Register</a>
+                </div>
+                <div>
+                    <h1 ng-show="loginfailure" ng-class="{ 'animated bounce': loginfailure}">כניסה שגויה</h1></h1>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
-      <label for="password">Password</label>
-      <input type="password" name="password" id="password" ng-change="loginfailure=false" class="form-control" ng-model="vm.user.password" required />
-      <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
-    </div>
-    <div class="form-actions">
-      <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary">Login</button>
-      <a href="#/register" class="btn btn-link">Register</a>
-    </div>
-    <div>
-     <h1  ng-show="loginfailure" ng-class="{ 'animated bounce': loginfailure}">כניסה שגויה</h1></h1>
-    </div>
-  </form>
 </div>

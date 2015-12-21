@@ -1,6 +1,6 @@
 app.factory("socketioservice", function ($rootScope, $http, authToken, myConfig) {
 
-    var socket = io.connect('http://localhost:8000');
+    var socket = io.connect(myConfig.url);
     var onlineUsers = {};
 
     var updateCallback = null;
@@ -8,7 +8,7 @@ app.factory("socketioservice", function ($rootScope, $http, authToken, myConfig)
     var acceptChatCallback = null;
     var incomingMessageFunctionCallback = null;
 
-    //var socket = io.connect('http://localhost:8000',{'forceNew':true });
+    //var socket = io.connect(myConfig.url',{'forceNew':true });
 
     socket.on('connect', function (data) {
 
@@ -20,6 +20,18 @@ app.factory("socketioservice", function ($rootScope, $http, authToken, myConfig)
         } catch (err) {
 
         }
+    });
+
+
+    socket.on('logoutall', function () {
+       $rootScope.$broadcast("logoutnow");
+    });
+
+
+
+    socket.on('onlinecount', function (count) {
+       console.log('onlinecount:' + count);
+       $rootScope.$broadcast("onlinecount", count);
     });
 
     socket.on('useridconnected', function (id, token) {
@@ -39,7 +51,6 @@ app.factory("socketioservice", function ($rootScope, $http, authToken, myConfig)
 
         }
     });
-
 
     socket.on('disconnect', function () {
         //console.log('disconnect try reconnect');
@@ -64,7 +75,7 @@ app.factory("socketioservice", function ($rootScope, $http, authToken, myConfig)
         console.log('chat_accpeted_move_to_chat_room fromid: %s  toid %s ', fromid, toid);
         var data = {
             fromid: fromid,
-            toid: toid,
+            toid: toid
         }
         acceptChatCallback(data);
     });

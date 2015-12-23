@@ -2,37 +2,40 @@
 
 
 app.controller('HeaderController', ['$scope', '$state', 'authToken', 'API',
-                                    'PassServiceParams', 'appCookieStore','socketioservice',
-    function ($scope, $state, authToken, API, PassServiceParams, appCookieStore,socketioservice)
+                                    'PassServiceParams', 'appCookieStore','socketioservice','$rootScope',
+    function ($scope, $state, authToken, API, PassServiceParams, appCookieStore,socketioservice,$rootScope)
     {
       $scope.NumberOfOnlineUsers = '';
         $scope.isAuthenticated = authToken.isAuthenticated();
 
         API.getNickName().then(function (result) {
             $scope.hellousername = ' שלום  ' + result;
-            $scope.userName = ' שלום  ' + result;
         });
 
       $scope.$on("logoutnow", function (e, someInfoReceived) {
 
-          API.Logout();
-
-          socketioservice.disconnect().success(function (id) {
-            authToken.RemoveToken();
-            $state.go('login', {}, {
-              reload: true
-            });
-
-            $scope.isAuthenticated = false;
-            $scope.hellousername = '';
-          });
+          logout();
       });
 
+      function logout()
+      {
+        API.Logout();
+        socketioservice.disconnect(function (err){
 
+          authToken.RemoveToken();
+          $state.go('login', {}, {
+            reload: true
+          });
+
+          $scope.isAuthenticated = false;
+          $scope.hellousername = '';
+        });
+      }
 
       API.GetNumberUsersOnline(function (err , result){
 
         if (err == "ok") {
+
           var n = parseInt(result);
           if (n > 0) {
             $scope.showOnline = true;
@@ -41,7 +44,7 @@ app.controller('HeaderController', ['$scope', '$state', 'authToken', 'API',
             $scope.showOnline = false;
           }
         } else {
-          $scope.showOnline = false;
+          logout();
         }
       });
 
@@ -92,12 +95,12 @@ app.controller('HeaderController', ['$scope', '$state', 'authToken', 'API',
       });
 
         $scope.$on("updateHeader", function (e, someInfoReceived) {
+
+
             // do the necessary updates here
             $scope.isAuthenticated = authToken.isAuthenticated();
 
-
             $scope.hellousername = ' שלום  ' + PassServiceParams.GetParam('userNickName');
-
 
             API.getNumberOfMails().then(function (result) {
                 //console.log(result);
@@ -117,10 +120,6 @@ app.controller('HeaderController', ['$scope', '$state', 'authToken', 'API',
                 $scope.yougotmail = false;
             });
         });
-
-
-        $scope.hellousername = PassServiceParams.GetParam('userNickName');
-
 
         API.getNumberOfMails().then(function (result) {
             console.log(result);

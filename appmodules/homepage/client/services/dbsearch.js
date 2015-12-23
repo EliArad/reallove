@@ -1,16 +1,35 @@
-
-app.factory("dbsearch", function($cacheFactory,$http,myConfig,$q) {
+app.factory("dbsearch", function ($cacheFactory, $http, myConfig, $q) {
 
   var criteria;
 
-  var setCriteria = function(c)
-  {
+  var setCriteria = function (c) {
     criteria = c;
   }
 
+  var getAllShowMyVideoList = function () {
+    var url = myConfig.url + "/api/dbsearch/getAllShowMyVideoList";
+    return $http({
+      url: url,
+      method: "GET"
+    }).then(sendResponseData).
+      catch(sendResponseError);
+  }
 
-  var getNextNUserIds = function(n,skipsize)
-  {
+  var getFirstNVideosToShow = function (num, skipsize) {
+    var url = myConfig.url + "/api/dbsearch/getFirstNVideosToShow/";
+
+    return $http({
+      url: url,
+      method: "GET",
+      params: {
+        num: num,
+        skipsize: skipsize
+      }
+    }).then(sendResponseData).
+      catch(sendResponseError);
+  }
+
+  var getNextNUserIds = function (n, skipsize) {
     var url = myConfig.url + "/api/getNextNUserIds/";
 
     return $http({
@@ -21,23 +40,21 @@ app.factory("dbsearch", function($cacheFactory,$http,myConfig,$q) {
         skipsize: skipsize
       }
     }).then(sendResponseData).
-      catch(sendResponseError)
+      catch(sendResponseError);
   }
 
-  var getFirstNUserIds = function(n)
-  {
+  var getFirstNUserIds = function (n) {
     var url = myConfig.url + "/api/getFirstNUserIds/";
 
     return $http({
-        url: url,
-        method: "GET",
-        params: {num: n}
-      }).then(sendResponseData).
-         catch(sendResponseError)
+      url: url,
+      method: "GET",
+      params: {num: n}
+    }).then(sendResponseData).
+      catch(sendResponseError);
   }
 
-  var getFirstNUserProfiles = function(n)
-  {
+  var getFirstNUserProfiles = function (n) {
     var url = myConfig.url + "/api/getFirstNUserProfiles/";
 
     return $http({
@@ -45,24 +62,25 @@ app.factory("dbsearch", function($cacheFactory,$http,myConfig,$q) {
       method: "GET",
       params: {num: n}
     }).then(sendResponseData).
-      catch(sendResponseError)
+      catch(sendResponseError);
   }
 
-  function sendResponseData(response)
-  {
+  function sendResponseData(response) {
     //console.log(response);
     return response.data;
   }
-  function sendResponseError(response)
-  {
-    console.log("error from send " + response);
+
+  function sendResponseError(response) {
     return $q.reject("error from send " + response.status);
   }
+
   return {
     getFirstNUserIds: getFirstNUserIds,
-    setCriteria:setCriteria,
-    getNextNUserIds:getNextNUserIds,
-    getFirstNUserProfiles:getFirstNUserProfiles
+    setCriteria: setCriteria,
+    getNextNUserIds: getNextNUserIds,
+    getFirstNUserProfiles: getFirstNUserProfiles,
+    getFirstNVideosToShow: getFirstNVideosToShow,
+    getAllShowMyVideoList:getAllShowMyVideoList
   };
 });
 

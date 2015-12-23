@@ -34,6 +34,7 @@ app.controller('LoginController', ['$scope', '$state', 'authToken', '$cookieStor
             catch(sendResponseError);
 
             function sendResponseData(response) {
+
                 PassServiceParams.StoreParam('userNickName', response.member.nickName);
                 //$cookieStore.put('login_user_name' , $scope.vm.user.email);
                 //console.log(response.token);

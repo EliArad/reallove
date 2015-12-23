@@ -1,14 +1,10 @@
 'use strict';
 
-
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
-var PaymentsSchema = new Schema({
+var blockedUsersSchema = new Schema({
 
-  numberOfMessages: {
-    type: Number
-  },
   user: {
     type: Schema.ObjectId,
     ref: 'User'
@@ -20,9 +16,9 @@ var PaymentsSchema = new Schema({
   RegistrationId: {type: mongoose.Schema.Types.ObjectId, ref: 'registrations'}
 });
 
-var paymentModel = mongoose.model('payments', PaymentsSchema);
+var blockedUsersModel = mongoose.model('blockedusers', blockedUsersSchema);
 
 module.exports =
 {
-  paymentModel : paymentModel
+  blockedUsersModel : blockedUsersModel
 }

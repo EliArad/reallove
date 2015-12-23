@@ -1,4 +1,5 @@
-'use_strict'
+/*jshint node:true */
+'use_strict';
 
 var express = require('express');
 var jwt = require('jsonwebtoken');

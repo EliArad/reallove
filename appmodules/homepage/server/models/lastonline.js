@@ -20,12 +20,18 @@ var LastonlineSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'User'
     },
+    clientId : {
+        type: Object
+    },
+    memberObjectId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'SiteMembers'
+    },
     registrationObjectId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'registrations'
     }
 });
-
 
 var LastonlineModel = mongoose.model('Lastonline', LastonlineSchema);
 

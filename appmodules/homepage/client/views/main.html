@@ -1,47 +1,50 @@
 <style>
-    /*
+  /*
 Generic Styling, for Desktops/Laptops
 */
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        border: 1px solid #ccc;
-    }
-    /* Zebra striping */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+  }
 
-    tr:nth-of-type(odd) {
-        background: #eee;
-        border: 1px solid #ccc;
-    }
+  /* Zebra striping */
 
-    th {
-        background: #333;
-        color: white;
-        font-weight: bold;
-    }
+  tr:nth-of-type(odd) {
+    background: #eee;
+    border: 1px solid #ccc;
+  }
 
-    td,
-    th {
-        padding: 6px;
-        border: 1px solid #ccc;
-        text-align: left;
-    }
+  th {
+    background: #333;
+    color: white;
+    font-weight: bold;
+  }
+
+  td,
+  th {
+    padding: 6px;
+    border: 1px solid #ccc;
+    text-align: left;
+  }
+
+
 </style>
 
 
 <div class="container">
 
-    <div ng-repeat="memberthumb in allmembersthumb" ng-show="allthumberspictures">
+  <div ng-repeat="memberthumb in allmembersthumb" ng-show="allthumberspictures">
 
-        <div class="row">
+    <div class="row">
 
-            <div class="col-md-4 pull-right">
-                <div class="title">
+      <div class="col-md-4 pull-right">
+        <div class="title">
                     <span style="font-size: large; color:darkblue">
             <table style="width: 50%;border: none">
               <tr style="background-color: white;border: none">
-                <td >
+                <td>
                   {{ memberthumb.profile.nickName }}
                 </td>
                 <td>
@@ -54,167 +57,194 @@ Generic Styling, for Desktops/Laptops
                   {{ memberthumb.profile.numberofkids }}
                 </td>
 
-                <td nowrap id="online{{$index}}" style="color: lime;cursor:pointer;display:none" data="{{ $index }}"
+                <td nowrap id="online{{$index}}" style="color: lime;cursor:pointer" data="{{ $index }}"
                     ng-click="AddToChatRoom(memberthumb.profile._id,memberthumb.profile.registrationObjectId,$event)"
                     ng-show="memberthumb.online"
                     class="animated infinite pulse">
                   online
+                </td>
+                <td nowrap="">
+                  <label for="myvideo"> הראה וידאו
+                    <input type="checkbox"
+                           value="None"
+                           ng-checked="memberthumb.showvideo"
+                           data="{{ $index }}"
+                           ng-click="AllowToSeeMyVideo(memberthumb.profile.registrationObjectId,$event)"
+                           id="myvideo{{$index}}" name="check" />
+                  </label>
+
                 </td>
               </tr>
             </table>
 
           </span>
 
-                </div>
-                <img id="imgsrc{{$index}}" src="{{ memberthumb.src }}" ng-click="ShowMember(memberthumb.id,memberthumb.rid,$event)" data="{{ $index }}" class=" floating-box" width="300" height="300">
-            </div>
-            <div class="col-md-4 pull-right">
-
-                <table class="table-responsive">
-                    <tr>
-                        <td nowrap="">
-                            לאום
-                        </td>
-                        <td nowrap="">
-                            {{ memberthumb.profile.religion }}
-                        </td>
-                        <td>
-                            עיר
-                        </td>
-                        <td>
-                            <div class="desc">{{ memberthumb.profile.city }}</div>
-                        </td>
-                    </tr>
-                    <td>
-                        מגורים
-                    </td>
-                    <td nowrap="">
-
-                        <div class="desc">{{ memberthumb.profile.livingwith }}</div>
-
-                    </td>
-                    <td>
-                        סוג עבודה
-                    </td>
-                    <td nowrap="">
-
-                        <div class="desc">{{ memberthumb.profile.jobtype }}</div>
-
-                    </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            רמת בישול
-                        </td>
-                        <td nowrap="">
-                            <div class="desc">{{ memberthumb.profile.cooking }}</div>
-                        </td>
-                        <td>
-                            מזל
-                        </td>
-                        <td nowrap="">
-
-                            <div class="desc">{{ memberthumb.profile.zodiacsign }}</div>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            כשרות
-                        </td>
-                        <td>
-                            <div class="desc">{{ memberthumb.profile.cosher }}</div>
-                        </td>
-                        <td>
-                            נמצא בבית
-                        </td>
-                        <td nowrap="">
-
-                            <div class="desc">{{ memberthumb.profile.everydayathom }}</div>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-
-                        </td>
-                        <td nowrap="">
-
-                        </td>
-                        <td>
-                            גובה
-                        </td>
-                        <td nowrap="">
-
-                            <div class="desc">{{ memberthumb.profile.height }}</div>
-
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            הליכות
-                        </td>
-                        <td nowrap="">
-                            <div class="desc">{{ memberthumb.profile.walking }}</div>
-                        </td>
-                        <td>
-                            חדר כושר
-                        </td>
-                        <td nowrap="">
-
-                            <div class="desc">{{ memberthumb.profile.gym }}</div>
-
-                        </td>
-                    </tr>
-
-                </table>
-
-
-
-            </div>
-
-            <div class="col-md-4 pull-right">
-                <div class="span8 well" style="padding-bottom:50px">
-                    <form name="form" accept-charset="UTF-8" ng-submit="submit(form.$valid)">
-                        <label for="title">נושא</label>
-                        <input type="text" name="title" id="title" required class="form-control" ng-model="title" ng-class="{ 'has-error': form.title.$error.required }" />
-
-                        <div class="form-group" ng-class="{ 'has-error': form.messagebody.$error.required }">
-                            <textarea required class="form-control" rows="5" id="new_message" name="whoami" ng-model="messagebody" placeholder="כבוש את ליבה"></textarea>
-                        </div>
-
-                        <h6 id="cLeft" class="pull-right">500 אותיות נשארו</h6>
-                        <button id="sendButton" ng-class="{ 'animated tada': showMessageSendOk  , 'animated rubberBand': showMessageSendFailure}" class="btn btn-info pull-left" ng-disabled="form.$invalid" type="submit">
-                            שלח הודעה
-                        </button>
-                    </form>
-                </div>
-            </div>
-
         </div>
+        <img id="imgsrc{{$index}}"
+             src="{{ memberthumb.src }}"
+             ng-click="ShowMember(memberthumb.id,memberthumb.rid,$event)"
+             data="{{ $index }}"
+             class=" floating-box" style="max-height: 300px;max-width: 380px">
+      </div>
+      <div class="col-md-4 pull-right">
+
+        <table class="table-responsive">
+          <tr>
+            <td nowrap="">
+              לאום
+            </td>
+            <td nowrap="">
+              {{ memberthumb.profile.religion }}
+            </td>
+            <td>
+              עיר
+            </td>
+            <td>
+              <div class="desc">{{ memberthumb.profile.city }}</div>
+            </td>
+          </tr>
+          <td>
+            מגורים
+          </td>
+          <td nowrap="">
+
+            <div class="desc">{{ memberthumb.profile.livingwith }}</div>
+
+          </td>
+          <td>
+            סוג עבודה
+          </td>
+          <td nowrap="">
+
+            <div class="desc">{{ memberthumb.profile.jobtype }}</div>
+
+          </td>
+          </tr>
+
+          <tr>
+            <td>
+              רמת בישול
+            </td>
+            <td nowrap="">
+              <div class="desc">{{ memberthumb.profile.cooking }}</div>
+            </td>
+            <td>
+              מזל
+            </td>
+            <td nowrap="">
+
+              <div class="desc">{{ memberthumb.profile.zodiacsign }}</div>
+
+            </td>
+          </tr>
+          <tr>
+            <td>
+              כשרות
+            </td>
+            <td>
+              <div class="desc">{{ memberthumb.profile.cosher }}</div>
+            </td>
+            <td>
+              נמצא בבית
+            </td>
+            <td nowrap="">
+
+              <div class="desc">{{ memberthumb.profile.everydayathom }}</div>
+
+            </td>
+          </tr>
+          <tr>
+            <td>
+
+            </td>
+            <td nowrap="">
+
+            </td>
+            <td>
+              גובה
+            </td>
+            <td nowrap="">
+
+              <div class="desc">{{ memberthumb.profile.height }}</div>
+
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              הליכות
+            </td>
+            <td nowrap="">
+              <div class="desc">{{ memberthumb.profile.walking }}</div>
+            </td>
+            <td>
+              חדר כושר
+            </td>
+            <td nowrap="">
+
+              <div class="desc">{{ memberthumb.profile.gym }}</div>
+
+            </td>
+          </tr>
+
+        </table>
+      </div>
+
+      <div class="col-md-4 pull-right">
+        <div class="span8 well" style="padding-bottom:50px">
+          <form name="form" accept-charset="UTF-8"
+                data="{{ $index }}"
+                ng-submit="submit(form.$valid,$event,memberthumb.rid)">
+            <label>נושא</label>
+            <input type="text"
+                   name="title"
+                   id="mailtitle{{$index}}"
+                   required class="form-control"
+                   ng-model="title" ng-class="{ 'has-error': form.title.$error.required }"/>
+
+            <div class="form-group" ng-class="{ 'has-error': form.messagebody.$error.required }">
+                            <textarea required
+                                      class="form-control"
+                                      rows="5"
+                                      name="whoami"
+                                      id="mailtouser{{$index}}"
+                                      placeholder="כבוש את ליבה">
+
+                            </textarea>
+            </div>
+
+            <h6 id="cLeft" class="pull-right">500 אותיות נשארו</h6>
+            <button id="sendButton{{$index}}"
+
+                    class="btn btn-info pull-left" ng-disabled="form.$invalid" type="submit">
+              שלח הודעה
+            </button>
+          </form>
+        </div>
+      </div>
+
     </div>
+  </div>
 </div>
 
 
 <!-- Modal -->
 <div id="myModal" modal-show modal-visible="showDialog" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+  <div class="modal-dialog">
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Modal Header</h4>
-            </div>
-            <div class="modal-body">
-                <p>A message has been send to start chat </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <p>A message has been send to start chat </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
     </div>
+
+  </div>
 </div>

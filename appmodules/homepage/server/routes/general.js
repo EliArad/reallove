@@ -1,3 +1,5 @@
+/*jshint node:true */
+'use strict';
 var express = require('express');
 var jwt = require('jsonwebtoken');
 var secret = require('../common/config').secret;
@@ -16,16 +18,15 @@ var routes = function (app)
         //console.log(req.body.id);
         //console.log('/api/general/roateMyPicture: ' + req.idFromToken);
 
-       filename = './uploads/' + req.idFromToken + "/raw/" + req.body.id + '.jpg';
-       console.log(filename);
+       var filename = './uploads/' + req.idFromToken + "/raw/" + req.body.id + '.jpg';
        lwip.open(filename, function (err, image) {
 
         image.batch().rotate(90, 'white').writeFile(filename, function (err) {
            if (err)
            {
-               res.send("error");
+               res.send('error');
            } else {
-               res.send("ok");
+               res.send('ok');
            }
         });
       });
@@ -54,7 +55,7 @@ var routes = function (app)
 
   return {
     routes: router
-  }
+  };
 }
 
 module.exports = routes;

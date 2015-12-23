@@ -5,25 +5,25 @@
         margin-left: 20px;
         margin-right: 10px;
     }
-    
+
     table {
         width: 100%;
         border-collapse: collapse;
         border: 1px solid #ccc;
     }
     /* Zebra striping */
-    
+
     tr:nth-of-type(odd) {
         background: #eee;
         border: 1px solid #ccc;
     }
-    
+
     th {
         background: #333;
         color: white;
         font-weight: bold;
     }
-    
+
     td,
     th {
         padding: 6px;
@@ -43,19 +43,44 @@
            <table style="width: 50%;border: none">
              <tr style="background-color: white;border: none">
                <td >
+                 <label>
                  {{ currentMemberToShow.profile.nickName }}
+                 </label>
                </td>
                <td>
+                 <label>
                  {{ currentMemberToShow.profile.age }}
+                   </label>
                </td>
                <td>
+                 <label>
                  {{ currentMemberToShow.profile.status }}
+                   </label>
                </td>
                <td nowrap>
+                 <label>
                  {{ currentMemberToShow.profile.numberofkids }}
+                 </label>
                </td>
-               <td style="color: lime;cursor:pointer"  class="animated infinite pulse" ng-show="isOnline">
+
+               <td style="color: lime;cursor:pointer"
+                   id="online{{$index}}"
+                   data="{{ $index }}"
+                   class="animated infinite pulse"
+                   ng-click="AddToChatRoom(currentMemberToShow.profile._id,currentMemberToShow.profile.registrationObjectId,$event)"
+                   ng-show="currentMemberToShow.profile.isOnline">
                  online
+               </td>
+               <td nowrap="">
+                 <label for="myvideo"> הראה וידאו
+                     <input type="checkbox"
+                            value="None"
+                            ng-checked="currentMemberToShow.showvideo"
+                            data="{{ $index }}"
+                            ng-click="AllowToSeeMyVideo(currentMemberToShow.profile.registrationObjectId,$event)"
+                            id="myvideo{{$index}}" name="check" />
+                 </label>
+
                </td>
              </tr>
            </table>

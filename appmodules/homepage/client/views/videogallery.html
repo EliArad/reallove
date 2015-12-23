@@ -1,7 +1,6 @@
 <style>
 
 
-
   .container1 {
     padding-left: 20px;
     padding-right: 10px;
@@ -38,21 +37,14 @@
 
 <style>
   .floating-box {
-    float: left;
-    border: 1px solid gray;
-    padding: 5px;
-  }
 
-  .floating-box1 {
-    float: left;
     border: 1px solid gray;
-    padding: 5px;
-    border: 0;
+    padding: 1px;
   }
 
 
 </style>
-<div class="container">
+<div class="container" ng-controller="videogalleryController as vm">
 
 
   <!-- show and hide the lion picture -->
@@ -62,7 +54,7 @@
 
 
         <div>
-                    <span style="font-size: large; color:darkblue">
+           <span style="font-size: large; color:darkblue">
 
            <table style="width: 100%;border: none;background-color:red">
              <tr style="background-color: white;border: none">
@@ -80,7 +72,7 @@
                </td>
                <td id="onlinetext"
                    align="left"
-                   id="online{{$index}}"
+                   id="onlinetext{{$index}}"
                    data="{{ $index }}"
                    style="color: lime;cursor:pointer"
                    ng-click="AddToChatRoom(currentMemberToShow.member._id,currentMemberToShow.member.registrationObjectId,$event)"
@@ -233,26 +225,90 @@
   </div>
 
 
-
   <div ng-repeat="memberthumb in allmembersthumb" ng-show="allthumberspictures">
 
-    <div style="width:220px;height:250px;float: left">
+    <div style="width:520px;height:450px;float: left">
 
 
-      <img src="{{ memberthumb.src }}"
-             ng-click="ShowMember(memberthumb.id,memberthumb.rid)"
-             class="floating-box" width="220px" height="250px">
+      <table style="width: 50%;border: none">
+        <tr style="background-color: white;border: none">
+          <td >
+            <label>
+              {{ memberthumb.profile.frommemberid.nickName }}
+            </label>
+          </td>
+          <td>
+            <label>
+              {{ memberthumb.profile.age }}
+            </label>
+          </td>
+          <td>
+            <label>
+              {{ memberthumb.profile.frommemberid.status }}
+            </label>
+          </td>
+          <td nowrap>
+            <label>
+              {{ memberthumb.profile.frommemberid.numberofkids }}
+            </label>
+          </td>
 
-      <img ng-show="memberthumb.online"
+          <td style="color: lime;cursor:pointer"
+              id="online{{$index}}"
+              data="{{ $index }}"
+              class="animated infinite pulse"
+              ng-click="AddToChatRoom(memberthumb.profile._id,memberthumb.profile.frommemberid.registrationObjectId,$event)"
+              ng-show="memberthumb.profile.frommemberid.isOnline">
+            online
+          </td>
+          <td nowrap="">
+            <label for="myvideo">  הראה את הוידאו שלי
+              <input type="checkbox"
+                     value="None"
+                     ng-checked="memberthumb.showvideo"
+                     data="{{ $index }}"
+                     ng-click="AllowToSeeMyVideo(memberthumb.profile.frommemberid.registrationObjectId,$event)"
+                     id="myvideo{{$index}}" name="check" />
+            </label>
 
-           style="top:-255px;position: relative;left:-208px"
-           src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAAolBMVEX///+JxIlF/0UXsxcVehXq9OqKrooOcA4fmx8hpCEjsCMmvyYq0Sot4S0luyV7vHtRjFEXkBcoyigs2ywv7C8TfhP5+/miu6Jpk2lmlGafvp/Y49gtZS0KXQondyfP4s8bWxsiqiJOp05R51FM/0xY/1hi/2Jf51+427gfjx84yjhd1l1Xq1fF4sVqtWpyuHKazZp4sHhLjksy+TJB5UFL0kucqR4RAAAAaElEQVQIHQXBiwJCMBiA0Y+soaYY654m0kXXv97/1ToHUK/nI1AA9+HWH6+XM6imP3Wt2EoR/Lo2FDH+zfANRUpb+A+NkdIWWZrPmY3MdJImsR6joiTzca4PDup9VOnddgPg1qvlwsEfFHEIoVXtWrQAAAAASUVORK5CYII="/>
+          </td>
+        </tr>
+      </table>
 
 
 
+
+
+
+      <div class="floating-box" id="videodiv">
+      <videogular vg-player-ready="vm.onPlayerReady($API, $index)"
+                  vg-theme="vm.config[$index].theme">
+        <vg-media vg-src="vm.config[$index].sources"
+                  vg-tracks="vm.config[$index].tracks">
+        </vg-media>
+
+        <vg-controls>
+          <vg-play-pause-button></vg-play-pause-button>
+          <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
+          <vg-scrub-bar>
+            <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+          </vg-scrub-bar>
+          <vg-time-display>{{ timeLeft | date:'mm:ss' }}</vg-time-display>
+          <vg-volume>
+            <vg-mute-button></vg-mute-button>
+            <vg-volume-bar></vg-volume-bar>
+          </vg-volume>
+          <vg-fullscreen-button></vg-fullscreen-button>
+        </vg-controls>
+
+        <vg-overlay-play></vg-overlay-play>
+        <vg-poster vg-url='vm.config[$index].plugins.poster'></vg-poster>
+      </videogular>
     </div>
-
   </div>
-
+</div>
 
 </div>
+
+
+

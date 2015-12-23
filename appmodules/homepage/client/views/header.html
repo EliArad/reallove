@@ -13,7 +13,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" style="cursor:pointer" ng-click="partyDetail()">Real love</a>
-                <a ng-if="isAuthenticated" class="navbar-brand" style="margin-left:5px;font-family: arial, sans-serif">{{userName}}</a>
+                <a ng-if="isAuthenticated" class="navbar-brand" style="margin-left:5px;font-family: arial, sans-serif">{{hellousername}}</a>
                 <a ng-if="isAuthenticated" style="color: orange;margin-left:5px;font-family: arial, sans-serif" ng-show="showOnline" class="navbar-brand">{{NumberOfOnlineUsers}}</a>
             </div>
 
@@ -83,9 +83,10 @@
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">תצוגה
               <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li ng-if="isAuthenticated" ui-sref-active="active"><a ui-sref="galleryall"> גלירת תמונות</a></li>
+                          <li ng-if="isAuthenticated" ui-sref-active="active"><a ui-sref="galleryall">  גלריית תמונות</a></li>
                             <li ng-if="isAuthenticated" ui-sref-active="active"><a ui-sref="main"> תצוגת כרטיסים</a></li>
                             <li ng-if="isAuthenticated" ui-sref-active="active"><a ui-sref="fullpagecardlist">תצוגת מסך מלא</a></li>
+                          <li ng-if="isAuthenticated" ui-sref-active="active"><a ui-sref="videogallery">גלריית וידאו</a></li>
                         </ul>
                     </li>
                     <li ng-if="isAuthenticated" ui-sref-active="active"><a ui-sref="preferencessearch">העדפות חיפוש</a></li>

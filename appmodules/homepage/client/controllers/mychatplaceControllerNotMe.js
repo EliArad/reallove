@@ -64,13 +64,13 @@ app.controller('mychatplaceControllerNotMe', ['$scope', '$state', 'authToken', '
             var picName = '/uploads/' + fromid + '/raw/' + 0 + '.jpg';
 
             $scope.messages.push({
-                'username': 'him',
+                'username': ' ',
                 'imageUrl': picName,
                 'content': message
             });
         }
 
-        $scope.username = 'אני';
+        $scope.username = ' ';
 
 
 

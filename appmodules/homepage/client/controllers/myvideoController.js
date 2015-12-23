@@ -1,12 +1,14 @@
 'use strict';
 
-app.controller('myvideoController', ['$scope','$state', 'authToken','myhttphelper','$sce','fileReader','$window','video',
-  function($scope,$state, authToken,myhttphelper,$sce,fileReader,$window,video)
+app.controller('myvideoController', ['$scope','$state', 'authToken','myhttphelper',
+               '$sce','fileReader','$window','video','API','SessionStorageService',
+  function($scope,$state, authToken,myhttphelper,$sce,fileReader,$window,video,API,SessionStorageService)
   {
     var vm = this;
     $scope.pageClass = 'page-home';
 
     $scope.showVideo = true;
+    vm.showwaitcircle = false;
 
 
     vm.API = null;
@@ -23,6 +25,56 @@ app.controller('myvideoController', ['$scope','$state', 'authToken','myhttphelpe
       currentTime: 0,
       duration: 0
     };
+
+    $scope.videooption1 = true;
+    $scope.savevideooptions1 = function()
+    {
+       API.saveVideoOption(1).then(function (result) {
+
+       }).catch(function (result) {
+
+       });
+    }
+    $scope.savevideooptions2 = function()
+    {
+        API.saveVideoOption(2).then(function (result) {
+
+        }).catch(function (result) {
+
+        });
+    }
+    $scope.savevideooptions3 = function()
+    {
+        API.saveVideoOption(3).then(function (result) {
+
+        }).catch(function (result) {
+
+        });
+    }
+
+    API.getVideoOption().then(function(value){
+
+      switch (value.data)
+      {
+        case '1':
+          $scope.videooption1 = true;
+          $scope.videooption2 = false;
+          $scope.videooption3 = false;
+         break;
+        case '2':
+          $scope.videooption1 = false;
+          $scope.videooption2 = true;
+          $scope.videooption3 = false;
+          break;
+        case '3':
+          $scope.videooption1 = false;
+          $scope.videooption2 = false;
+          $scope.videooption3 = true;
+          break;
+      }
+    }).catch(function(value){
+
+    });
 
 
     document.getElementById("videodiv").style.width = ($window.innerWidth - 500)+ 'px';
@@ -79,8 +131,9 @@ app.controller('myvideoController', ['$scope','$state', 'authToken','myhttphelpe
 
     function playCurrentOnDisk(userId)
     {
-      var fileName = "./uploadvideo/" + '5654210ebf01f0e2787525c7' + '/raw/1.mp4';
-      vm.videosource
+      var uid = SessionStorageService.getSessionStorage('userid');
+      var fileName = "./uploadvideo/" + uid + '/raw/1.mp4';
+      vm.videosource = fileName;
 
       vm.config = {
         sources: [
@@ -88,7 +141,7 @@ app.controller('myvideoController', ['$scope','$state', 'authToken','myhttphelpe
         ],
         theme: "bower_components/videogular-themes-default/videogular.css",
         plugins: {
-          poster: "http://www.videogular.com/assets/images/videogular.png"
+          //poster: "http://www.videogular.com/assets/images/videogular.png"
         }
       };
 
@@ -97,8 +150,9 @@ app.controller('myvideoController', ['$scope','$state', 'authToken','myhttphelpe
      // vm.config.preload = true;
     }
 
-    var fileName = "./uploadvideo/" + '5654210ebf01f0e2787525c7' + '/raw/1.mp4';
-    //video.addSource('mp4', fileName);
+    var uid = SessionStorageService.getSessionStorage('userid');
+    var fileName = "./uploadvideo/" + uid + '/raw/1.mp4';
+
 
 
     $scope.$on('$destroy', function() {
@@ -107,12 +161,23 @@ app.controller('myvideoController', ['$scope','$state', 'authToken','myhttphelpe
       vm.API.clearMedia();
     });
 
+    vm.deleteVideo = function()
+    {
+        API.deleteVideo().then(function(result){
+
+        }).catch(function(result){
+
+        });
+    }
 
     vm.playVideo = function(e)
     {
 
       vm.API.play();
-      var fileName = "./uploadvideo/" + '5654210ebf01f0e2787525c7' + '/raw/1.mp4';
+
+      var uid = SessionStorageService.getSessionStorage('userid');
+
+      var fileName = "./uploadvideo/" + uid + '/raw/1.mp4';
       vm.videosource = fileName;
 
     }
@@ -128,7 +193,7 @@ app.controller('myvideoController', ['$scope','$state', 'authToken','myhttphelpe
         ],
         theme: "bower_components/videogular-themes-default/videogular.css",
         plugins: {
-          poster: "http://www.videogular.com/assets/images/videogular.png"
+          //poster: "http://www.videogular.com/assets/images/videogular.png"
         }
       };
 
@@ -141,13 +206,18 @@ app.controller('myvideoController', ['$scope','$state', 'authToken','myhttphelpe
     $scope.fileNameChanged1 = function() {
 
       var fileInputElement = document.getElementById("fileInputElement1");
+      var size = fileInputElement.files[0].size / (1024 * 1024);
+      if (size > 50)
+      {
+        alert ('מקסימום גודל קובץ להעלות הוא 50 מגה');
+        return;
+      }
+      vm.showwaitcircle = true;
       $scope.uploadFile1(fileInputElement.files[0]);
-
     }
 
     $scope.uploadFile1 = function (fileName, index) {
       $scope.progress = 0;
-
       fileReader.readAsDataUrl(fileName, $scope)
         .then(function(result) {
           vm.changeSource(result);
@@ -157,8 +227,6 @@ app.controller('myvideoController', ['$scope','$state', 'authToken','myhttphelpe
 
     var ajaxUpload = function(result , number)
     {
-
-      console.log(result);
       var data = {
 
         "images": result,
@@ -173,11 +241,13 @@ app.controller('myvideoController', ['$scope','$state', 'authToken','myhttphelpe
 
     function successUpload(response)
     {
-        console.log(response);
+        vm.showwaitcircle = false;
+        //console.log(response);
     }
     function errorUpload(response)
     {
-      console.log(response);
+      vm.showwaitcircle = false;
+      alert (response);
     }
 
     myhttphelper.doGet('/isauth').

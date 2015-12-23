@@ -7,7 +7,7 @@ var jwt = require('jsonwebtoken');
 var secret = require('../common/config').secret;
 
 
-module.exports = function (Model, regSchema) {
+module.exports = function (Model,usersFunction) {
 
 
 
@@ -34,7 +34,9 @@ module.exports = function (Model, regSchema) {
             });
         },
 
-        destroy: function (req, res) {},
+        destroy: function (req, res) {
+
+        },
 
         /**
          * Create a member

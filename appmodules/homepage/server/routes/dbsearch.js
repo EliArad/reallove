@@ -6,13 +6,14 @@ var jwt = require('jsonwebtoken');
 var secret = require('../common/config').secret;
 var myhelper = require('../modules/myhelpers');
 var jwtauth = require('../common/jwtauth');
-var inmailModel = require('../models/inmessages').inmessagesModel;
-var outmailModel = require('../models/outmessages').outmessagesModel;
 var membersModel = require('../models/members').membersModel;
-var mailController = require('../controller/mail')(inmailModel,outmailModel,membersModel );
+var videopermissionModel = require('../models/videopermissions').videoPermissionsModel;
+var dbsearchController = require('../controller/dbsearch')(membersModel,videopermissionModel);
 
 
 var router   = express.Router();
-router.get('/getnumberofmails', jwtauth, mailController.getnumberofmails);
+router.get('/getFirstNVideosToShow', jwtauth, dbsearchController.getFirstNVideosToShow);
+router.get('/getAllShowMyVideoList', jwtauth, dbsearchController.getAllShowMyVideoList);
+
 
 module.exports = router;

@@ -69,7 +69,7 @@ app.controller('mychatplaceControllerMe', ['$scope', '$state', 'authToken', 'soc
             });
         }
 
-        $scope.username = 'אני';
+        $scope.username = ' ';
 
 
 

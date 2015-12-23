@@ -9,7 +9,7 @@ app.controller('LogoutController', ['$scope', '$state', 'authToken', '$rootScope
 
         API.Logout();
 
-        socketioservice.disconnect().success(function (id) {
+        socketioservice.disconnect(function(err) {
             authToken.RemoveToken();
             $state.go('login', {}, {
                 reload: true

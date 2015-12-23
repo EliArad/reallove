@@ -1,18 +1,44 @@
 <div class="container" ng-controller="myvideoController as vm" class="videogular-container">
 
 
-  <form id="uploadForm1"
-        enctype="multipart/form-data"
-        action="/api/photo"
-        method="post">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="radio">
+        <label><input ng-checked="videooption1"
+                      type="radio"
+                      ng-click="savevideooptions1()"
+                      name="optradio">רק אני אבחר למי לתת לראות את הוידאו שלי</label>
+      </div>
+      <div class="radio">
+        <label><input type="radio"
+                      ng-click="savevideooptions2()"
+                      ng-checked="videooption2"
+                      name="optradio">הראה רק למי שגם יש וידאו</label>
+      </div>
+      <div class="radio">
+        <label><input type="radio"
+                      ng-checked="videooption3"
+                      ng-click="savevideooptions3()"
+                      name="optradio"  >הראה לכולם</label>
+      </div>
+
+      <div ng-show="vm.showwaitcircle" ng-include="'/appmodules/homepage/client/templates/waitcircle.html'">
+      </div>
+    </div>
+    <div class="col-md-9">
+
+      <form id="uploadForm1"
+            enctype="multipart/form-data"
+            action="/api/photo"
+            method="post">
 
 
-              <span class="btn btn-primary btn-file" ng-show="showVideo" >
+              <span class="btn btn-primary btn-file" ng-show="showVideo">
  בחר וידאו להעלות
               <input id="fileInputElement1"
                      data-classIcon="icon-plus"
                      data-buttonText="בחר תמונה"
-                     name="video",
+                     name="video" ,
                      type="file"
                      accept="video/mp4,video/x-m4v,video/*"
                      multiple="true"
@@ -20,71 +46,73 @@
                 />
                   </span>
 
-    <button type="button" ng-click="vm.deleteVideo()"  class="btn btn-primary">מחק וידאו</button>
-    <button type="button" ng-click="vm.playVideo()"  class="btn btn-primary">נגן וידאו</button>
-    <button type="button" ng-click="vm.stopVideo()"  class="btn btn-primary">עצור</button>
+        <button type="button" ng-click="vm.deleteVideo()" class="btn btn-primary">מחק וידאו</button>
+        <button type="button" ng-click="vm.playVideo()" class="btn btn-primary">נגן וידאו</button>
+        <button type="button" ng-click="vm.stopVideo()" class="btn btn-primary">עצור</button>
 
-  </form>
-<!--
+      </form>
+      <!--
 
-  <section class="video" ng-video ng-model="interface">
-    <div class="videoScreenContainer">
+        <section class="video" ng-video ng-model="interface">
+          <div class="videoScreenContainer">
 
-      <video poster="app/img/others/poster_1.jpg" id="videoBackgrounddata" muted
-             video-current-time="currentTime" manage-time-update vi-screen></video>
+            <video poster="app/img/others/poster_1.jpg" id="videoBackgrounddata" muted
+                   video-current-time="currentTime" manage-time-update vi-screen></video>
+          </div>
+          <div class="videoAccessories">
+
+            <section vi-controls class="controls" layout="row" layout-align="start center" flex>
+              <span vi-controls-play ng-click="playVideo()" flex="15">
+                  <md-icon id="playIcon" md-svg-src="app/img/icons/play106.svg">
+                    <md-tooltip>Play</md-tooltip>
+                  </md-icon>
+              </span>
+              <span vi-controls-pause flex="15">
+                  <md-icon md-svg-src="app/img/icons/pause44.svg">
+                    <md-tooltip>Pause</md-tooltip>
+                  </md-icon>
+              </span>
+
+              <section vi-feedback layout="row" layout-align="space-around center" flex>
+                <span style="font-size: small; color: black;">{{Math.round(currentTime)}}</span>
+
+                <md-slider flex min="0" max="{{duration}}" ng-model="currentTime"
+                           aria-label="blue" class="md-primary" style="margin-left: 5%;"></md-slider>
+                <span style="font-size: small; color: black;">{{Math.round(duration)}}</span>
+              </section>
+            </section>
+          </div>
+      -->
+
+
+      <div ng-show="showVideo" style="margin-top:10px" id="videodiv">
+
+
+
+        <videogular vg-player-ready="vm.onPlayerReady($API)"
+                    vg-theme="vm.config.theme">
+          <vg-media vg-src="vm.config.sources"
+                    vg-tracks="vm.config.tracks">
+          </vg-media>
+
+          <vg-controls>
+            <vg-play-pause-button></vg-play-pause-button>
+            <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
+            <vg-scrub-bar>
+              <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+            </vg-scrub-bar>
+            <vg-time-display>{{ timeLeft | date:'mm:ss' }}</vg-time-display>
+            <vg-volume>
+              <vg-mute-button></vg-mute-button>
+              <vg-volume-bar></vg-volume-bar>
+            </vg-volume>
+            <vg-fullscreen-button></vg-fullscreen-button>
+          </vg-controls>
+
+          <vg-overlay-play></vg-overlay-play>
+          <vg-poster vg-url='vm.config.plugins.poster'></vg-poster>
+        </videogular>
+      </div>
     </div>
-    <div class="videoAccessories">
-
-      <section vi-controls class="controls" layout="row" layout-align="start center" flex>
-        <span vi-controls-play ng-click="playVideo()" flex="15">
-            <md-icon id="playIcon" md-svg-src="app/img/icons/play106.svg">
-              <md-tooltip>Play</md-tooltip>
-            </md-icon>
-        </span>
-        <span vi-controls-pause flex="15">
-            <md-icon md-svg-src="app/img/icons/pause44.svg">
-              <md-tooltip>Pause</md-tooltip>
-            </md-icon>
-        </span>
-
-        <section vi-feedback layout="row" layout-align="space-around center" flex>
-          <span style="font-size: small; color: black;">{{Math.round(currentTime)}}</span>
-
-          <md-slider flex min="0" max="{{duration}}" ng-model="currentTime"
-                     aria-label="blue" class="md-primary" style="margin-left: 5%;"></md-slider>
-          <span style="font-size: small; color: black;">{{Math.round(duration)}}</span>
-        </section>
-      </section>
-    </div>
--->
-
-
-<div ng-show="showVideo" style="margin-top:10px" id="videodiv">
-  <videogular vg-player-ready="vm.onPlayerReady($API)"
-              vg-theme="vm.config.theme">
-    <vg-media vg-src="vm.config.sources"
-              vg-tracks="vm.config.tracks">
-    </vg-media>
-
-    <vg-controls>
-      <vg-play-pause-button></vg-play-pause-button>
-      <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
-      <vg-scrub-bar>
-        <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
-      </vg-scrub-bar>
-      <vg-time-display>{{ timeLeft | date:'mm:ss' }}</vg-time-display>
-      <vg-volume>
-        <vg-mute-button></vg-mute-button>
-        <vg-volume-bar></vg-volume-bar>
-      </vg-volume>
-      <vg-fullscreen-button></vg-fullscreen-button>
-    </vg-controls>
-
-    <vg-overlay-play></vg-overlay-play>
-    <vg-poster vg-url='vm.config.plugins.poster'></vg-poster>
-  </videogular>
-</div>
-
-
-
+  </div>
 </div>

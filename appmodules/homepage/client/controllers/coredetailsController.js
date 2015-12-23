@@ -3,8 +3,8 @@
 
 
 app.controller('coredetailsController', ['$scope', '$state', 'authToken', 'myhttphelper',
-                                         'myConfig', '$http', '$timeout', 'SessionStorageService',
-    function ($scope, $state, authToken, myhttphelper, myConfig, $http, $timeout, SessionStorageService)
+                                         'myConfig', '$http', '$timeout', 'SessionStorageService','$rootScope',
+    function ($scope, $state, authToken, myhttphelper, myConfig, $http, $timeout, SessionStorageService,$rootScope)
     {
         var vm = this;
         vm.showwaitcircle = true;

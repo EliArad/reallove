@@ -8,12 +8,15 @@ app.controller('mypicturesController', ['$scope', 'Registration', 'general','myC
     function($scope, Registration,general,myConfig,
              fileUpload,myhttphelper,appCookieStore,fileReader,authToken,$http,API) {
 
-
-      var imageBase64 = {};
       var vm = this;
       $scope.allowRotate = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
 
       var angles = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+
+      var minWidth = 640;
+      var minHeight = 480;
+
+      var msg1 = 'התמונות צריכות להיות בגודל של ' + minWidth + 'x' + minHeight + ' לפחות';
 
       $scope.showPicture1 = true;
       $scope.showPicture2 = true;
@@ -223,16 +226,15 @@ app.controller('mypicturesController', ['$scope', 'Registration', 'general','myC
           setImageSrc(i , picName);
         }
       }).error(function(result) {
-        console.log(result);
+
       });
-
-
 
 
       $scope.fileNameChanged1 = function() {
 
         var fileInputElement = document.getElementById("fileInputElementfirst");
-        $scope.uploadFile1(fileInputElement.files[0]);
+
+          $scope.uploadFile1(fileInputElement.files[0]);
 
       }
 
@@ -311,44 +313,58 @@ app.controller('mypicturesController', ['$scope', 'Registration', 'general','myC
         reader.readAsDataURL(blob);
       };
 
+
+
       $scope.uploadFile1 = function (fileName, index) {
         $scope.progress = 0;
-        console.log(fileName);
         fileReader.readAsDataUrl(fileName, $scope)
           .then(function(result) {
-            $scope.imageSrc1 = result;
+            var i = new Image();
+            i.onload = function()
+            {
 
-
-            ImageTools.resize(fileName, {
-              width: 80, // maximum width
-              height: 80 // maximum height
-            }, function(blob, didItResize) {
-              //console.log('didItResize:' + didItResize);
-              // didItResize will be true if it managed to resize it, otherwise false (and will return the original file as 'blob')
-              //$scope.imageSrc1 = window.URL.createObjectURL(blob);
-
-              blobToBase64(blob, function(base64)
+              if (i.width < minWidth || i.height < minHeight)
               {
-                ajaxUpload(base64,0);
+                var msg = msg1;
+                msg+='\n';
+                msg += 'התמונה היא בגודל ' + i.width + 'x' + i.height;
+                alert (msg);
+                return;
+              }
+              $scope.imageSrc1 = result;
+
+              ImageTools.resize(fileName, {
+                width: 80, // maximum width
+                height: 80 // maximum height
+              }, function(blob, didItResize) {
+                //console.log('didItResize:' + didItResize);
+                // didItResize will be true if it managed to resize it, otherwise false (and will return the original file as 'blob')
+                //$scope.imageSrc1 = window.URL.createObjectURL(blob);
+
+                blobToBase64(blob, function(base64)
+                {
+                  ajaxUpload(base64,0);
+                });
               });
-            });
 
-            ImageTools.resize(fileName, {
-              width: 300, // maximum width
-              height: 300 // maximum height
-            }, function(blob, didItResize) {
-             // console.log('didItResize:' + didItResize);
-              // didItResize will be true if it managed to resize it, otherwise false (and will return the original file as 'blob')
-              //$scope.imageSrc1 = window.URL.createObjectURL(blob);
+              ImageTools.resize(fileName, {
+                width: 400, // maximum width
+                height: 400 // maximum height
+              }, function(blob, didItResize) {
+                // console.log('didItResize:' + didItResize);
+                // didItResize will be true if it managed to resize it, otherwise false (and will return the original file as 'blob')
+                //$scope.imageSrc1 = window.URL.createObjectURL(blob);
 
-              blobToBase64(blob, function(base64)
-              {
-                ajaxUpload(base64,100);
+                blobToBase64(blob, function(base64)
+                {
+                  ajaxUpload(base64,100);
+                });
               });
-            });
 
 
-            ajaxUpload(result,1);
+              ajaxUpload(result,1);
+            };
+            i.src = result;
           });
       };
       $scope.uploadFile2 = function (fileName, index) {
@@ -356,8 +372,22 @@ app.controller('mypicturesController', ['$scope', 'Registration', 'general','myC
 
         fileReader.readAsDataUrl(fileName, $scope)
           .then(function(result) {
-            $scope.imageSrc2 = result;
-            ajaxUpload(result,2);
+
+            var i = new Image();
+             i.onload = function(){
+                  if (i.width < minWidth || i.height < minHeight)
+                  {
+                    var msg = msg1;
+                    msg+='\n';
+                    msg += 'התמונה היא בגודל ' + i.width + 'x' + i.height;
+                    alert (msg);
+                    return;
+              }
+              $scope.imageSrc2 = result;
+              ajaxUpload(result,2);
+            };
+            i.src = result;
+
           });
       };
       $scope.uploadFile3 = function (fileName, index) {
@@ -365,8 +395,20 @@ app.controller('mypicturesController', ['$scope', 'Registration', 'general','myC
 
         fileReader.readAsDataUrl(fileName, $scope)
           .then(function(result) {
-            $scope.imageSrc3 = result;
-            ajaxUpload(result,3);
+            var i = new Image();
+            i.onload = function(){
+              if (i.width < minWidth || i.height < minHeight)
+              {
+                var msg = msg1;
+                msg+='\n';
+                msg += 'התמונה היא בגודל ' + i.width + 'x' + i.height;
+                alert (msg);
+                return;
+              }
+              $scope.imageSrc3 = result;
+              ajaxUpload(result,3);
+            };
+            i.src = result;
           });
       };
 
@@ -375,10 +417,21 @@ app.controller('mypicturesController', ['$scope', 'Registration', 'general','myC
 
         fileReader.readAsDataUrl(fileName, $scope)
           .then(function(result) {
-            console.log(result);
-            imageBase64[4] = result;
-            $scope.imageSrc4 = result;
-            ajaxUpload(result,4);
+
+            var i = new Image();
+            i.onload = function(){
+              if (i.width < minWidth || i.height < minHeight)
+              {
+                var msg = msg1;
+                msg+='\n';
+                msg += 'התמונה היא בגודל ' + i.width + 'x' + i.height;
+                alert (msg);
+                return;
+              }
+              $scope.imageSrc4 = result;
+              ajaxUpload(result,4);
+            };
+            i.src = result;
           });
       };
 
@@ -387,9 +440,20 @@ app.controller('mypicturesController', ['$scope', 'Registration', 'general','myC
 
         fileReader.readAsDataUrl(fileName, $scope)
           .then(function(result) {
-            imageBase64[5] = result;
-            $scope.imageSrc5 = result;
-            ajaxUpload(result,5);
+            var i = new Image();
+            i.onload = function(){
+              if (i.width < minWidth || i.height < minHeight)
+              {
+                var msg = msg1;
+                msg+='\n';
+                msg += 'התמונה היא בגודל ' + i.width + 'x' + i.height;
+                alert (msg);
+                return;
+              }
+              $scope.imageSrc5 = result;
+              ajaxUpload(result,5);
+            };
+            i.src = result;
           });
       };
 
@@ -398,8 +462,20 @@ app.controller('mypicturesController', ['$scope', 'Registration', 'general','myC
 
         fileReader.readAsDataUrl(fileName, $scope)
           .then(function(result) {
-            $scope.imageSrc6 = result;
-            ajaxUpload(result,6);
+            var i = new Image();
+            i.onload = function(){
+              if (i.width < minWidth || i.height < minHeight)
+              {
+                var msg = msg1;
+                msg+='\n';
+                msg += 'התמונה היא בגודל ' + i.width + 'x' + i.height;
+                alert (msg);
+                return;
+              }
+              $scope.imageSrc6 = result;
+              ajaxUpload(result,6);
+            };
+            i.src = result;
           });
       };
 
@@ -408,8 +484,20 @@ app.controller('mypicturesController', ['$scope', 'Registration', 'general','myC
 
         fileReader.readAsDataUrl(fileName, $scope)
           .then(function(result) {
-            $scope.imageSrc7 = result;
-            ajaxUpload(result,7);
+            var i = new Image();
+            i.onload = function(){
+              if (i.width < minWidth || i.height < minHeight)
+              {
+                var msg = msg1;
+                msg+='\n';
+                msg += 'התמונה היא בגודל ' + i.width + 'x' + i.height;
+                alert (msg);
+                return;
+              }
+              $scope.imageSrc7 = result;
+              ajaxUpload(result,7);
+            };
+            i.src = result;
           });
       };
 
@@ -418,8 +506,20 @@ app.controller('mypicturesController', ['$scope', 'Registration', 'general','myC
 
         fileReader.readAsDataUrl(fileName, $scope)
           .then(function(result) {
-            $scope.imageSrc8 = result;
-            ajaxUpload(result,8);
+            var i = new Image();
+            i.onload = function(){
+              if (i.width < minWidth || i.height < minHeight)
+              {
+                var msg = msg1;
+                msg+='\n';
+                msg += 'התמונה היא בגודל ' + i.width + 'x' + i.height;
+                alert (msg);
+                return;
+              }
+              $scope.imageSrc8 = result;
+              ajaxUpload(result,8);
+            };
+            i.src = result;
           });
       };
 
@@ -428,8 +528,20 @@ app.controller('mypicturesController', ['$scope', 'Registration', 'general','myC
 
         fileReader.readAsDataUrl(fileName, $scope)
           .then(function(result) {
-            $scope.imageSrc9 = result;
-            ajaxUpload(result,9);
+            var i = new Image();
+            i.onload = function(){
+              if (i.width < minWidth || i.height < minHeight)
+              {
+                var msg = msg1;
+                msg+='\n';
+                msg += 'התמונה היא בגודל ' + i.width + 'x' + i.height;
+                alert (msg);
+                return;
+              }
+              $scope.imageSrc9 = result;
+              ajaxUpload(result,9);
+            };
+            i.src = result;
           });
       };
 
@@ -438,8 +550,20 @@ app.controller('mypicturesController', ['$scope', 'Registration', 'general','myC
 
         fileReader.readAsDataUrl(fileName, $scope)
           .then(function(result) {
-            $scope.imageSrc10 = result;
-            ajaxUpload(result,10);
+            var i = new Image();
+            i.onload = function(){
+              if (i.width < minWidth || i.height < minHeight)
+              {
+                var msg = msg1;
+                msg+='\n';
+                msg += 'התמונה היא בגודל ' + i.width + 'x' + i.height;
+                alert (msg);
+                return;
+              }
+              $scope.imageSrc10 = result;
+              ajaxUpload(result,10);
+            };
+            i.src = result;
           });
       };
 
@@ -448,8 +572,20 @@ app.controller('mypicturesController', ['$scope', 'Registration', 'general','myC
 
         fileReader.readAsDataUrl(fileName, $scope)
           .then(function(result) {
-            $scope.imageSrc11 = result;
-            ajaxUpload(result,11);
+            var i = new Image();
+            i.onload = function(){
+              if (i.width < minWidth || i.height < minHeight)
+              {
+                var msg = msg1;
+                msg+='\n';
+                msg += 'התמונה היא בגודל ' + i.width + 'x' + i.height;
+                alert (msg);
+                return;
+              }
+              $scope.imageSrc11 = result;
+              ajaxUpload(result,11);
+            };
+            i.src = result;
           });
       };
 
@@ -458,8 +594,20 @@ app.controller('mypicturesController', ['$scope', 'Registration', 'general','myC
 
         fileReader.readAsDataUrl(fileName, $scope)
           .then(function(result) {
-            $scope.imageSrc12 = result;
-            ajaxUpload(result,12);
+            var i = new Image();
+            i.onload = function(){
+              if (i.width < minWidth || i.height < minHeight)
+              {
+                var msg = msg1;
+                msg+='\n';
+                msg += 'התמונה היא בגודל ' + i.width + 'x' + i.height;
+                alert (msg);
+                return;
+              }
+              $scope.imageSrc12 = result;
+              ajaxUpload(result,12);
+            };
+            i.src = result;
           });
       };
       $scope.uploadFile13 = function (fileName, index) {
@@ -467,8 +615,20 @@ app.controller('mypicturesController', ['$scope', 'Registration', 'general','myC
 
         fileReader.readAsDataUrl(fileName, $scope)
           .then(function(result) {
-            $scope.imageSrc13 = result;
-            ajaxUpload(result,13);
+            var i = new Image();
+            i.onload = function(){
+              if (i.width < minWidth || i.height < minHeight)
+              {
+                var msg = msg1;
+                msg+='\n';
+                msg += 'התמונה היא בגודל ' + i.width + 'x' + i.height;
+                alert (msg);
+                return;
+              }
+              $scope.imageSrc13 = result;
+              ajaxUpload(result,13);
+            };
+            i.src = result;
           });
       };
 
@@ -477,8 +637,20 @@ app.controller('mypicturesController', ['$scope', 'Registration', 'general','myC
 
         fileReader.readAsDataUrl(fileName, $scope)
           .then(function(result) {
-            $scope.imageSrc14 = result;
-            ajaxUpload(result,14);
+            var i = new Image();
+            i.onload = function(){
+              if (i.width < minWidth || i.height < minHeight)
+              {
+                var msg = msg1;
+                msg+='\n';
+                msg += 'התמונה היא בגודל ' + i.width + 'x' + i.height;
+                alert (msg);
+                return;
+              }
+              $scope.imageSrc14 = result;
+              ajaxUpload(result,14);
+            };
+            i.src = result;
           });
       };
 
@@ -487,8 +659,20 @@ app.controller('mypicturesController', ['$scope', 'Registration', 'general','myC
 
         fileReader.readAsDataUrl(fileName, $scope)
           .then(function(result) {
-            $scope.imageSrc15 = result;
-            ajaxUpload(result,15);
+            var i = new Image();
+            i.onload = function(){
+              if (i.width < minWidth || i.height < minHeight)
+              {
+                var msg = msg1;
+                msg+='\n';
+                msg += 'התמונה היא בגודל ' + i.width + 'x' + i.height;
+                alert (msg);
+                return;
+              }
+              $scope.imageSrc15 = result;
+              ajaxUpload(result,15);
+            };
+            i.src = result;
           });
       };
 

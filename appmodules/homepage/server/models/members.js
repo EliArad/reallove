@@ -172,6 +172,15 @@ var MembersSchema = new Schema({
     type:Boolean,
     default:false
   },
+  profilePicLoaded: {
+    type:Boolean,
+    default:false
+  },
+  numOfPicturesLoaded: {
+    type:Number,
+    default:0
+  },
+
   selectedpasstime: [],
   selectedfood: [],
   selectedlang: [],

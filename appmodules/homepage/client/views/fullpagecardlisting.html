@@ -42,17 +42,17 @@
 
            <table style="width: 50%;border: none">
              <tr style="background-color: white;border: none">
-               <td >
+               <td nowrap="">
                  <label>
                  {{ currentMemberToShow.profile.nickName }}
                  </label>
                </td>
-               <td>
+               <td nowrap>
                  <label>
                  {{ currentMemberToShow.profile.age }}
                    </label>
                </td>
-               <td>
+               <td nowrap>
                  <label>
                  {{ currentMemberToShow.profile.status }}
                    </label>
@@ -196,15 +196,14 @@
             <div class="row" style="margin-top:20px">
                 <div class="span8 well" style="padding-bottom:50px">
                     <form name="form" accept-charset="UTF-8">
-                        <label>נושא</label>
-                        <input type="text" name="title" id="msgtitle{{ $index }}" required class="form-control" ng-model="title" ng-class="{ 'has-error': form.title.$error.required }" />
-
                         <div class="form-group">
                             <textarea id="msgbody{{ $index }}" required class="form-control" rows="5" id="new_message" name="messagebody" ng-model="messagebody" placeholder="כבוש את ליבה"></textarea>
                         </div>
 
                         <h6 id="cLeft" class="pull-right">500 אותיות נשארו</h6>
-                        <button id="sendButton{{ $index }}" data="{{ $index }}" ng-click="submit($event, currentMemberToShow.profile.registrationObjectId)" class="btn btn-info pull-left" ng-disabled="form.$invalid" type="submit">
+                        <button id="sendButton{{ $index }}" data="{{ $index }}"
+                                ng-click="submit($event, currentMemberToShow.profile.registrationObjectId,currentMemberToShow.profile.nickName)"
+                                class="btn btn-info pull-left" ng-disabled="form.$invalid" type="submit">
                             שלח הודעה
                         </button>
                     </form>

@@ -3,10 +3,10 @@
 
 app.controller('MainController', ['$scope', '$state', 'authToken', 'myhttphelper', 'dbsearch', 'myutils',
   'appCookieStore', 'socketioservice', 'Idle', '$rootScope',
-  'SessionStorageService', 'API', 'myConfig', '$http', '$window', '$timeout',
+  'SessionStorageService', 'API', 'myConfig', '$http', '$window', '$timeout','$msgbox',
   function ($scope, $state, authToken, myhttphelper, dbsearch, myutils,
             appCookieStore, socketioservice, Idle, $rootScope, SessionStorageService,
-            API, myConfig, $http, $window, $timeout) {
+            API, myConfig, $http, $window, $timeout,$msgbox) {
     var vm = this;
     vm.skipSize = 0;
     $scope.pageClass = 'page-home';
@@ -19,6 +19,8 @@ app.controller('MainController', ['$scope', '$state', 'authToken', 'myhttphelper
     var cssUpdateTimer1;
 
     var lastMessage = {};
+
+    var maxPageToLoad = 30;
 
 
     $scope.$on('IdleStart', function () {
@@ -69,14 +71,49 @@ app.controller('MainController', ['$scope', '$state', 'authToken', 'myhttphelper
           reload: true
         });
       } else {
+
         var n1 = SessionStorageService.getSessionStorage('needInitiaDetailsBase');
         var n2 = SessionStorageService.getSessionStorage('needInitiaDetailsAll');
+        var msgtoshow = '';
+        if (n1 == 'true') {
+          msgtoshow = 'נתוני בסיס חסרים';
+        }
+
+        if (n2 == 'true') {
+          msgtoshow = 'פרטים נוספים חסרים';
+        }
 
         if (n1 == 'true' || n2 == 'true') {
-          $state.go('memberdetails', {}, {
-            reload: true
-          });
+          $msgbox.show(msgtoshow)
+            .then(function(){
+              $state.go('memberdetails', {}, {
+                reload: true
+              });
+            }, function(){
+              $state.go('memberdetails', {}, {
+                reload: true
+              });
+            });
         }
+
+        API.IsProfilePictureLoaded().then(function(loaded){
+          if (loaded.data == false)
+          {
+            msgtoshow = 'תמונות פרופיל חסרה.חובה להעלות לפחות תמונה אחת לפני שמתחילים';
+            $msgbox.show(msgtoshow)
+              .then(function(){
+                $state.go('memberdetails', {}, {
+                  reload: true
+                });
+              }, function(){
+                $state.go('memberdetails', {}, {
+                  reload: true
+                });
+              });
+          }
+        });
+
+
       }
     }
 
@@ -87,18 +124,23 @@ app.controller('MainController', ['$scope', '$state', 'authToken', 'myhttphelper
     }
 
     dbsearch.setCriteria("none");
-    dbsearch.getFirstNUserProfiles(100).
+    dbsearch.getFirstNUserProfiles(maxPageToLoad).
       then(UsersOk).
       catch(UsersError);
 
 
     function UsersOk(result) {
 
-      dbsearch.getAllShowMyVideoList().then(function (list) {
+      dbsearch.getAllShowMyVideoList().then(function (data) {
 
+
+        console.log(data.size);
+        var list = data.list;
+        var listsize = data.size;
+        console.log(listsize);
 
         var totalPictures = result.results.length;
-        vm.skipSize = 100;
+        vm.skipSize = maxPageToLoad;
         for (var i = 0; i < result.results.length; i++) {
           //console.log(result[i]);
           var picName = '/uploads/' + result.results[i].registrationObjectId.toString() + '/raw/' + 100 + '.jpg';
@@ -115,6 +157,8 @@ app.controller('MainController', ['$scope', '$state', 'authToken', 'myhttphelper
             var exist = list[x.rid];
             if (exist != undefined) {
               x.showvideo = true;
+            } else {
+              x.showvideo = false;
             }
           }
           catch (e)
@@ -147,7 +191,7 @@ app.controller('MainController', ['$scope', '$state', 'authToken', 'myhttphelper
       API.AllowUserToSeeMyVideo(data);
     }
 
-    $scope.submit = function (isValid, obj, rid) {
+    $scope.submit = function (isValid, obj, rid, nickName) {
 
       var dataValue = obj.target.attributes.data.value;
       if (!isValid) {
@@ -157,12 +201,9 @@ app.controller('MainController', ['$scope', '$state', 'authToken', 'myhttphelper
         var msgId = 'mailtouser' + dataValue;
         var msgBody = document.getElementById(msgId).value;
 
-        msgId = 'mailtitle' + dataValue;
-        var mailTitle = document.getElementById(msgId).value;
-
         var sendBtnId = 'sendButton' + dataValue;
         var t = lastMessage[rid]
-        if (t == (msgBody + mailTitle)) {
+        if (t == (msgBody + nickName)) {
           document.getElementById(sendBtnId).className = 'animated rubberBand btn btn-info pull-left';
           document.getElementById(sendBtnId).style.color = 'red';
           document.getElementById(sendBtnId).innerHTML = 'לא נשלחת הודעה זהה';
@@ -178,7 +219,7 @@ app.controller('MainController', ['$scope', '$state', 'authToken', 'myhttphelper
         //console.log($scope.messagebody +  " to send to: " + $scope.currentMemberToShow.id);
         var data = {
           mb: msgBody,
-          title: mailTitle,
+          title:  'הודעה מ ' + nickName,
           toid: rid
         }
         myhttphelper.doApiPost('sendMessageToMember', data).then(function (response) {
@@ -195,7 +236,7 @@ app.controller('MainController', ['$scope', '$state', 'authToken', 'myhttphelper
           document.getElementById(sendBtnId).style.color = 'lightgreen';
           document.getElementById(sendBtnId).innerHTML = 'הודעה נשלחה';
 
-          lastMessage[rid] = msgBody + mailTitle;
+          lastMessage[rid] = msgBody + nickName;
 
           cssUpdateTimer = $timeout(function () {
             document.getElementById(sendBtnId).className = 'btn btn-info pull-left';
@@ -267,14 +308,14 @@ app.controller('MainController', ['$scope', '$state', 'authToken', 'myhttphelper
       }
       if ($(window).scrollTop() + $(window).height() == $(document).height()) {
 
-        dbsearch.getNextNUserIds(100, vm.skipSize).then(function (result) {
+        dbsearch.getNextNUserIds(maxPageToLoad, vm.skipSize).then(function (result) {
           //console.log("Get next: " + result);
           var totalPictures = result.length;
           if (totalPictures == 0) {
             console.log("no more to present")
             return;
           }
-          vm.skipSize += 100;
+          vm.skipSize += maxPageToLoad;
 
           for (var i = 0; i < result.length; i++) {
             var picName = '/uploads/' + result[i].rid.toString() + '/raw/' + 100 + '.jpg';

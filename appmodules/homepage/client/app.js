@@ -31,7 +31,9 @@ var app = angular
     "com.2fdevs.videogular.plugins.poster",
 
     'luegg.directives',
-    'irontec.simpleChat'
+    'irontec.simpleChat',
+    'msgbox'
+
 
   ]).constant("myConfig", {
         "url": "http://192.168.22.32:8000",

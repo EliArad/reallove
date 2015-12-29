@@ -11,17 +11,44 @@ module.exports = function (membersModel, videopermissionModel) {
 
   return {
 
-    getAllShowMyVideoList: function (req, res, next) {
 
-      videopermissionModel.find({'fromRegistrationId': req.idFromToken, 'allow': true}).
+    getAllShowMyVideoList1: function (req, res, next) {
+
+      //console.log('id from t:' +  req.idFromToken);
+      videopermissionModel.find({'fromRegistrationId': req.idFromToken, allow:true}).
         exec(function (err, results) {
           if (err) {
             res.sendStatus(500);
           } else {
+            //console.log(results);
+            var x = {};
+            for (var i = 0; i < results.length;i++)
+              x[results[i].toRegistrationId] = true;
+            res.json({
+              list:x,
+              size:results.length
+            });
+          }
+        });
+    },
+
+
+    getAllShowMyVideoList: function (req, res, next) {
+
+      //console.log('id from t:' +  req.idFromToken);
+      videopermissionModel.find({'toRegistrationId': req.idFromToken, 'allow':true }).
+        exec(function (err, results) {
+          if (err) {
+            res.sendStatus(500);
+          } else {
+            //console.log(results);
             var x = {};
             for (var i = 0; i < results.length;i++)
                x[results[i].toRegistrationId] = true;
-            res.send(x);
+            res.json({
+              list:x,
+              size:results.length
+            });
           }
         });
     },

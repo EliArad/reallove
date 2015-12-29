@@ -163,6 +163,11 @@ app.factory("API", function ($http, $q, myConfig, myutils) {
     });
   }
 
+  function IsProfilePictureLoaded()
+  {
+     var membersAPI = myConfig.url + "/api/IsProfilePictureLoaded";
+     return $http.get(membersAPI);
+  }
 
   function RoateMyPicture(id, callback) {
 
@@ -262,8 +267,9 @@ app.factory("API", function ($http, $q, myConfig, myutils) {
     saveVideoOption: saveVideoOption,
     getVideoOption:getVideoOption,
     AllowUserToSeeMyVideo:AllowUserToSeeMyVideo,
-    deleteVideo:deleteVideo
-  }
+    deleteVideo:deleteVideo,
+    IsProfilePictureLoaded:IsProfilePictureLoaded
+  };
 
 
 });

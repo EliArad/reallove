@@ -46,6 +46,8 @@ app.controller('LoginController', ['$scope', '$state', 'authToken', '$cookieStor
                 var rule = response.rule;
                 $rootScope.$broadcast("userrule", rule);
 
+                console.log(response.member.needInitiaDetailsBase);
+                console.log(response.member.needInitiaDetailsAll);
                 SessionStorageService.setSessionStorage('needInitiaDetailsBase', response.member.needInitiaDetailsBase);
                 SessionStorageService.setSessionStorage('needInitiaDetailsAll', response.member.needInitiaDetailsAll);
 

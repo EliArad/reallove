@@ -1,3 +1,58 @@
-<div class="container">
+<style>
+  .panel {
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    margin-bottom: 30px;
+    margin-top:10px;
+  }
+
+  .panel.panel-default {
+    border: 1px solid #d4d4d4;
+    -webkit-box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.1);
+  }
+
+  .btn-icon {
+    color: #484848;
+  }
+</style>
+<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container" ng-controller="mypageController as vm">
+
+  <div class="row">
+
+    <div class="col-md-4 pull-right" >
+
+      <form name="form" novalidate>
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <textarea rows="4" cols="5" ng-model="messageToPost" required class="form-control" placeholder="מה קורה היום איתך?"/>
+        </div>
+        <div class="panel-footer">
+          <div class="btn-group">
+            <input id="file" type="file" accept="image/jpg"  style="display: none;">
+            <button type="button" ng-click="AddPicture()"  class="btn btn-link btn-icon"><i class="fa fa-camera"></i></button>
+
+            <input id="file1" type="file" accept="video/mp4,video/x-m4v,video/*"   style="display: none;">
+            <button type="button" ng-click="AddVideo()" class="btn btn-link btn-icon"><i class="fa fa-video-camera"></i></button>
+
+          </div>
+          <div class="pull-right">
+            <button type="button"  ng-disabled="form.$invalid"  ng-click="PostMessage()" class="btn btn-success">פרסם</button>
+          </div>
+        </div>
+      </div>
+      </form>
+    </div>
+
+  </div>
+
+
+  <content-item ng-repeat="item in content" content="item"></content-item>
 
 </div>

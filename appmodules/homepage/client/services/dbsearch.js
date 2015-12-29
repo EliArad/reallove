@@ -1,3 +1,4 @@
+'use_strict'
 app.factory("dbsearch", function ($cacheFactory, $http, myConfig, $q) {
 
   var criteria;
@@ -8,6 +9,15 @@ app.factory("dbsearch", function ($cacheFactory, $http, myConfig, $q) {
 
   var getAllShowMyVideoList = function () {
     var url = myConfig.url + "/api/dbsearch/getAllShowMyVideoList";
+    return $http({
+      url: url,
+      method: "GET"
+    }).then(sendResponseData).
+      catch(sendResponseError);
+  }
+
+  var getAllShowMyVideoList1 = function () {
+    var url = myConfig.url + "/api/dbsearch/getAllShowMyVideoList1";
     return $http({
       url: url,
       method: "GET"
@@ -80,7 +90,8 @@ app.factory("dbsearch", function ($cacheFactory, $http, myConfig, $q) {
     getNextNUserIds: getNextNUserIds,
     getFirstNUserProfiles: getFirstNUserProfiles,
     getFirstNVideosToShow: getFirstNVideosToShow,
-    getAllShowMyVideoList:getAllShowMyVideoList
+    getAllShowMyVideoList:getAllShowMyVideoList,
+    getAllShowMyVideoList1:getAllShowMyVideoList1
   };
 });
 

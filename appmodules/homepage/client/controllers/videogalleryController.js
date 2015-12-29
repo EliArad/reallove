@@ -25,7 +25,7 @@ app.controller('videogalleryController', ['$scope', '$state', 'authToken', '$win
       currentTime: 0,
       duration: 0
     };
-
+    $scope.msgtoshow = false;
     vm.currentSentMessage = {};
     var cssUpdateTimer;
     var cssUpdateTimer1;
@@ -183,7 +183,18 @@ app.controller('videogalleryController', ['$scope', '$state', 'authToken', '$win
 
       var totalPictures = result.length;
 
-      dbsearch.getAllShowMyVideoList().then(function (list) {
+      dbsearch.getAllShowMyVideoList().then(function (data) {
+
+
+        var list = data.list;
+        var listsize = data.size;
+        if (listsize == 0)
+        {
+          $scope.msgtoshow = true;
+          $scope.errorMessage = 'אינך רואה וידאו מכיוון שאף אחד לא אישר לך לראות וידאו';
+          return;
+        }
+        $scope.msgtoshow = false;
 
         vm.skipSize = 20;
         for (var k in result) {

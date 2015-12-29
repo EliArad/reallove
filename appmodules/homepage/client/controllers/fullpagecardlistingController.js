@@ -1,9 +1,9 @@
 app.controller('fullpagecardlistingController', ['$scope', '$state', 'authToken', 'API', 'PassServiceParams',
   'myhttphelper', 'dbsearch', 'myutils', '$window', '$timeout',
-  'appCookieStore', 'socketioservice', 'Idle', '$rootScope', 'SessionStorageService',
+  'appCookieStore', 'socketioservice', 'Idle', '$rootScope', 'SessionStorageService','$msgbox',
   function ($scope, $state, authToken, API, PassServiceParams, myhttphelper,
             dbsearch, myutils, $window, $timeout, appCookieStore, socketioservice,
-            Idle, $rootScope, SessionStorageService) {
+            Idle, $rootScope, SessionStorageService,$msgbox) {
 
     var vm = this;
     $scope.pageClass = 'page-home';
@@ -17,7 +17,7 @@ app.controller('fullpagecardlistingController', ['$scope', '$state', 'authToken'
     vm.currentSentMessage = {};
     var cssUpdateTimer;
     var cssUpdateTimer1;
-
+    var maxPageToLoad = 30;
     appCookieStore.set('mainview', 'bigcardsview');
 
 
@@ -32,14 +32,50 @@ app.controller('fullpagecardlistingController', ['$scope', '$state', 'authToken'
           reload: true
         });
       } else {
+
+
         var n1 = SessionStorageService.getSessionStorage('needInitiaDetailsBase');
         var n2 = SessionStorageService.getSessionStorage('needInitiaDetailsAll');
+        var msgtoshow = '';
+        if (n1 == 'true') {
+          msgtoshow = 'נתוני בסיס חסרים';
+        }
+
+        if (n2 == 'true') {
+          msgtoshow = 'פרטים נוספים חסרים';
+        }
 
         if (n1 == 'true' || n2 == 'true') {
-          $state.go('memberdetails', {}, {
-            reload: true
-          });
+          $msgbox.show(msgtoshow)
+            .then(function(){
+              $state.go('memberdetails', {}, {
+                reload: true
+              });
+            }, function(){
+              $state.go('memberdetails', {}, {
+                reload: true
+              });
+            });
         }
+
+        API.IsProfilePictureLoaded().then(function(loaded){
+          if (loaded.data == false)
+          {
+            msgtoshow = 'תמונות פרופיל חסרה.חובה להעלות לפחות תמונה אחת לפני שמתחילים';
+            $msgbox.show(msgtoshow)
+              .then(function(){
+                $state.go('memberdetails', {}, {
+                  reload: true
+                });
+              }, function(){
+                $state.go('memberdetails', {}, {
+                  reload: true
+                });
+              });
+          }
+        });
+
+
       }
     }
 
@@ -95,17 +131,22 @@ app.controller('fullpagecardlistingController', ['$scope', '$state', 'authToken'
     };
 
     dbsearch.setCriteria("none");
-    dbsearch.getFirstNUserProfiles(100).
+    dbsearch.getFirstNUserProfiles(maxPageToLoad).
       then(UsersOk).
       catch(UsersError);
 
 
     function UsersOk(result) {
 
-      dbsearch.getAllShowMyVideoList().then(function(list){
+      dbsearch.getAllShowMyVideoList().then(function(data){
+
+        console.log(data.size);
+        var list = data.list;
+        var listsize = data.size;
+        console.log(listsize);
 
         var totalPictures = result.results.length;
-        vm.skipSize = 100;
+        vm.skipSize = maxPageToLoad;
         var i;
         for (i = 0; i < result.results.length; i++) {
           //console.log(result[i]);
@@ -191,23 +232,20 @@ app.controller('fullpagecardlistingController', ['$scope', '$state', 'authToken'
     }
 
 
-    $scope.submit = function (obj, rid) {
+    $scope.submit = function (obj, rid,nickName) {
 
       var dataValue = obj.target.attributes.data.value;
 
 
       var buttonid = 'sendButton' + dataValue;
       var msgbodyid = 'msgbody' + dataValue;
-      var msgtitleid = 'msgtitle' + dataValue;
 
       var msgBody = document.getElementById(msgbodyid).value;
-      var msgTitle = document.getElementById(msgtitleid).value;
-
 
       //console.log($scope.messagebody +  " to send to: " + $scope.currentMemberToShow.id);
       var data = {
         mb: msgBody,
-        title: msgTitle,
+        title: 'הודעה מ' + nickName,
         toid: rid
       }
       myhttphelper.doApiPost('sendMessageToMember', data).then(function (response) {

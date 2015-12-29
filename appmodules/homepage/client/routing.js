@@ -106,6 +106,10 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
       url: '/videogallery',
       controller: 'videogalleryController',
       templateUrl: '/appmodules/homepage/client/views/videogallery.html'
+    }).state('mypage', {
+      url: '/mypage',
+      controller: 'mypageController',
+      templateUrl: '/appmodules/homepage/client/views/mypage.html'
     });
 
 

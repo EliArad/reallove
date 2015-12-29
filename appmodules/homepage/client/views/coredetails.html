@@ -4,28 +4,29 @@
         left: 10px;
         /* or any other value - it should be the same as the original right value */
     }
-    
+
     .ui-select-bootstrap > .ui-select-match > .btn {
         text-align: right !important;
         direction: rtl;
         background-color: white;
         color: black;
     }
-    
+
     .ui-select-bootstrap > .ui-select-choices > .btn > span.pull-left {
         float: right !important;
     }
-    
+
     .ui-select-bootstrap > .ui-select-match > .btn > span.pull-left {
         float: right !important;
     }
 </style>
 
+
 <div class="container" ng-controller="coredetailsController as vm" ng-show="vm.showForm">
 
     <div ng-show="vm.showwaitcircle" ng-include="'/appmodules/homepage/client/templates/waitcircle.html'">
     </div>
-    <form name="form" novalidate ng-submit="submit(form.$valid)">
+    <form name="form"  novalidate ng-submit="submit(form.$valid)">
 
         <div class="row">
             <div class="col-sm-6">
@@ -55,15 +56,16 @@
 
 
         <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-6">
 
             </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="status"> הצג את הכרטיס שלי רק לחברים עם נתוני בסיס זהים (להוציא מספר ילדים במקרה שיש ילדים ולהוציא עיר מגורים)
-                    </label>
-                    <checkbox ng-model="checkboxModel" name="presentthesame" ng-change="onChange()"></checkbox>
-                </div>
+            <div class="col-md-3">
+              <div class="form-group" ng-class="{ 'has-error': form.religion.$error.required }">
+                <label for="religion">דת</label>
+                <select id="religion" class="form-control" name="religion" ng-model="member.religion" required>
+                  <option ng-repeat="item in vm.religionbelong" value="{{item}}">{{item}}</option>
+                </select>
+              </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group" ng-class="{ 'has-error': form.status.$error.required }">
@@ -81,12 +83,7 @@
 
             </div>
             <div class="col-sm-3">
-                <div class="form-group" ng-class="{ 'has-error': form.religion.$error.required }">
-                    <label for="religion">דת</label>
-                    <select id="religion" class="form-control" name="religion" ng-model="member.religion" required>
-                        <option ng-repeat="item in vm.religionbelong" value="{{item}}">{{item}}</option>
-                    </select>
-                </div>
+
             </div>
             <div class="col-sm-3">
 
@@ -138,7 +135,7 @@
                     <table>
                         <tr>
                             <td>
-                                <button type="submit" style="margin-top:25px" ng-disabled="registrationForm.$invalid" class="btn btn-primary">שמור נתונים
+                                <button type="submit" style="margin-top:25px" ng-disabled="form.$invalid" class="btn btn-primary">שמור נתונים
                                 </button>
                             </td>
                             <td style="padding:0 15px 0 15px;">

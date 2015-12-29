@@ -14,6 +14,7 @@ var dbsearchController = require('../controller/dbsearch')(membersModel,videoper
 var router   = express.Router();
 router.get('/getFirstNVideosToShow', jwtauth, dbsearchController.getFirstNVideosToShow);
 router.get('/getAllShowMyVideoList', jwtauth, dbsearchController.getAllShowMyVideoList);
+router.get('/getAllShowMyVideoList1', jwtauth, dbsearchController.getAllShowMyVideoList1);
 
 
 module.exports = router;

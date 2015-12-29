@@ -47,6 +47,10 @@
 <div class="container" ng-controller="videogalleryController as vm">
 
 
+  <div ng-show="msgtoshow">
+    <h2> {{ errorMessage }}</h2>
+  </div>
+
   <!-- show and hide the lion picture -->
   <div ng-show="lions">
     <div class="row">

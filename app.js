@@ -104,6 +104,10 @@ var mongoose = require('mongoose');
 var db = mongoose.connect('mongodb://localhost/reallove');
 
 
+mkdirp('./mypage/', function (err) {
+
+});
+
 mkdirp('./uploads/', function (err) {
 
 });
@@ -172,6 +176,7 @@ var getGeneralRoutes = generalRoutes.routes;
 
 var registerRoutes = require('./appmodules/homepage/server/routes/register')(registerController, regModel);
 var mailRoutes = require('./appmodules/homepage/server/routes/mail');
+var mypageRoutes = require('./appmodules/homepage/server/routes/mypage');
 var dbsearchRoutes = require('./appmodules/homepage/server/routes/dbsearch');
 var adminRoutes = require('./appmodules/homepage/server/routes/admin')(notifyServer);
 var chatRoutes = require('./appmodules/homepage/server/routes/chat')(app, notifyServer, membersModel.membersModel);
@@ -181,6 +186,7 @@ var onlineRoutes = require('./appmodules/homepage/server/routes/online');
 app.use('/api/members', getmembersRouters);
 app.use('/api/register', registerRoutes.routes);
 app.use('/api/mail', mailRoutes);
+app.use('/api/mypage', mypageRoutes);
 app.use('/api/dbsearch', dbsearchRoutes);
 app.use('/api/admin', adminRoutes.router);
 app.use('/api/online', onlineRoutes);
@@ -234,9 +240,21 @@ app.post('/api/upload', bodyParser({
             //console.log("err", err);
             return res.sendStatus(500);
           } else {
-            return res.json({
-              picnum: req.body.filenum,
-              err: "uploaded ok"
+
+            membersModel.membersModel.findOne({'registrationObjectId': decoded.sub}, function (err, member) {
+              if (!err)
+              {
+                member.profilePicLoaded = true;
+                member.numOfPicturesLoaded++;
+                member.save();
+                return res.json({
+                  picnum: req.body.filenum,
+                  err: "uploaded ok"
+                });
+              } else {
+                 console.log('error #87');
+                 res.sendStatus(500);
+              }
             });
           }
         });

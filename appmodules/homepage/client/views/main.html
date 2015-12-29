@@ -44,13 +44,13 @@ Generic Styling, for Desktops/Laptops
                     <span style="font-size: large; color:darkblue">
             <table style="width: 50%;border: none">
               <tr style="background-color: white;border: none">
-                <td>
+                <td nowrap="">
                   {{ memberthumb.profile.nickName }}
                 </td>
-                <td>
+                <td nowrap="">
                   {{ memberthumb.profile.age }}
                 </td>
-                <td>
+                <td nowrap="">
                   {{ memberthumb.profile.status }}
                 </td>
                 <td nowrap>
@@ -194,13 +194,7 @@ Generic Styling, for Desktops/Laptops
         <div class="span8 well" style="padding-bottom:50px">
           <form name="form" accept-charset="UTF-8"
                 data="{{ $index }}"
-                ng-submit="submit(form.$valid,$event,memberthumb.rid)">
-            <label>נושא</label>
-            <input type="text"
-                   name="title"
-                   id="mailtitle{{$index}}"
-                   required class="form-control"
-                   ng-model="title" ng-class="{ 'has-error': form.title.$error.required }"/>
+                ng-submit="submit(form.$valid,$event,memberthumb.rid,memberthumb.profile.nickName)">
 
             <div class="form-group" ng-class="{ 'has-error': form.messagebody.$error.required }">
                             <textarea required

@@ -120,15 +120,16 @@ app.factory("socketioservice", function ($rootScope, $http, authToken, myConfig)
     });
   }
 
-  function isUserOnline(id) {
+  function isUserOnline(id, callback) {
 
     var membersAPI = myConfig.url + "/api/online/IsOnlineUser";
     return $http.get(membersAPI).then(function (online) {
-
-      callback('ok',online);
+      if (callback != undefined)
+        callback('ok',online);
 
     }).catch(function (err) {
-      callback(err,online);
+      if (callback != undefined)
+          callback(err,online);
     });
   }
 
@@ -140,7 +141,8 @@ app.factory("socketioservice", function ($rootScope, $http, authToken, myConfig)
       var token = authToken.getToken();
       //console.log('disconnect in service ' + token );
       socket.emit('forcedisconnect', token);
-      callback('ok');
+      if (callback != null && callback != undefined)
+         callback('ok');
       /*
        try {
        delete onlineUsers[id];

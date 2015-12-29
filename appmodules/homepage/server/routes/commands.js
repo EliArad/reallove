@@ -69,6 +69,19 @@ var routes = function (app, notifyServer, usersFunction,videopermissionModel) {
   });
 
 
+  app.get('/api/IsProfilePictureLoaded', jwtauth, function (req, res, next) {
+    membersModel.findOne({'registrationObjectId': req.idFromToken}, function (err, member) {
+      if (!err)
+      {
+        res.send(member.profilePicLoaded);
+      } else {
+        console.log('error #88');
+        res.sendStatus(500);
+      }
+    });
+  });
+
+
   app.post('/api/sendMessageToMember', jwtauth, function (req, res, next) {
     var m = new inmessagesModel();
 
@@ -555,23 +568,68 @@ var routes = function (app, notifyServer, usersFunction,videopermissionModel) {
 
   app.post('/api/deletepicture', jwtauth, function (req, res, next) {
 
+
     usersFunction.userExists(req.idFromToken, function (err) {
 
 
       if (err == false) {
         return res.sendStatus(403);
       }
+      console.log('delete pictures1');
 
       try {
         var decoded = jwt.verify(req.body.token, secret);
         // delete a file from the directory
-        var fileName = './uploads/' + decoded.sub + '/raw/' + req.body.filenum + '.jpg';
-        fs.unlinkSync(fileName);
-        fileName = './uploads/' + decoded.sub + '/base64/' + req.body.filenum + '.jpg';
-        //console.log(fileName);
-        fs.unlinkSync(fileName);
-        res.sendStatus(200);
-      } catch (err) {
+        try {
+          var fileName = './uploads/' + decoded.sub + '/raw/' + req.body.filenum + '.jpg';
+          fs.unlinkSync(fileName);
+        }
+        catch (e)
+        {
+
+        }
+        try {
+          fileName = './uploads/' + decoded.sub + '/base64/' + req.body.filenum + '.jpg';
+          fs.unlinkSync(fileName);
+        }
+        catch (e){
+
+        }
+
+
+        try {
+          fileName = './uploads/' + decoded.sub + '/raw/' + '0.jpg';
+          fs.unlinkSync(fileName);
+        }
+        catch (e)
+        {
+
+        }
+        try {
+          fileName = './uploads/' + decoded.sub + '/raw/' + '100.jpg';
+          fs.unlinkSync(fileName);
+        }
+        catch (e)
+        {
+
+        }
+
+        console.log('delete pictures2');
+
+
+        membersModel.findOne({'registrationObjectId': req.idFromToken}, function (err, member) {
+          if (!err)
+          {
+            member.profilePicLoaded = false;
+            member.numOfPicturesLoaded--;
+            member.save();
+            res.sendStatus(200);
+          } else {
+            console.log('error #87');
+            res.sendStatus(500);
+          }
+        });
+       } catch (err) {
         res.sendStatus(500);
       }
     });

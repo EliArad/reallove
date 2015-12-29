@@ -2,10 +2,10 @@
 
 app.controller('allmembersgalleryController', ['$scope', '$state', 'authToken', '$window',
   'myhttphelper', 'dbsearch', 'myConfig', '$http', '$timeout', 'myutils',
-  'appCookieStore', 'socketioservice', 'Idle', '$rootScope', 'SessionStorageService','API',
+  'appCookieStore', 'socketioservice', 'Idle', '$rootScope', 'SessionStorageService','API','$msgbox',
   function ($scope, $state, authToken, $window, myhttphelper, dbsearch,
             myConfig, $http, $timeout, myutils, appCookieStore, socketioservice,
-            Idle, $rootScope, SessionStorageService,API) {
+            Idle, $rootScope, SessionStorageService,API,$msgbox) {
 
     var vm = this;
     vm.currentSentMessage = {};
@@ -18,6 +18,7 @@ app.controller('allmembersgalleryController', ['$scope', '$state', 'authToken', 
     var index1 = 0;
     vm.skipSize = 0;
     $scope.isOnline = false;
+    var maxPageToLoad = 30;
 
     $scope.$on('IdleStart', function () {
       // the user appears to have gone idle
@@ -64,12 +65,45 @@ app.controller('allmembersgalleryController', ['$scope', '$state', 'authToken', 
       } else {
         var n1 = SessionStorageService.getSessionStorage('needInitiaDetailsBase');
         var n2 = SessionStorageService.getSessionStorage('needInitiaDetailsAll');
+        var msgtoshow = '';
+        if (n1 == 'true') {
+          msgtoshow = 'נתוני בסיס חסרים';
+        }
+
+        if (n2 == 'true') {
+          msgtoshow = 'פרטים נוספים חסרים';
+        }
 
         if (n1 == 'true' || n2 == 'true') {
-          $state.go('memberdetails', {}, {
-            reload: true
-          });
+          $msgbox.show(msgtoshow)
+            .then(function(){
+              $state.go('memberdetails', {}, {
+                reload: true
+              });
+            }, function(){
+              $state.go('memberdetails', {}, {
+                reload: true
+              });
+            });
         }
+
+        API.IsProfilePictureLoaded().then(function(loaded){
+           if (loaded.data == false)
+           {
+             msgtoshow = 'תמונות פרופיל חסרה.חובה להעלות לפחות תמונה אחת לפני שמתחילים';
+             $msgbox.show(msgtoshow)
+               .then(function(){
+                 $state.go('memberdetails', {}, {
+                   reload: true
+                 });
+               }, function(){
+                 $state.go('memberdetails', {}, {
+                   reload: true
+                 });
+               });
+           }
+        });
+
       }
     }
 
@@ -88,7 +122,7 @@ app.controller('allmembersgalleryController', ['$scope', '$state', 'authToken', 
 
 
     dbsearch.setCriteria("none");
-    dbsearch.getFirstNUserIds(100).
+    dbsearch.getFirstNUserIds(maxPageToLoad).
       then(UsersOk).
       catch(UsersError);
 
@@ -96,7 +130,7 @@ app.controller('allmembersgalleryController', ['$scope', '$state', 'authToken', 
     function UsersOk(result) {
 
       var totalPictures = result.length;
-      vm.skipSize = 100;
+      vm.skipSize = maxPageToLoad;
       for (var i = 0; i < result.length; i++) {
         var picName = '/uploads/' + result[i].rid.toString() + '/raw/' + 100 + '.jpg';
         var x = {
@@ -297,9 +331,10 @@ app.controller('allmembersgalleryController', ['$scope', '$state', 'authToken', 
         }
 
         //console.log($scope.messagebody +  " to send to: " + $scope.currentMemberToShow.id);
+        //alert ($scope.currentMemberToShow.member.nickName);
         var data = {
           mb: $scope.messagebody,
-          title: $scope.title,
+          title: 'הודעה מ' + $scope.currentMemberToShow.member.nickName,
           toid: $scope.currentMemberToShow.rid
         }
         myhttphelper.doApiPost('sendMessageToMember', data).then(function (response) {
@@ -335,14 +370,14 @@ app.controller('allmembersgalleryController', ['$scope', '$state', 'authToken', 
       }
       if ($(window).scrollTop() + $(window).height() == $(document).height()) {
 
-        dbsearch.getNextNUserIds(100, vm.skipSize).then(function (result) {
+        dbsearch.getNextNUserIds(maxPageToLoad, vm.skipSize).then(function (result) {
           //console.log("Get next: " + result);
           var totalPictures = result.length;
           if (totalPictures == 0) {
             console.log("no more to present");
             return;
           }
-          vm.skipSize += 100;
+          vm.skipSize += maxPageToLoad;
 
           for (var i = 0; i < result.length; i++) {
             var picName = '/uploads/' + result[i].rid.toString() + '/raw/' + 100 + '.jpg';

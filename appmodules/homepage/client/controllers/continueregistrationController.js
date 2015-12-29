@@ -2,16 +2,17 @@
 
 
 app.controller('ContinueRegistrationController', ['$scope', 'Members', 'general', 'appCookieStore', '$window',
-               '$http', 'authToken', '$timeout', 'myConfig', '$state', 'myhttphelper', '$rootScope', 'API', 'SessionStorageService',
+               '$http', 'authToken', '$timeout', 'myConfig', '$state', 'myhttphelper', '$rootScope', 'API',
+              'SessionStorageService','$msgbox',
     function ($scope, Members, general, appCookieStore, $window,
         $http, authToken, $timeout, myConfig,
-        $state, myhttphelper, $rootScope, API, SessionStorageService)
+        $state, myhttphelper, $rootScope, API, SessionStorageService,$msgbox)
     {
 
         var vm = this;
 
         $scope.member = {};
-
+        var currentMember;
         $scope.formmsgheader = 'המשך הרשמה';
 
         vm.selectedfood = [];
@@ -29,7 +30,6 @@ app.controller('ContinueRegistrationController', ['$scope', 'Members', 'general'
         $scope.$watchCollection('vm.selectedpasstime', function (newNames, oldNames) {
             API.saveSelectedpasstime(newNames);
         })
-
 
 
 
@@ -108,6 +108,8 @@ app.controller('ContinueRegistrationController', ['$scope', 'Members', 'general'
         function successGetMember(result) {
             //console.log(result.member);
             $scope.member = result.member;
+
+            currentMember = angular.copy($scope.member);
             try {
                 $scope.member.bornyear = $scope.member.bornyear.toString();
                 $scope.member.bornmonth = $scope.member.bornmonth.toString();
@@ -218,6 +220,8 @@ app.controller('ContinueRegistrationController', ['$scope', 'Members', 'general'
 
         }
 
+
+
         $window.onbeforeunload = $scope.onExit;
         $scope.submit = function (isValid) {
             if (isValid) {
@@ -240,6 +244,7 @@ app.controller('ContinueRegistrationController', ['$scope', 'Members', 'general'
                     'member': $scope.member
                 }).success(function (result) {
                     $scope.changesuccess = true;
+                    currentMember = angular.copy($scope.member);
 
                     SessionStorageService.setSessionStorage('needInitiaDetailsAll', false);
 
@@ -252,6 +257,6 @@ app.controller('ContinueRegistrationController', ['$scope', 'Members', 'general'
                     console.log("error");
                 });
             }
-        }
+        };
     }
   ]);

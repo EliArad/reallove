@@ -5,7 +5,7 @@ app.factory("general", function($http, $q){
 
     return $http.post("/api/send",mailParams).
       then(sendResponseData).
-      catch(sendResponseError)
+      catch(sendResponseError);
   }
   function sendResponseData(response)
   {

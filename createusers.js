@@ -161,14 +161,14 @@ function createUser(nickName, gender, mail)
 var picnum = 1;
 var g = ['אישה', 'גבר'];
 for (var i = 0; i < 20; i++) {
-  //createUser(undefined , g[1], undefined);
+  createUser(undefined , g[1], undefined);
 }
 
 //createUser('amit' , g[1], 'amit@amit.com');
 //createUser('nataly' , g[1], 'nataly@nataly.com');
 
 //createUser('noam' , g[1], 'noam@noam.com');
-createUser('amir' , g[1], 'amir@amir.com');
+//createUser('amir' , g[1], 'amir@amir.com');
 //createUser('shamay' , g[1], 'shamay@shamay.com');
 
 process.stdin.setRawMode(true);

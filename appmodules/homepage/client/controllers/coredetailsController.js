@@ -3,10 +3,11 @@
 
 
 app.controller('coredetailsController', ['$scope', '$state', 'authToken', 'myhttphelper',
-                                         'myConfig', '$http', '$timeout', 'SessionStorageService','$rootScope',
-    function ($scope, $state, authToken, myhttphelper, myConfig, $http, $timeout, SessionStorageService,$rootScope)
+                                         'myConfig', '$http', '$timeout', 'SessionStorageService','$rootScope','$msgbox',
+    function ($scope, $state, authToken, myhttphelper, myConfig, $http, $timeout, SessionStorageService,$rootScope,$msgbox)
     {
         var vm = this;
+        //var currentMember;
         vm.showwaitcircle = true;
         $scope.member = {};
         $scope.pageClass = 'page-home';
@@ -35,6 +36,7 @@ app.controller('coredetailsController', ['$scope', '$state', 'authToken', 'myhtt
                 console.log(vm.cities[0][0]);
             }
         });
+
 
 
         vm.showfirstselection = false;
@@ -81,6 +83,8 @@ app.controller('coredetailsController', ['$scope', '$state', 'authToken', 'myhtt
 
         function successGetMember(result) {
             $scope.member = result.member;
+
+            //currentMember = angular.copy($scope.member);
             vm.showwaitcircle = false;
             vm.showForm = true;
         }
@@ -136,12 +140,13 @@ app.controller('coredetailsController', ['$scope', '$state', 'authToken', 'myhtt
             var token1 = authToken.getToken();
             var membersAPI = myConfig.url + "/api/members/" + token1;
 
-            console.log($scope.member.gender);
+            //console.log($scope.member.gender);
             $scope.member.needInitiaDetailsBase = false;
             $http.put(membersAPI, {
                 'member': $scope.member
             }).success(function (result) {
                 $scope.changesuccess = true;
+                //currentMember = angular.copy($scope.member);
                 SessionStorageService.setSessionStorage('needInitiaDetailsBase', false);
                 cssUpdateTimer = $timeout(function () {
                     $scope.changesuccess = false;

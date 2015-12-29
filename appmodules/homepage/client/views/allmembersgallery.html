@@ -210,10 +210,6 @@
         <div class="row" style="margin-top:20px">
           <div class="span8 well" style="padding-bottom:50px">
             <form name="form" accept-charset="UTF-8" ng-submit="submit(form.$valid)">
-              <label for="title">נושא</label>
-              <input type="text" name="title" id="title" required class="form-control" ng-model="title"
-                     ng-class="{ 'has-error': form.title.$error.required }"/>
-
               <div class="form-group" ng-class="{ 'has-error': form.messagebody.$error.required }">
                 <textarea required class="form-control" rows="5" id="new_message" name="whoami" ng-model="messagebody"
                           placeholder="כבוש את ליבה"></textarea>
@@ -236,18 +232,19 @@
 
   <div ng-repeat="memberthumb in allmembersthumb" ng-show="allthumberspictures">
 
-    <div style="width:220px;height:250px;float: left">
+
+    <div style="width:310px;height:240px;float: left">
 
 
       <img src="{{ memberthumb.src }}"
              ng-click="ShowMember(memberthumb.id,memberthumb.rid)"
-             class="floating-box" width="220px" height="250px">
+             class="floating-box" style="width:310px;height:240px">
+
 
       <img ng-show="memberthumb.online"
 
-           style="top:-255px;position: relative;left:-208px"
+           style="top:-245px;position: relative;left:-300px"
            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAAolBMVEX///+JxIlF/0UXsxcVehXq9OqKrooOcA4fmx8hpCEjsCMmvyYq0Sot4S0luyV7vHtRjFEXkBcoyigs2ywv7C8TfhP5+/miu6Jpk2lmlGafvp/Y49gtZS0KXQondyfP4s8bWxsiqiJOp05R51FM/0xY/1hi/2Jf51+427gfjx84yjhd1l1Xq1fF4sVqtWpyuHKazZp4sHhLjksy+TJB5UFL0kucqR4RAAAAaElEQVQIHQXBiwJCMBiA0Y+soaYY654m0kXXv97/1ToHUK/nI1AA9+HWH6+XM6imP3Wt2EoR/Lo2FDH+zfANRUpb+A+NkdIWWZrPmY3MdJImsR6joiTzca4PDup9VOnddgPg1qvlwsEfFHEIoVXtWrQAAAAASUVORK5CYII="/>
-
 
 
     </div>

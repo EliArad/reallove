@@ -25,9 +25,7 @@
 <div class="container" ng-controller="mypageController as vm">
 
   <div class="row">
-
     <div class="col-md-4 pull-right" >
-
       <form name="form" novalidate>
       <div class="panel panel-default">
         <div class="panel-body">
@@ -37,10 +35,8 @@
           <div class="btn-group">
             <input id="file" type="file" accept="image/jpg"  style="display: none;">
             <button type="button" ng-click="AddPicture()"  class="btn btn-link btn-icon"><i class="fa fa-camera"></i></button>
-
             <input id="file1" type="file" accept="video/mp4,video/x-m4v,video/*"   style="display: none;">
             <button type="button" ng-click="AddVideo()" class="btn btn-link btn-icon"><i class="fa fa-video-camera"></i></button>
-
           </div>
           <div class="pull-right">
             <button type="button"  ng-disabled="form.$invalid"  ng-click="PostMessage()" class="btn btn-success">פרסם</button>
@@ -49,9 +45,7 @@
       </div>
       </form>
     </div>
-
   </div>
-
 
   <content-item ng-repeat="item in content" content="item"></content-item>
 

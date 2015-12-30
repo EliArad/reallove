@@ -17,6 +17,7 @@ app.controller('mypageController', ['$scope', '$state', 'authToken', 'mypage', '
 
     mypage.getmine().then(function (results) {
 
+      $scope.content = [];
       for (var i = 0; i < results.data.length; i++) {
 
         var dir = './mypage/' + SessionStorageService.getSessionStorage('userid') + '/' + results.data[i].data.filename;

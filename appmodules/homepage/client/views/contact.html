@@ -1,75 +1,77 @@
 <style>
 
-    textarea#freetext.form-control.ng-invalid.ng-dirty {
-        border: 1px solid red;
-    }
+  textarea#freetext.form-control.ng-invalid.ng-dirty {
+    border: 1px solid red;
+  }
 
-    textarea#freetext.form-control.ng-invalid.ng-dirty {
-        border: 1px solid red;
-    }
+  textarea#freetext.form-control.ng-invalid.ng-dirty {
+    border: 1px solid red;
+  }
 
-    input#hwAvg.form-control.ng-invalid.ng-dirty {
-        border: 1px solid red;
-    }
+  input#hwAvg.form-control.ng-invalid.ng-dirty {
+    border: 1px solid red;
+  }
 
-    textarea {
-        resize: none;
-    }
-    /*    
-    input.ng-invalid.ng-dirty {
-        border: 1px solid red;
-    }
-    */
+  textarea {
+    resize: none;
+  }
 
-    .badinput {
-        border: 1px solid red;
-    }
+  /*
+  input.ng-invalid.ng-dirty {
+      border: 1px solid red;
+  }
+  */
+
+  .badinput {
+    border: 1px solid red;
+  }
 </style>
 
 <div class="row">
-    <div class="col-xs-12 col-md-3"></div>
-    <div class="col-xs-12 col-md-6">
+
+  <div class="col-md-6 col-md-offset-3">
 
 
-        <form name="frm" novalidate>
+    <form name="frm" novalidate>
+
+      <div class="form-group">
+
+        <label> טלפון </label>
+
+        <input type="number" name="phoneNumber" id="phoneNumber"
+               class="form-control" ng-model="ContactForm.phoneNumber"
+               placeholder="טלפון"/>
+
+      </div>
 
 
-            <div class="form-group">
-                <div class="row">
-
-                    <label> טלפון </label>
-
-                    <input type="text" name="phoneNumber" id="phoneNumber"
-                              class="form-control" ng-model="ContactForm.phoneNumber"
-                              placeholder="טלפון" />
-                </div>
-            </div>
-
-            <div class="row">
-            <label>טקסט חופשי</label>
+        <label>טקסט חופשי</label>
 
 
-                <div class="form-group">
+        <div class="form-group">
             <textarea rows="14" cols="10" type="text" name="freetext" id="freetext" ng-change="updateText()"
                       class="form-control" ng-model="ContactForm.freetext" ng-maxlength="400"
                       placeholder="טטקסט חופשי" required/>
 
-                    <span ng-show="frm.freetext.$dirty && frm.freetext.$error.required">!Requred</span>
-                    <span ng-show="frm.freetext.$dirty && frm.freetext.$error.maxlength">מספר התווים הוא 500</span>
-                </div>
+          <span ng-show="frm.freetext.$dirty && frm.freetext.$error.required">!Requred</span>
+          <span ng-show="frm.freetext.$dirty && frm.freetext.$error.maxlength">מספר התווים הוא 500</span>
+        </div>
 
-            <span style="color:red" ng-show="showErrorMessage">{{ errorMessage }}</span>
-                </div>
+        <span style="color:red" ng-show="showErrorMessage">{{ errorMessage }}</span>
 
-            <div class="form-group">
-                <button class="btn btn-primary" ng-disabled="frm.$invalid" ng-click="submit(ContactForm)">Submit
-                </button>
-            </div>
-        </form>
+      <div class="form-group">
+        <button class="btn btn-primary" ng-disabled="frm.$invalid" ng-click="submit(ContactForm)">Submit
+        </button>
+        <h1 style="display:inline" ng-show="changesuccess" ng-class="{ 'animated bounce': changesuccess}">ההודעה נשלחה</h1>
+      </div>
 
 
-    </div>
-    <div class="col-xs-6 col-md-3"></div>
+    </form>
+
+
+  </div>
+
+</div>
 </div>
 
 

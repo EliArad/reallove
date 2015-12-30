@@ -110,12 +110,24 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
       url: '/mypage',
       controller: 'mypageController',
       templateUrl: '/appmodules/homepage/client/views/mypage.html'
+    }).state('gbook', {
+      url: '/gbook',
+      controller: 'gallerybookController',
+      templateUrl: '/appmodules/homepage/client/views/gallerybook.html'
+    }).state('vrintro', {
+      url: '/vrintro',
+      controller: 'vrintroController',
+      templateUrl: '/appmodules/homepage/client/views/vrintro.html'
+    }).state('vr360image', {
+      url: '/vr360image',
+      controller: 'vr360imageController',
+      templateUrl: '/appmodules/homepage/client/views/vr360image.html'
+    }).state('vr360video', {
+      url: '/vr360video',
+      controller: 'vr360videoController',
+      templateUrl: '/appmodules/homepage/client/views/vr360video.html'
     });
 
-
-
-
-  $httpProvider.interceptors.push('authIntercepter');
-
+    $httpProvider.interceptors.push('authIntercepter');
 
 });

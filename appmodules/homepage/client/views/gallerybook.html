@@ -1,0 +1,240 @@
+<style>
+
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+  }
+
+  /* Zebra striping */
+
+  tr:nth-of-type(odd) {
+    background: #eee;
+    border: 1px solid #ccc;
+  }
+
+  th {
+    background: #333;
+    color: white;
+    font-weight: bold;
+  }
+
+  td,
+  th {
+    padding: 6px;
+    border: 1px solid #ccc;
+    text-align: left;
+  }
+</style>
+
+<style>
+  .floating-box {
+    float: left;
+    border: 1px solid gray;
+    padding: 5px;
+  }
+
+  .floating-box1 {
+    float: left;
+    border: 1px solid gray;
+    padding: 5px;
+    border: 0;
+  }
+
+
+</style>
+<div class="container">
+
+
+  <!-- show and hide the lion picture -->
+  <div ng-show="lions">
+    <div class="row">
+      <div class="col-md-8 pull-right">
+
+        <div class="row" style="font-size: large; color:darkblue">
+
+          {{ currentMemberToShow.member.nickName }}
+
+          <span style="margin-right:20px">
+          {{ currentMemberToShow.member.age }}
+          </span>
+          <span style="margin-right:20px">
+          {{ currentMemberToShow.member.status }}
+          </span>
+          <span style="margin-right:20px">
+          {{ currentMemberToShow.member.numberofkids }}
+          </span>
+
+          <span id="onlinetext"
+                align="left"
+                id="online{{$index}}"
+                data="{{ $index }}"
+                style="color: lime;cursor:pointer;margin-right: 50px"
+                ng-click="AddToChatRoom(currentMemberToShow.member._id,currentMemberToShow.member.registrationObjectId,$event)"
+                class="animated infinite pulse"
+                ng-show="isOnline">
+            online
+          </span>
+          <a class="btn btn-primary" style="float: left" href="#" ng-click="ClosePopup()" ng-class="{ active: lions }">חזור
+            לגלריה</a>
+
+
+        </div>
+
+        <div class="row">
+          <content-item ng-repeat="item in content" content="item"></content-item>
+        </div>
+
+
+      </div>
+      <div class="col-md-1 pull-right"></div>
+       <div class="col-md-3 pull-right">
+         <div class="row">
+           <table class="table-responsive">
+             <tr>
+               <td nowrap="">
+                 לאום
+               </td>
+               <td nowrap="">
+                 {{ currentMemberToShow.member.religion }}
+               </td>
+               <td>
+                 עיר
+               </td>
+               <td>
+                 <div class="desc">{{ currentMemberToShow.member.city }}</div>
+               </td>
+             </tr>
+             <td>
+               מגורים
+             </td>
+             <td nowrap="">
+
+               <div class="desc">{{ currentMemberToShow.member.livingwith }}</div>
+
+             </td>
+             <td nowrap>
+               סוג עבודה
+             </td>
+             <td nowrap="">
+
+               <div class="desc">{{ currentMemberToShow.member.jobtype }}</div>
+
+             </td>
+             </tr>
+
+             <tr>
+               <td nowrap>
+                 רמת בישול
+               </td>
+               <td nowrap="">
+                 <div class="desc">{{ currentMemberToShow.member.cooking }}</div>
+               </td>
+               <td>
+                 מזל
+               </td>
+               <td nowrap="">
+
+                 <div class="desc">{{ currentMemberToShow.member.zodiacsign }}</div>
+
+               </td>
+             </tr>
+             <tr>
+               <td nowrap>
+                 כשרות
+               </td>
+               <td>
+                 <div class="desc">{{ currentMemberToShow.member.cosher }}</div>
+               </td>
+               <td nowrap>
+                 נמצא בבית
+               </td>
+               <td nowrap>
+
+                 <div class="desc">{{ currentMemberToShow.member.everydayathom }}</div>
+
+               </td>
+             </tr>
+             <tr>
+               <td>
+
+               </td>
+               <td nowrap="">
+
+               </td>
+               <td>
+                 גובה
+               </td>
+               <td nowrap="">
+
+                 <div class="desc">{{ currentMemberToShow.member.height }}</div>
+
+               </td>
+             </tr>
+
+             <tr>
+               <td nowrap>
+                 הליכות
+               </td>
+               <td nowrap="">
+                 <div class="desc">{{ currentMemberToShow.member.walking }}</div>
+               </td>
+               <td nowrap>
+                 חדר כושר
+               </td>
+               <td nowrap="">
+
+                 <div class="desc">{{ currentMemberToShow.member.gym }}</div>
+
+               </td>
+             </tr>
+
+           </table>
+         </div>
+         <div class="row" style="margin-top:20px">
+           <div class="span8 well" style="padding-bottom:50px">
+             <form name="form" accept-charset="UTF-8" ng-submit="submit(form.$valid)">
+               <div class="form-group" ng-class="{ 'has-error': form.messagebody.$error.required }">
+                <textarea required class="form-control" rows="5" id="new_message" name="whoami" ng-model="messagebody"
+                          placeholder="כבוש את ליבה"></textarea>
+               </div>
+
+               <h6 id="cLeft" class="pull-right">500 אותיות נשארו</h6>
+               <button id="sendButton"
+                       ng-class="{ 'animated tada': showMessageSendOk  , 'animated rubberBand': showMessageSendFailure}"
+                       class="btn btn-info pull-left" ng-disabled="form.$invalid" type="submit">
+                 שלח הודעה
+               </button>
+             </form>
+           </div>
+         </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div ng-repeat="memberthumb in allmembersthumb" ng-show="allthumberspictures">
+
+
+  <div style="width:310px;height:240px;float: left">
+
+
+    <img src="{{ memberthumb.src }}"
+         ng-click="ShowMember(memberthumb.id,memberthumb.rid)"
+         class="floating-box" style="width:310px;height:240px">
+
+
+    <img ng-show="memberthumb.online"
+
+         style="top:-245px;position: relative;left:-300px"
+         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAAolBMVEX///+JxIlF/0UXsxcVehXq9OqKrooOcA4fmx8hpCEjsCMmvyYq0Sot4S0luyV7vHtRjFEXkBcoyigs2ywv7C8TfhP5+/miu6Jpk2lmlGafvp/Y49gtZS0KXQondyfP4s8bWxsiqiJOp05R51FM/0xY/1hi/2Jf51+427gfjx84yjhd1l1Xq1fF4sVqtWpyuHKazZp4sHhLjksy+TJB5UFL0kucqR4RAAAAaElEQVQIHQXBiwJCMBiA0Y+soaYY654m0kXXv97/1ToHUK/nI1AA9+HWH6+XM6imP3Wt2EoR/Lo2FDH+zfANRUpb+A+NkdIWWZrPmY3MdJImsR6joiTzca4PDup9VOnddgPg1qvlwsEfFHEIoVXtWrQAAAAASUVORK5CYII="/>
+
+
+  </div>
+
+</div>
+
+
+</div>

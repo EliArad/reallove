@@ -20,9 +20,6 @@
             <div class="collapse navbar-collapse" id="js-navbar-collapse">
 
                 <ul class="nav navbar-nav navbar-left">
-
-
-
                     <li ng-if="!isAuthenticated" ui-sref-active="active">
                         <a ui-sref="register">
                             <span class="glyphicon glyphicon-user">
@@ -64,6 +61,19 @@
                     <li ng-if="isAuthenticated" ui-sref-active="active"><a ui-sref="help">עזרה</a></li>
                     <li ng-if="isAuthenticated" ui-sref-active="active"><a ui-sref="contact">צור קשר</a></li>
                     <li ui-sref-active="active"><a ui-sref="about">אודותינו</a></li>
+
+
+                  <li ng-if="isAuthenticated" class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">VR
+                      <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li ng-if="isAuthenticated" ui-sref-active="active"><a ui-sref="vrintro">מה זה VR</a></li>
+                      <li ng-if="isAuthenticated" ui-sref-active="active"><a ui-sref="vr360image">upload 360 image</a></li>
+                      <li ng-if="isAuthenticated" ui-sref-active="active"><a ui-sref="vr360video">upload 360 video</a></li>
+                    </ul>
+                  </li>
+
+
                     <li ng-if="isAuthenticated" ui-sref-active="active"><a ui-sref="mail">הודעות    <span ng-show="yougotmail" ng-class="{ 'animated infinite bounce': true}"   style="color:purple" class="badge">{{numberofmails}}</span></a></li>
 
                     <!--
@@ -86,7 +96,8 @@
                           <li ng-if="isAuthenticated" ui-sref-active="active"><a ui-sref="galleryall">  גלריית תמונות</a></li>
                             <li ng-if="isAuthenticated" ui-sref-active="active"><a ui-sref="main"> תצוגת כרטיסים</a></li>
                             <li ng-if="isAuthenticated" ui-sref-active="active"><a ui-sref="fullpagecardlist">תצוגת מסך מלא</a></li>
-                          <li ng-if="isAuthenticated" ui-sref-active="active"><a ui-sref="videogallery">גלריית וידאו</a></li>
+                            <li ng-if="isAuthenticated" ui-sref-active="active"><a ui-sref="videogallery">גלריית וידאו</a></li>
+                            <li ng-if="isAuthenticated" ui-sref-active="active"><a ui-sref="gbook">גלריית עמוד אישי</a></li>
                         </ul>
                     </li>
                     <li ng-if="isAuthenticated" ui-sref-active="active"><a ui-sref="preferencessearch">העדפות חיפוש</a></li>

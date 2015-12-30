@@ -68,7 +68,13 @@ app.controller('HeaderController', ['$scope', '$state', 'authToken', 'API',
                         reload: true
                     });
                     break;
+                  case 'gallerybook':
+                    $state.go('gbook', {}, {
+                      reload: true
+                    });
+                  break;
                 }
+
             } catch (err) {
 
             }

@@ -2,11 +2,10 @@
 
 
 
-  app.controller('ContactController', ['$scope','$state', 'authToken','$http','myConfig', 'appCookieStore','myhttphelper',
-    function($scope,$state, authToken,$http,myConfig,appCookieStore,myhttphelper) {
+  app.controller('ContactController', ['$scope','$state', 'authToken','$http','myConfig',
+                 'appCookieStore','myhttphelper','$timeout',
+    function($scope,$state, authToken,$http,myConfig,appCookieStore,myhttphelper,$timeout) {
 
-
-      $scope.pageClass = 'page-contact';
 
       myhttphelper.doGet('/isauth').
         then(sendResponseData1).
@@ -24,9 +23,6 @@
       {
         $state.go('login', {}, {reload: true});
       }
-
-
-
 
       $scope.ContactForm = {};
       $scope.showErrorMessage = false;
@@ -50,14 +46,17 @@
 
             $http.post(membersAPI, $scope.ContactForm).success(function(result) {
             $scope.changesuccess = true;
-            $state.go('main', {}, {reload: true});
-            appCookieStore.set('lastContactusMessage' , $scope.ContactForm.freetext);
 
+              appCookieStore.set('lastContactusMessage' , $scope.ContactForm.freetext);
+              var cssUpdateTimer = $timeout(function () {
+                $scope.changesuccess = false;
+                $state.go('main', {}, {reload: true});
+              }, 2800);
           }).error(function(result) {
               $scope.errorMessage = result;
               $scope.showErrorMessage = true;
           });
-        }
+        };
      }
   ]);
 

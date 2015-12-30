@@ -25,7 +25,6 @@ app.controller('MainController', ['$scope', '$state', 'authToken', 'myhttphelper
 
     $scope.$on('IdleStart', function () {
       // the user appears to have gone idle
-      console.log('IdleStart');
       socketioservice.disconnect();
     });
 

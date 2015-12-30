@@ -180,7 +180,10 @@ var MembersSchema = new Schema({
     type:Number,
     default:0
   },
-
+  havepage: {
+    type:Boolean,
+    default:false
+  },
   selectedpasstime: [],
   selectedfood: [],
   selectedlang: [],

@@ -3,7 +3,8 @@
 var express = require('express');
 var jwtauth = require('../common/jwtauth');
 var mypageModel = require('../models/mypage').mypageModel;
-var mypageController = require('../controller/mypage')(mypageModel);
+var memberModel = require('../models/members').membersModel;
+var mypageController = require('../controller/mypage')(mypageModel,memberModel);
 var bodyParser = require('body-parser');
 var util = require('util');
 var mkdirp = require('mkdirp');
@@ -12,6 +13,8 @@ var crypto = require('crypto');
 var router = express.Router();
 router.post('/add', jwtauth, mypageController.add);
 router.get('/getmine', jwtauth, mypageController.getmine);
+router.post('/getuserpage', jwtauth, mypageController.getuserpage);
+
 
 
 router.post('/uploadvideo', jwtauth, bodyParser({
@@ -49,7 +52,10 @@ router.post('/uploadvideo', jwtauth, bodyParser({
           m.data.filename = _filename;
           m.RegistrationId = req.idFromToken;
           m.save(function (err) {
-            console.log('uploaded ok');
+            memberModel.findOne({'registrationObjectId': req.idFromToken}, function(err , member){
+              member.havepage = true;
+              member.save();
+            });
             res.send("uploaded ok");
           });
         }
@@ -101,7 +107,11 @@ router.post('/uploadpicture', jwtauth, bodyParser({
         m.data.filename = _filename;
         m.RegistrationId = req.idFromToken;
         m.save(function (err) {
-          console.log(err);
+
+          memberModel.findOne({'registrationObjectId': req.idFromToken}, function(err , member){
+            member.havepage = true;
+            member.save();
+          });
           res.send("uploaded ok");
         });
       }

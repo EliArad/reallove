@@ -19,6 +19,7 @@
   "homepage": "https://github.com/EliArad/reallove#readme",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
+    "bcryptjs": "^2.3.0",
     "body-parser": "^1.14.1",
     "chance": "^0.8.0",
     "connect-mongo": "^1.0.1",
@@ -61,7 +62,6 @@
   "devDependencies": {
     "async": "^1.5.0",
     "basic-csv": "0.0.2",
-    "bcrypt": "^0.8.5",
     "csv": "^0.4.6",
     "csv-parse": "^1.0.0",
     "del": "^2.0.2",

@@ -5,7 +5,6 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
   $stateProvider.state('register', {
     url: '/register',
     templateUrl: '/appmodules/homepage/client/views/register.html',
-    controller: 'RegistrationController'
   }).state('main', {
     url: '/',
     templateUrl: '/appmodules/homepage/client/views/main.html',
@@ -24,7 +23,6 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
     templateUrl: '/appmodules/homepage/client/views/test.html'
   }).state('newmember', {
     url: '/newmember',
-    controller: 'ContinueRegistrationController',
     templateUrl: '/appmodules/homepage/client/views/continueregistration.html'
   }).state('logout', {
     url: '/logout',
@@ -35,7 +33,6 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
     templateUrl: '/appmodules/homepage/client/views/login.html'
   }).state('mail', {
     url: '/mail',
-    controller: 'YouGotAMailController',
     templateUrl: '/appmodules/homepage/client/views/YouGotAMail.html'
   }).state('mypictures', {
     url: '/mypictures',
@@ -48,7 +45,6 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
       templateUrl: '/appmodules/homepage/client/views/continueregistration.html'
     }).state('coredetails', {
       url: '/coredetails',
-      controller: 'coredetailsController',
       templateUrl: '/appmodules/homepage/client/views/coredetails.html'
     }).state('picturecrousle', {
       url: '/picturecrousle',
@@ -104,7 +100,6 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
       templateUrl: '/appmodules/homepage/client/views/adminpage.html'
     }).state('videogallery', {
       url: '/videogallery',
-      controller: 'videogalleryController',
       templateUrl: '/appmodules/homepage/client/views/videogallery.html'
     }).state('mypage', {
       url: '/mypage',

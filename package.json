@@ -18,7 +18,6 @@
   },
   "homepage": "https://github.com/EliArad/reallove#readme",
   "dependencies": {
-    "bcrypt-nodejs": "0.0.3",
     "bcryptjs": "^2.3.0",
     "body-parser": "^1.14.1",
     "chance": "^0.8.0",

@@ -44,17 +44,19 @@ var app = angular
             console.log(cities);
             if (!cities.length) {
                 console.log("cities constant");
-                var url = 'http://192.168.22.32:8000/api/getcities';
-                $http.get(url).then(function (result) {
+                var url1 = this.url + '/api/getcities';
+                $http.get(url1).then(function (result) {
                     //console.log(result);
                     cities = result;
                     callback(null, cities);
                 }).catch(function (result) {
                     console.log("error");
-                    callback("error", result);
+                    if (callback)
+                        callback("error", result);
                 });
             } else {
-                callback(null, cities);
+                if (callback)
+                    callback(null, cities);
             }
 
 
